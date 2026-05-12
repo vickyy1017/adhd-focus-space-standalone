@@ -17,8 +17,8 @@ import { RetroPageWrapper } from "@/components/RetroPageWrapper";
 import { GlobalQuickAdd } from "@/components/GlobalQuickAdd";
 import { ConfettiCelebration } from "@/components/ConfettiCelebration";
 import { DailyWrapUp } from "@/components/DailyWrapUp";
-import { recordWrapUp, recordDumpEntry, recordFocusSession, recordBlockComplete, recordMood } from "@/components/MonthlyProgress";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { recordWrapUp, recordDumpEntry, recordFocusSession, recordBlockComplete } from "@/components/MonthlyProgress";
+import { useUserData } from "@/hooks/useUserData";
 import { useBlockStreak } from "@/hooks/useBlockStreak";
 import { useOpenDayStreak } from "@/hooks/useOpenDayStreak";
 import { useTimer } from "@/contexts/TimerContext";
@@ -40,171 +40,6 @@ import Monthly from "@/pages/Monthly";
 import { OnboardingTour, useOnboardingTour } from "@/components/OnboardingTour";
 
 
-/* ── Compact mood pill SVG faces (same as MoodCheckIn) ── */
-/* ── Korean aesthetic blob mood faces ── */
-function PillFaceDrained({ active }: { active: boolean }) {
-  const bg = active ? "#8BBDD9" : "#B5D4E8";
-  return (
-    <svg viewBox="0 0 80 80" fill="none" width="100%" height="100%">
-      <path d="M40 14C52 12 66 18 70 30C74 42 70 60 58 68C46 76 26 76 16 64C6 52 8 30 18 20C24 14 32 16 40 14Z" fill={bg}/>
-      <ellipse cx="30" cy="38" rx="4" ry="5" fill="#2A5A7A" opacity="0.7"/>
-      <ellipse cx="50" cy="38" rx="4" ry="5" fill="#2A5A7A" opacity="0.7"/>
-      <ellipse cx="31" cy="36" rx="1.5" ry="2" fill="white" opacity="0.6"/>
-      <ellipse cx="51" cy="36" rx="1.5" ry="2" fill="white" opacity="0.6"/>
-      <path d="M33 52 Q40 48 47 52" stroke="#2A5A7A" strokeWidth="2" strokeLinecap="round" fill="none"/>
-      <path d="M53 43 Q56 48 54 52" stroke="#7AADD4" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.8"/>
-      <ellipse cx="54.5" cy="53" rx="2" ry="3" fill="#A8D4F0" opacity="0.7"/>
-    </svg>
-  );
-}
-function PillFaceLow({ active }: { active: boolean }) {
-  const bg = active ? "#B5A8D0" : "#CFC4E4";
-  return (
-    <svg viewBox="0 0 80 80" fill="none" width="100%" height="100%">
-      <path d="M38 13C50 10 66 17 70 30C74 43 68 62 56 69C44 76 24 75 14 63C4 51 6 28 18 19C24 14 30 16 38 13Z" fill={bg}/>
-      <path d="M26 32 Q29 28 33 30" stroke="#4A3A7A" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
-      <path d="M47 30 Q51 28 54 32" stroke="#4A3A7A" strokeWidth="1.8" strokeLinecap="round" fill="none"/>
-      <ellipse cx="30" cy="38" rx="3.5" ry="4" fill="#4A3A7A" opacity="0.65"/>
-      <ellipse cx="50" cy="38" rx="3.5" ry="4" fill="#4A3A7A" opacity="0.65"/>
-      <ellipse cx="31" cy="36.5" rx="1.2" ry="1.5" fill="white" opacity="0.55"/>
-      <ellipse cx="51" cy="36.5" rx="1.2" ry="1.5" fill="white" opacity="0.55"/>
-      <path d="M31 52 Q40 48 49 52" stroke="#4A3A7A" strokeWidth="2" strokeLinecap="round" fill="none"/>
-    </svg>
-  );
-}
-function PillFaceOkay({ active }: { active: boolean }) {
-  const bg = active ? "#C4B8CC" : "#D8CEDC";
-  return (
-    <svg viewBox="0 0 80 80" fill="none" width="100%" height="100%">
-      <path d="M40 13C53 11 67 19 70 32C73 45 67 63 54 70C41 77 22 75 13 62C4 49 8 28 20 19C27 14 33 15 40 13Z" fill={bg}/>
-      <ellipse cx="30" cy="37" rx="3.5" ry="4" fill="#4A3A5A" opacity="0.65"/>
-      <ellipse cx="50" cy="37" rx="3.5" ry="4" fill="#4A3A5A" opacity="0.65"/>
-      <ellipse cx="31" cy="35.5" rx="1.2" ry="1.5" fill="white" opacity="0.55"/>
-      <ellipse cx="51" cy="35.5" rx="1.2" ry="1.5" fill="white" opacity="0.55"/>
-      <line x1="32" y1="51" x2="48" y2="51" stroke="#4A3A5A" strokeWidth="2" strokeLinecap="round"/>
-      <ellipse cx="23" cy="46" rx="5" ry="3.5" fill="#E8B0C8" opacity="0.3"/>
-      <ellipse cx="57" cy="46" rx="5" ry="3.5" fill="#E8B0C8" opacity="0.3"/>
-    </svg>
-  );
-}
-function PillFaceGood({ active }: { active: boolean }) {
-  // 기쁨 style: big round dot eyes, wide open smile
-  const bg = active ? "#F0A8C0" : "#F8C4D4";
-  return (
-    <svg viewBox="0 0 80 80" fill="none" width="100%" height="100%">
-      <path d="M40 12C54 10 68 19 71 33C74 47 67 65 53 71C39 77 20 74 11 61C2 48 6 26 19 18C26 13 33 14 40 12Z" fill={bg}/>
-      <circle cx="29" cy="36" r="5" fill="#7A2050"/>
-      <circle cx="51" cy="36" r="5" fill="#7A2050"/>
-      <circle cx="30.5" cy="34.5" r="2" fill="white"/>
-      <circle cx="52.5" cy="34.5" r="2" fill="white"/>
-      <path d="M27 50 Q40 62 53 50" stroke="#7A2050" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-      <path d="M27 50 Q40 60 53 50 Q40 53 27 50Z" fill="#7A2050" opacity="0.1"/>
-      <ellipse cx="21" cy="47" rx="6" ry="4" fill="#F07090" opacity="0.35"/>
-      <ellipse cx="59" cy="47" rx="6" ry="4" fill="#F07090" opacity="0.35"/>
-    </svg>
-  );
-}
-
-function PillFaceGlowing({ active }: { active: boolean }) {
-  // 상쾌 style: crescent squinting happy eyes, gentle smile
-  const bg = active ? "#F4A0B0" : "#FAC0CC";
-  return (
-    <svg viewBox="0 0 80 80" fill="none" width="100%" height="100%">
-      <path d="M40 11C55 9 70 20 72 35C74 50 66 67 51 73C36 79 17 74 9 59C1 44 6 22 20 15C27 11 33 13 40 11Z" fill={bg}/>
-      <path d="M24 38 Q29 31 34 38" stroke="#7A1840" strokeWidth="2.8" strokeLinecap="round" fill="none"/>
-      <path d="M46 38 Q51 31 56 38" stroke="#7A1840" strokeWidth="2.8" strokeLinecap="round" fill="none"/>
-      <path d="M28 51 Q40 60 52 51" stroke="#7A1840" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-      <ellipse cx="22" cy="48" rx="6" ry="4" fill="#F07090" opacity="0.3"/>
-      <ellipse cx="58" cy="48" rx="6" ry="4" fill="#F07090" opacity="0.3"/>
-    </svg>
-  );
-}
-
-const PILL_FACES = [PillFaceDrained, PillFaceLow, PillFaceOkay, PillFaceGood, PillFaceGlowing];
-const MOOD_DATA = [
-  { value: 1, label: "Drained", color: "oklch(0.52 0.08 240)", label_kr: "피곤해" },
-  { value: 2, label: "Low",     color: "oklch(0.52 0.08 290)", label_kr: "별로야" },
-  { value: 3, label: "Okay",    color: "oklch(0.50 0.05 320)", label_kr: "괜찮아" },
-  { value: 4, label: "Good",    color: "oklch(0.55 0.14 350)", label_kr: "좋아!" },
-  { value: 5, label: "Glowing", color: "oklch(0.58 0.18 355)", label_kr: "최고!" },
-];
-
-function MoodPill({ mood, onMoodChange }: { mood: number | null; onMoodChange: (v: number) => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const current = MOOD_DATA.find((m) => m.value === mood);
-  const CurrentFace = mood ? PILL_FACES[mood - 1] : null;
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((o: boolean) => !o)}
-        className="flex items-center gap-1.5 px-2.5 py-1 transition-all"
-        style={{
-          border: "none",
-          background: open ? "oklch(0.965 0.015 355)" : "transparent",
-          borderRadius: 20,
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: "0.72rem",
-          color: current ? current.color : "oklch(0.52 0.040 330)",
-        }}
-        title="How are you feeling?"
-      >
-        <span style={{ width: 18, height: 18, display: "inline-flex", flexShrink: 0 }}>
-          {CurrentFace ? <CurrentFace active={true} /> : (
-            <svg viewBox="0 0 80 80" fill="none" width="100%" height="100%"><circle cx="40" cy="40" r="32" fill="#F0B8D8" /><path d="M24 36 Q28 31 32 36" stroke="#9A3880" strokeWidth="2.5" strokeLinecap="round" fill="none" /><path d="M48 36 Q52 31 56 36" stroke="#9A3880" strokeWidth="2.5" strokeLinecap="round" fill="none" /><path d="M30 50 Q40 57 50 50" stroke="#9A3880" strokeWidth="2" strokeLinecap="round" fill="none" /></svg>
-          )}
-        </span>
-        <span className="hidden sm:inline">{current ? current.label : "Mood"}</span>
-      </button>
-      {open && (
-        <div
-          className="absolute right-0 top-full mt-1 z-50 flex gap-1.5 p-2"
-          style={{
-            background: "oklch(0.990 0.006 355)",
-            border: "1px solid oklch(0.87 0.025 340)",
-            borderRadius: 12,
-            boxShadow: "0 4px 16px oklch(0.18 0.04 320 / 0.10)",
-          }}
-        >
-          {MOOD_DATA.map((m, i) => {
-            const FaceComp = PILL_FACES[i];
-            return (
-              <button
-                key={m.value}
-                onClick={() => { onMoodChange(m.value); setOpen(false); }}
-                title={m.label}
-                className="flex flex-col items-center gap-0.5 px-1.5 py-1.5 transition-all"
-                style={{
-                  borderRadius: 8,
-                  background: mood === m.value ? "oklch(0.965 0.015 355)" : "transparent",
-                  border: mood === m.value ? `1px solid ${m.color}60` : "1px solid transparent",
-                  minWidth: 44,
-                }}
-              >
-                <span style={{ width: 36, height: 36, display: "inline-flex" }}>
-                  <FaceComp active={mood === m.value} />
-                </span>
-                <span style={{ fontSize: "0.58rem", color: m.color, fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textAlign: "center", lineHeight: 1.1 }}>{m.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-
 type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly";
 
 const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> = {
@@ -214,6 +49,8 @@ const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> 
   dump:       { title: "Brain Dump",   icon: Brain           },
   monthly:    { title: "Monthly Progress", icon: Star        },
 };
+
+
 
 const INITIAL_TASKS: Task[] = [
   { id: "1", text: "Review project proposal",   priority: "urgent", context: "work",     done: false, createdAt: new Date() },
@@ -240,32 +77,13 @@ export default function Home() {
   const isMobile = useMobile(); // Must be called before any early returns (React Hooks rules)
   const today = new Date().toDateString();
 
-  // ── Name / personalisation (localStorage + auth user) ──
-  const [displayName, setDisplayName] = React.useState<string>(() => localStorage.getItem("adhd-display-name") ?? "");
+  // ── Name / personalisation (from DB via useUserData) ──
   const [showNamePrompt, setShowNamePrompt] = React.useState(false);
 
   // ── Onboarding tour ──
   const { show: showTour, close: closeTour } = useOnboardingTour();
 
-  // Sync display name from auth user
-  React.useEffect(() => {
-    if (user?.name && !localStorage.getItem("adhd-display-name")) {
-      setDisplayName(user.name);
-      localStorage.setItem("adhd-display-name", user.name);
-    }
-  }, [user]);
-
-  // Show name prompt on first visit (no name saved anywhere)
-  React.useEffect(() => {
-    if (!user) return;
-    const stored = localStorage.getItem("adhd-display-name");
-    const skipped = localStorage.getItem("adhd-name-skipped");
-    if (!stored && !skipped) {
-      const t = setTimeout(() => setShowNamePrompt(true), 1200);
-      return () => clearTimeout(t);
-    }
-  }, [user]);
-  // Listen for navigateTo events (e.g. from backup reminder toast)
+  // Listen for navigateTo events
   React.useEffect(() => {
     function onNavigateTo(e: Event) {
       const section = (e as CustomEvent).detail as Section;
@@ -273,42 +91,10 @@ export default function Home() {
     }
     window.addEventListener("navigateTo", onNavigateTo);
     return () => window.removeEventListener("navigateTo", onNavigateTo);
-  }, [])  // ── 7-day backup reminder ───────────────────────────────────────────
-  React.useEffect(() => {
-    const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
-    const now = Date.now();
-    // Track first visit separately — never touch adhd-last-backup (that's only set on real backups)
-    if (!localStorage.getItem("adhd-first-visit")) {
-      localStorage.setItem("adhd-first-visit", String(now));
-    }
-    const firstVisit = Number(localStorage.getItem("adhd-first-visit"));
-    const lastBackup = Number(localStorage.getItem("adhd-last-backup") ?? 0);
-    const lastReminder = Number(localStorage.getItem("adhd-backup-reminder-shown") ?? 0);
-    // Only nudge after 7 days since first visit (or 7 days since last backup if they've backed up)
-    const daysSinceReference = lastBackup > 0 ? now - lastBackup : now - firstVisit;
-    const needsReminder = daysSinceReference > SEVEN_DAYS;
-    const shownRecently = (now - lastReminder) < 24 * 60 * 60 * 1000;
-    if (needsReminder && !shownRecently) {
-      const delay = 4000;
-      const msg = `⏰ Last backup was ${Math.floor((now - lastBackup) / 86_400_000)} days ago — time for a fresh one?`;
-      const t = setTimeout(() => {
-        localStorage.setItem("adhd-backup-reminder-shown", String(now));
-        toast(msg, {
-          duration: 14000,
-          action: {
-            label: "Backup now →",
-            onClick: () => {
-              window.dispatchEvent(new CustomEvent("navigateTo", { detail: "storage" }));
-            },
-          },
-        });
-      }, delay);
-      return () => clearTimeout(t);
-    }
   }, []);
+
   const handleNameSave = (name: string) => {
-    setDisplayName(name);
-    localStorage.setItem("adhd-display-name", name);
+    setDbDisplayName(name);
     setShowNamePrompt(false);
   };
   const handleNameSkip = () => {
@@ -316,40 +102,35 @@ export default function Home() {
     setShowNamePrompt(false);
   };
 
-  // Seed today's mood to Good if never set
-  React.useEffect(() => {
-    if (mood === null) {
-      setMood(4); // Default to Good
-    }
-  // Only run once on mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // ── All data synced to DB via useUserData ─────────────────────────────────
+  const {
+    status: dataStatus,
+    data: userData,
+    setTasks,
+    setBrainDump,
+    setFocusSessions: setDbFocusSessions,
+    setDailyLogs,
+    setQuickChips,
+    setQuadrantMap,
+    setQuadrantTaskOrder,
+    setCalendarDayOrder,
+    setDeletedCategories,
+    setDisplayName: setDbDisplayName,
+  } = useUserData(user?.id ?? null);
 
-  // ── All data in localStorage ───────────────────────────────────────────────
-  const [tasks,  setTasks]  = useLocalStorage<Task[]>("adhd-tasks",  INITIAL_TASKS);
-  const [mood,   setLocalMood]   = useLocalStorage<number | null>("adhd-mood", null);
-
-  const setMood = useCallback((v: number | null | ((prev: number | null) => number | null)) => {
-    setLocalMood(v);
-    // Also write mood to daily-logs for monthly tracking
-    const val = typeof v === "function" ? v(null) : v;
-    if (val !== null) recordMood(val);
-  }, [setLocalMood]);
+  const tasks = userData.tasks;
+  const deletedCategories = userData.deleted_categories;
 
   const focusSessionsToday = (() => {
     try {
-      const r = localStorage.getItem("adhd-focus-session-list");
-      if (r) { const l = JSON.parse(r) as Record<string, unknown[]>; return (l[today] ?? []).length; }
-      return 0;
+      const sessions = userData.focus_sessions as Record<string, unknown[]>;
+      return (sessions[today] ?? []).length;
     } catch { return 0; }
   })();
 
-  // Manually deleted custom tags
-  const [deletedCategories, setDeletedCategories] = useLocalStorage<string[]>("adhd-deleted-categories", []);
-
   // ── Transient state ──
-  const [focusSessions, setFocusSessions] = useState(focusSessionsToday);
-  useEffect(() => { setFocusSessions(focusSessionsToday); }, [focusSessionsToday]);
+  const [focusSessions, setFocusSessionsCount] = useState(focusSessionsToday);
+  useEffect(() => { setFocusSessionsCount(focusSessionsToday); }, [focusSessionsToday]);
 
   const { streak: blockStreak, history: blockHistory, recordBlock } = useBlockStreak();
   const { streak: openDayStreak } = useOpenDayStreak();
@@ -390,15 +171,13 @@ export default function Home() {
   const handleSessionComplete = () => {
     recordFocusSession(durations.focus);
     setConfettiTrigger(true);
-    setFocusSessions((s) => s + 1);
+    setFocusSessionsCount((s) => s + 1);
     // Accumulate focusMins in daily-logs for Monthly stats
-    try {
+    setDailyLogs((prev: any) => {
       const dk = new Date().toDateString();
-      const logs = JSON.parse(localStorage.getItem("adhd-daily-logs") ?? "{}");
-      const prev = logs[dk] ?? { dateKey: dk };
-      logs[dk] = { ...prev, focusMins: ((prev.focusMins ?? 0) as number) + durations.focus };
-      localStorage.setItem("adhd-daily-logs", JSON.stringify(logs));
-    } catch {}
+      const day = prev[dk] ?? { dateKey: dk };
+      return { ...prev, [dk]: { ...day, focusMins: ((day.focusMins ?? 0) as number) + durations.focus } };
+    });
   };
 
   const handleBlockComplete = () => {
@@ -407,7 +186,7 @@ export default function Home() {
     const focusLabel = totalMins >= 60
       ? `${Math.floor(totalMins / 60)}h${totalMins % 60 > 0 ? ` ${totalMins % 60}min` : ""}`
       : `${totalMins}min`;
-    setFocusSessions(0);
+    setFocusSessionsCount(0);
     recordBlock();
   };
 
@@ -450,7 +229,6 @@ export default function Home() {
   const handleClearTestData = () => {
     if (!confirm("Clear all tasks? This cannot be undone.")) return;
     setTasks([]);
-    setLocalMood(null);
     setDeletedCategories([]);
     setTimeout(() => { window.location.reload(); }, 300);
   };
@@ -555,10 +333,6 @@ export default function Home() {
                 })}
             </div>
 
-            {/* Mood pill */}
-            <div className="px-4 py-3" style={{ borderRight: "1.5px solid #E8B8D0" }}>
-              <MoodPill mood={mood} onMoodChange={setMood} />
-            </div>
 
 
             {/* Wrap-up */}
@@ -603,8 +377,8 @@ export default function Home() {
                 wins={[]}
                 goals={[]}
                 agents={[]}
-                mood={mood}
-                displayName={displayName || undefined}
+                mood={null}
+                displayName={userData.display_name || undefined}
                 blockStreak={openDayStreak}
                 blockHistory={blockHistory}
                 onNavigate={(s) => setActiveSection(s as Section)}
@@ -623,11 +397,10 @@ export default function Home() {
                 onAgentCreate={() => {}}
                 onWinCreate={() => {}}
                 onDumpCreate={(text) => {
-                  try {
-                    const entries = JSON.parse(localStorage.getItem("adhd_braindump_entries") ?? "[]");
-                    entries.unshift({ id: `dump-${Date.now()}`, text, tags: [], createdAt: new Date().toISOString(), converted: false });
-                    localStorage.setItem("adhd_braindump_entries", JSON.stringify(entries));
-                  } catch {}
+                  setBrainDump((prev: any) => [
+                    { id: `dump-${Date.now()}`, text, tags: [], createdAt: new Date().toISOString(), converted: false },
+                    ...prev,
+                  ]);
                 }}
               />
               </div>
@@ -796,7 +569,7 @@ export default function Home() {
           onClose={() => {
             const todayDone = tasks.filter(t => t.done && new Date(t.createdAt).toDateString() === new Date().toDateString());
             const score = Math.min(100, todayDone.length * 20 + 20);
-            recordWrapUp(mood, score);
+            recordWrapUp(null, score);
             setWrapUpOpen(false);
           }}
         />

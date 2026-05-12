@@ -86,6 +86,27 @@ function decrypt(encB64: string, ivB64: string): string {
   return d.update(enc) + d.final("utf8");
 }
 
+
+// ─── Auto-migration: create user_data table if not exists ─────────────────
+async function ensureUserDataTable(db: any) {
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS user_data (
+      user_id             TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+      tasks               JSONB NOT NULL DEFAULT '[]',
+      brain_dump          JSONB NOT NULL DEFAULT '[]',
+      focus_sessions      JSONB NOT NULL DEFAULT '{}',
+      daily_logs          JSONB NOT NULL DEFAULT '{}',
+      quick_chips         JSONB NOT NULL DEFAULT '[]',
+      quadrant_map        JSONB NOT NULL DEFAULT '{}',
+      quadrant_task_order JSONB NOT NULL DEFAULT '{}',
+      calendar_day_order  JSONB NOT NULL DEFAULT '{}',
+      deleted_categories  JSONB NOT NULL DEFAULT '[]',
+      display_name        TEXT,
+      updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+}
+
 // ─── Response helpers ────────────────────────────────────────────────────────
 function json(res: any, status: number, data: unknown) {
   res.statusCode = status;
@@ -108,7 +129,7 @@ export default async function handler(req: any, res: any) {
   const origin = req.headers?.origin ?? "*";
   res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") { res.statusCode = 200; res.end(); return; }
@@ -554,6 +575,106 @@ export default async function handler(req: any, res: any) {
       json(res, 200, { ok: true });
     } catch (err: any) {
       json(res, 500, { error: err?.message ?? "Failed to disconnect" });
+    }
+    return;
+  }
+
+
+  // ── GET /api/user-data — load all user app data from DB ──────────────────
+  if (url === "/api/user-data" && req.method === "GET") {
+    const user = await getUser(req);
+    if (!user) { json(res, 401, { error: "Not authenticated" }); return; }
+    try {
+      const db = getDb();
+      await ensureUserDataTable(db);
+      const { rows } = await db.query("SELECT * FROM user_data WHERE user_id = $1", [user.sub]);
+      await db.end();
+      if (rows.length === 0) {
+        json(res, 200, { exists: false, data: null });
+      } else {
+        json(res, 200, { exists: true, data: rows[0] });
+      }
+    } catch (err: any) {
+      json(res, 500, { error: err?.message ?? "Failed to load data" });
+    }
+    return;
+  }
+
+  // ── POST /api/user-data — upsert all user app data ────────────────────────
+  if (url === "/api/user-data" && req.method === "POST") {
+    const user = await getUser(req);
+    if (!user) { json(res, 401, { error: "Not authenticated" }); return; }
+    try {
+      const body = await readBody(req);
+      const db = getDb();
+      await ensureUserDataTable(db);
+      await db.query(`
+        INSERT INTO user_data (
+          user_id, tasks, brain_dump, focus_sessions, daily_logs,
+          quick_chips, quadrant_map, quadrant_task_order, calendar_day_order,
+          deleted_categories, display_name, updated_at
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,NOW())
+        ON CONFLICT (user_id) DO UPDATE SET
+          tasks = EXCLUDED.tasks,
+          brain_dump = EXCLUDED.brain_dump,
+          focus_sessions = EXCLUDED.focus_sessions,
+          daily_logs = EXCLUDED.daily_logs,
+          quick_chips = EXCLUDED.quick_chips,
+          quadrant_map = EXCLUDED.quadrant_map,
+          quadrant_task_order = EXCLUDED.quadrant_task_order,
+          calendar_day_order = EXCLUDED.calendar_day_order,
+          deleted_categories = EXCLUDED.deleted_categories,
+          display_name = EXCLUDED.display_name,
+          updated_at = NOW()
+      `, [
+        user.sub,
+        JSON.stringify(body.tasks ?? []),
+        JSON.stringify(body.brain_dump ?? []),
+        JSON.stringify(body.focus_sessions ?? {}),
+        JSON.stringify(body.daily_logs ?? {}),
+        JSON.stringify(body.quick_chips ?? []),
+        JSON.stringify(body.quadrant_map ?? {}),
+        JSON.stringify(body.quadrant_task_order ?? {}),
+        JSON.stringify(body.calendar_day_order ?? {}),
+        JSON.stringify(body.deleted_categories ?? []),
+        body.display_name ?? null,
+      ]);
+      await db.end();
+      json(res, 200, { ok: true });
+    } catch (err: any) {
+      json(res, 500, { error: err?.message ?? "Failed to save data" });
+    }
+    return;
+  }
+
+  // ── PATCH /api/user-data — partial update (single field) ─────────────────
+  if (url === "/api/user-data" && req.method === "PATCH") {
+    const user = await getUser(req);
+    if (!user) { json(res, 401, { error: "Not authenticated" }); return; }
+    try {
+      const body = await readBody(req);
+      const { field, value } = body;
+      const ALLOWED = ["tasks","brain_dump","focus_sessions","daily_logs","quick_chips",
+        "quadrant_map","quadrant_task_order","calendar_day_order","deleted_categories","display_name"];
+      if (!field || !ALLOWED.includes(field)) {
+        json(res, 400, { error: `Invalid field: ${field}` }); return;
+      }
+      const db = getDb();
+      await ensureUserDataTable(db);
+      await db.query(
+        "INSERT INTO user_data (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING",
+        [user.sub]
+      );
+      const isJson = field !== "display_name";
+      const val = isJson ? JSON.stringify(value) : value;
+      await db.query(
+        `UPDATE user_data SET ${field} = $1, updated_at = NOW() WHERE user_id = $2`,
+        [val, user.sub]
+      );
+      await db.end();
+      json(res, 200, { ok: true });
+    } catch (err: any) {
+      json(res, 500, { error: err?.message ?? "Failed to update" });
     }
     return;
   }

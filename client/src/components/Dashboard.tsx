@@ -529,106 +529,32 @@ ${routineContext}`;
           </svg>
         </div>
 
-        {/* ── Content ── */}
-        <div className="relative z-10 flex" style={{ height: isMobile ? "auto" : 160 }}>
-          {/* Left: heartbeat planet illustration — full image, no crop, no rounded corners */}
-          <div className="hidden md:block shrink-0" style={{ width: 160, height: "100%", borderRight: `1px solid ${BORDER}`, overflow: "hidden" }}>
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663410012773/WNs8kMVMKanwFbtYhk72en/pink-planet-heartbeat_16e01928.png" alt="heartbeat" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block", borderRadius: 0 }} />
-          </div>
-          {/* Center: greeting + controls */}
-          <div className="flex-1 flex flex-col justify-between" style={{ minWidth: 0, padding: isMobile ? "10px 12px" : "12px 24px" }}>
-            <div>
-              <p className="editorial-label" style={{ marginBottom: 1, fontSize: 9 }}>
-                {DAYS[now.getDay()]} · {MONTHS[now.getMonth()]} {now.getDate()}
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <h1 className="font-bold italic" style={{ fontFamily: "'Playfair Display', serif", color: INK, fontSize: isMobile ? "1.4rem" : "1.5rem" }}>
-                  {getGreeting()}{displayName ? `, ${displayName}` : ""}
-                </h1>
-                {blockStreak > 0 && (
-                  <div style={{ display: "flex", alignItems: "center", gap: 5, background: "oklch(0.58 0.18 340 / 0.10)", border: "1px solid oklch(0.58 0.18 340 / 0.30)", padding: "2px 8px", borderRadius: 20 }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 2c0 0-1 3-1 5 0 1.5 1 3 1 3s-3-1-3-4c0 0-3 3-3 7a6 6 0 0 0 12 0c0-5-4-8-6-11z" fill={TC} opacity="0.9" /></svg>
-                    <span style={{ fontSize: "0.6rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "oklch(0.45 0.14 340)", fontFamily: "'JetBrains Mono', monospace" }}>{blockStreak}d streak</span>
-                  </div>
-                )}
-              </div>
-              {/* be kind to yourself sticker — sticky note with bottom-right corner curl */}
-              <div style={{ marginTop: 5, display: "inline-block", transform: "rotate(-1.5deg)", opacity: 0.88, position: "relative" }}>
-                <div style={{
-                  background: "oklch(0.96 0.030 355)",
-                  border: "1px solid oklch(0.82 0.060 340)",
-                  padding: "4px 22px 4px 9px",
-                  fontSize: 8,
-                  fontFamily: "'Space Mono', monospace",
-                  color: "oklch(0.42 0.08 320)",
-                  lineHeight: 1.5,
-                  letterSpacing: "0.04em",
-                  position: "relative",
-                  /* clip the bottom-right corner so the curl triangle shows */
-                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)",
-                  boxShadow: "1px 2px 4px oklch(0.60 0.08 340 / 0.18), 2px 2px 0 oklch(0.82 0.060 340)",
-                }}>
-                  be kind to yourself ✦
-                </div>
-                {/* Curl triangle — bottom-right corner peel shadow */}
-                <div style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  width: 0,
-                  height: 0,
-                  borderStyle: "solid",
-                  borderWidth: "10px 10px 0 0",
-                  borderColor: "transparent oklch(0.88 0.060 340) transparent transparent",
-                  filter: "drop-shadow(-1px 1px 1px oklch(0.60 0.08 340 / 0.25))",
-                }} />
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 10, flexWrap: isMobile ? "wrap" : "nowrap" }}>
-              {/* Quick capture + hint stacked */}
-              <div style={{ display: "flex", flexDirection: "column", flex: isMobile ? "1 1 100%" : "1 1 160px", maxWidth: isMobile ? "100%" : 280, gap: 3 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(0.975 0.018 355 / 0.85)", padding: "5px 12px", borderRadius: 6 }}>
-                <Zap size={11} style={{ color: TC, flexShrink: 0 }} />
-                <input
-                  ref={dumpInputRef}
-                  value={quickCapture}
-                  onChange={(e) => setQuickCapture(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      if (quickCapture.trim()) {
-                        const text = quickCapture.trim();
-                        setQuickCapture("");
-                        fireDumpAnimation(e.target as HTMLInputElement);
-                        (e.target as HTMLInputElement).blur();
-                        onQuickDump?.(text);
-                      }
-                    }
-                  }}
-                  placeholder="what's in your mind?"
-                  autoComplete="new-password"
-                  style={{ flex: 1, fontSize: 11, background: "transparent", border: "none", outline: "none", color: INK }}
-                />
-                <span style={{ fontSize: 10, color: MUTED, opacity: 0.65, fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>↵</span>
-              </div>
-              {/* press D hint — directly below input bar */}
-              <div style={{ fontSize: 9, color: MUTED, fontFamily: "'Space Mono', monospace", letterSpacing: "0.04em", opacity: 0.55, paddingLeft: 2 }}>
-                press D to focus
-              </div>
-              </div>{/* /capture+hint column */}
-              {/* Context switcher */}
-              <div style={{ flex: "1 1 auto", minWidth: 0, overflowX: "auto", overflowY: "hidden" }}>
-                <ContextSwitcher active={activeContext} onChange={setActiveContext} counts={ctxCounts} contexts={allContexts} />
-              </div>
-            </div>
-
-          </div>
-          {/* Right: motivational micro-text */}
-          <div className="hidden lg:flex shrink-0 flex-col items-end justify-end" style={{ width: 80, padding: "10px 14px 10px 0", position: "relative" }}>
-            <p style={{ fontSize: 8.5, color: MUTED, fontFamily: "'Space Mono', monospace", letterSpacing: "0.06em", textAlign: "right", lineHeight: 1.6, opacity: 0.75 }}>
-              one step<br/>at a time.
-            </p>
+        {/* ── Content: just the quick capture input ── */}
+        <div className="relative z-10" style={{ padding: isMobile ? "12px" : "16px 24px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(0.975 0.018 355 / 0.85)", padding: "8px 14px", borderRadius: 8 }}>
+            <Zap size={13} style={{ color: TC, flexShrink: 0 }} />
+            <input
+              ref={dumpInputRef}
+              value={quickCapture}
+              onChange={(e) => setQuickCapture(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (quickCapture.trim()) {
+                    const text = quickCapture.trim();
+                    setQuickCapture("");
+                    fireDumpAnimation(e.target as HTMLInputElement);
+                    (e.target as HTMLInputElement).blur();
+                    onQuickDump?.(text);
+                  }
+                }
+              }}
+              placeholder="what's in your mind?"
+              autoComplete="new-password"
+              style={{ flex: 1, fontSize: 13, background: "transparent", border: "none", outline: "none", color: INK }}
+            />
+            <span style={{ fontSize: 11, color: MUTED, opacity: 0.65, fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>↵</span>
           </div>
         </div>
       </div>
