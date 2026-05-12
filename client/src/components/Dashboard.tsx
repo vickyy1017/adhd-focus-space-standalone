@@ -495,7 +495,7 @@ ${routineContext}`;
       {/* AI toggle handled by GlobalRightPanel's AI button (dispatches toggleDashboardAI) */}
 
       {/* ── MIDDLE: 3-column grid (single column on mobile) ── */}
-      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : (showAI ? "1fr 1fr 1fr" : "1fr 2fr"), gap: 10, alignItems: "stretch" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 2fr", gap: 10, alignItems: "stretch" }}>
 
         {/* Col 1: Focus Timer — FocusTimer has its own CYBER_PET.EXE chrome, no outer title bar */}
         <div data-tour-id="tour-focus-timer" style={{ display: "flex", flexDirection: "column", overflow: "hidden", position: "relative" }}>
@@ -689,129 +689,6 @@ ${routineContext}`;
           </div>{/* /inner padding div */}
         </div>)}{/* /retro-window Col 2 */}
 
-        {/* Col 3: AI Command Center (toggleable, hidden on mobile — use right panel instead) */}
-        {showAI && !isMobile && <div data-tour-id="tour-ai-chat" className="retro-window" style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: "410px" }}>
-          <div className="retro-titlebar">
-            <span>ai_assistant.app</span>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, marginLeft: "auto", marginRight: 4 }}>
-              {/* sparkle sticker */}
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.55 }}>
-                <path d="M6 0 L6.5 5 L12 6 L6.5 7 L6 12 L5.5 7 L0 6 L5.5 5 Z" fill="oklch(0.62 0.14 340)" />
-              </svg>
-            </div>
-            <div className="retro-titlebar-buttons">
-              <span className="retro-titlebar-btn">_</span>
-              <span className="retro-titlebar-btn">□</span>
-              <span className="retro-titlebar-btn">✕</span>
-            </div>
-          </div>
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden", padding: "10px 12px 8px" }}>
-            {/* Messages area */}
-            
-            {/* Sub-header: AI ASSISTANT label + CLEAR button */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6, flexShrink: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <Bot size={12} style={{ color: AI_ACCENT, opacity: 0.7 }} />
-                <span style={{ fontSize: 9, color: MUTED, fontFamily: "'Space Mono', monospace", letterSpacing: "0.06em" }}>AI ASSISTANT</span>
-              </div>
-              {chatHistory.length > 0 && (
-                <button
-                  className="m-btn-link"
-                  onClick={() => { setChatHistory([]); localStorage.removeItem(CHAT_HISTORY_KEY); }}
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-
-            <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 6, minHeight: 0, paddingBottom: 4 }}>
-              {chatHistory.length === 0 && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 5, padding: "6px 0" }}>
-                  {CHAT_SUGGESTIONS.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => { setChatInput(s); setTimeout(() => chatInputRef.current?.focus(), 50); }}
-                      style={{
-                        textAlign: "left", background: "oklch(0.978 0.010 355)",
-                        border: `1px solid ${AI_BORDER}`, borderRadius: 5,
-                        padding: "6px 10px", fontSize: 10.5, color: INK,
-                        fontFamily: "'DM Sans', sans-serif", cursor: "pointer",
-                        lineHeight: 1.4, transition: "background 0.12s, border-color 0.12s",
-                      }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.96 0.018 340)"; (e.currentTarget as HTMLButtonElement).style.borderColor = AI_ACCENT; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.978 0.010 355)"; (e.currentTarget as HTMLButtonElement).style.borderColor = AI_BORDER; }}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              )}
-              {chatHistory.map((m, i) => (
-                <div key={i} style={{
-                  display: "flex",
-                  justifyContent: m.role === "user" ? "flex-end" : "flex-start",
-                }}>
-                  <div style={{
-                    maxWidth: "85%",
-                    padding: "5px 9px",
-                    background: m.role === "user" ? AI_ACCENT : AI_MSG_BG,
-                    color: m.role === "user" ? "white" : INK,
-                    fontSize: 10.5,
-                    fontFamily: "'DM Sans', sans-serif",
-                    lineHeight: 1.5,
-                    borderRadius: m.role === "user" ? "8px 8px 2px 8px" : "8px 8px 8px 2px",
-                    border: m.role === "assistant" ? `1px solid ${AI_BORDER}` : "none",
-                    wordBreak: "break-word",
-                  }}>
-                    {m.role === "assistant" ? (
-                      <Streamdown>{m.content}</Streamdown>
-                    ) : m.content}
-                  </div>
-                </div>
-              ))}
-              {chatLoading && chatHistory[chatHistory.length - 1]?.role !== "assistant" && (
-                <div style={{ display: "flex", gap: 3, padding: "5px 9px", background: AI_MSG_BG, border: `1px solid ${AI_BORDER}`, borderRadius: "8px 8px 8px 2px", width: "fit-content" }}>
-                  {[0,1,2].map((i) => (
-                    <div key={i} style={{
-                      width: 4, height: 4, borderRadius: "50%", background: AI_ACCENT,
-                      animation: `ft-petBounce 0.8s ease infinite`,
-                      animationDelay: `${i * 0.15}s`,
-                    }} />
-                  ))}
-                </div>
-              )}
-              <div ref={chatEndRef} />
-            </div>
-
-            {/* Input area */}
-            <div style={{ display: "flex", gap: 5, alignItems: "center", paddingTop: 6, borderTop: `1px solid ${AI_BORDER}`, flexShrink: 0 }}>
-
-              <input
-                ref={(el) => { (window as Window & { __adhd_ai_input?: HTMLInputElement | null }).__adhd_ai_input = el; chatInputRef.current = el; }}
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(); } }}
-                placeholder="press C to focus…"
-                style={{
-                  flex: 1, padding: "5px 8px", fontSize: 10.5,
-                  background: "oklch(0.975 0.018 355)", border: `1px solid ${AI_BORDER}`,
-                  borderRadius: 4, color: INK, outline: "none",
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
-              />
-              <button onClick={sendChat} disabled={chatLoading || !chatInput.trim()} style={{
-                background: chatInput.trim() ? AI_ACCENT : "transparent",
-                border: `1px solid ${chatInput.trim() ? AI_ACCENT : AI_BORDER}`,
-                color: chatInput.trim() ? "white" : MUTED,
-                borderRadius: 4, padding: "5px 7px", cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                transition: "all 0.15s",
-              }}>
-                <Send size={11} />
-              </button>
-            </div>
-          </div>{/* /inner padding div */}
-        </div>}{/* /retro-window Col 3 */}
       </div>{/* /grid */}
 
       {/* ── BOTTOM: Today's wins + focus strip ── */}

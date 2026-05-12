@@ -302,13 +302,13 @@ const M = {
 
 interface DailyWrapUpProps {
   tasks: Task[];
-  wins: Win[];
-  agents: Agent[];
+  wins?: Win[];
+  agents?: Agent[];
   quitCount?: number;
   onClose: () => void;
 }
 
-export function DailyWrapUp({ tasks, wins, agents, quitCount = 0, onClose }: DailyWrapUpProps) {
+export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onClose }: DailyWrapUpProps) {
   const [copied, setCopied] = useState(false);
   const [aiSummary, setAiSummary] = useState<string | null>(null);
   const [journalNote, setJournalNote] = useState<string>(() => {
@@ -344,7 +344,7 @@ export function DailyWrapUp({ tasks, wins, agents, quitCount = 0, onClose }: Dai
   const workDone      = doneTasks.filter((t) => t.context === "work");
   const personalDone  = doneTasks.filter((t) => t.context === "personal");
 
-  const rawScore   = Math.min(100, doneTasks.length * 15 + todayWins.length * 10 + doneAgents.length * 10);
+  const rawScore   = Math.min(100, doneTasks.length * 20);
   const quitPenalty = Math.min(quitCount * 10, 40);
   const score      = Math.max(0, rawScore - quitPenalty);
   const scoreLabel = score >= 80 ? "Supercharged day! 🚀" : score >= 50 ? "Solid work today 💪" : score >= 20 ? "Progress made — keep going 🌱" : quitCount > 0 ? `${quitCount} quit${quitCount !== 1 ? 's' : ''} today — tomorrow is a new page ☁️` : "Rest is productive too ☕";
@@ -357,17 +357,9 @@ export function DailyWrapUp({ tasks, wins, agents, quitCount = 0, onClose }: Dai
       `✅ Tasks completed (${doneTasks.length})`,
       ...doneTasks.map((t) => `  • [${t.context}] ${t.text}`),
       "",
-      `🤖 AI Agents today (${todayAgents.length})`,
-      ...todayAgents.map((a) => `  • ${a.name}: ${a.task} [${a.status}]`),
-      "",
-      `🌟 Wins (${todayWins.length})`,
-      ...todayWins.map((w) => `  • ${w.text}`),
-      "",
       activeTasks.length > 0
         ? `⏳ Still pending (${activeTasks.length})\n${activeTasks.slice(0, 5).map((t) => `  • ${t.text}`).join("\n")}`
         : "🎉 All tasks cleared!",
-      "",
-      runningAgents.length > 0 ? `⚠️  Still running: ${runningAgents.map((a) => a.name).join(", ")}` : "",
     ];
     return lines.filter(Boolean).join("\n");
   };
@@ -401,13 +393,10 @@ export function DailyWrapUp({ tasks, wins, agents, quitCount = 0, onClose }: Dai
         } catch { return { done: [], missed: [], total: 0 }; }
       })();
       const summary = await callAI(
-        "You write warm, personal daily summaries for ADHD users. Be concise (2-3 sentences), positive, and specific about their accomplishments. Mention routine completion if relevant. No bullet points.",
+        "You write warm, personal daily summaries for ADHD users. Be concise (2-3 sentences), positive, and specific about their accomplishments. No bullet points.",
         JSON.stringify({
-          wins: todayWins.map((w) => w.text),
           tasksCompleted: doneTasks.map((t) => t.text),
           tasksPending: activeTasks.slice(0, 5).map((t) => t.text),
-          routinesDone: routineData.done,
-          routinesMissed: routineData.missed,
           score,
         })
       );
@@ -514,38 +503,6 @@ export function DailyWrapUp({ tasks, wins, agents, quitCount = 0, onClose }: Dai
                 )}
               </div>
             )}
-          </Section>
-
-          {/* Agents */}
-          <Section icon={<PixelAgents size={16} active={true} color={M.coral} />} title={`AI Agents today (${todayAgents.length})`} color={M.coral}>
-            {todayAgents.length === 0 ? (
-              <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>No agents logged today.</p>
-            ) : (
-              <div className="space-y-2">
-                {todayAgents.map((a) => {
-                  const sc: Record<string, string> = { running: M.coral, paused: M.slumber, done: M.sage, failed: "oklch(0.58 0.18 340)" };
-                  return (
-                    <div key={a.id} className="flex items-start gap-2 p-2.5" style={{ background: M.bg, border: `1px solid ${M.border}` }}>
-                      <div className="w-2 h-2 mt-1.5 shrink-0" style={{ background: sc[a.status] }} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-sm font-medium" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>{a.name}</span>
-                          <span className="text-xs capitalize" style={{ color: sc[a.status], fontFamily: "'DM Sans', sans-serif" }}>{a.status}</span>
-                        </div>
-                        {a.task && a.task !== a.name && (
-                          <p className="text-xs truncate" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>{a.task}</p>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </Section>
-
-          {/* Wins */}
-          <Section icon={<Sparkles className="w-4 h-4" />} title={`Wins today (${todayWins.length})`} color={M.pink}>
-            <WinsRing wins={todayWins} />
           </Section>
 
           {/* Daily Routine */}

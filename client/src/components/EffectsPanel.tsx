@@ -88,7 +88,7 @@ function TitleDots() {
 }
 
 /* ─── Main SettingsPanel ─────────────────────────────────────── */
-export function EffectsPanel() {
+export function EffectsPanel({ embedded = false }: { embedded?: boolean }) {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"effects" | "apikey">("effects");
   const panelRef = useRef<HTMLDivElement>(null);
@@ -230,6 +230,86 @@ export function EffectsPanel() {
     };
   }, [open, tourActive]);
 
+  // Embedded mode: render the settings content directly (no popup)
+  if (embedded) {
+    return (
+      <div style={{ fontFamily: "'Space Mono', monospace", display: "flex", flexDirection: "column", gap: 14 }}>
+        {/* Tab bar */}
+        <div style={{ display: "flex", background: "oklch(0.96 0.020 340)", border: "1.5px solid oklch(0.82 0.08 340)", borderRadius: 6 }}>
+          {(["effects", "apikey"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              style={{
+                flex: 1, padding: "8px 0",
+                fontSize: "0.50rem", letterSpacing: "0.12em", textTransform: "uppercase",
+                fontFamily: "'Space Mono', monospace", border: "none",
+                borderBottom: activeTab === tab ? "2px solid oklch(0.55 0.18 340)" : "2px solid transparent",
+                borderRight: tab === "effects" ? "1px solid oklch(0.88 0.06 340)" : "none",
+                background: activeTab === tab ? "oklch(0.98 0.015 340)" : "transparent",
+                color: activeTab === tab ? "oklch(0.45 0.14 340)" : "oklch(0.62 0.060 330)",
+                cursor: "pointer", fontWeight: activeTab === tab ? 700 : 400,
+                borderRadius: tab === "effects" ? "6px 0 0 0" : "0 6px 0 0",
+              }}
+            >
+              {tab === "effects" ? "Effects" : "API Key"}
+            </button>
+          ))}
+        </div>
+        <div style={{ background: "oklch(0.98 0.015 340)", border: "1.5px solid oklch(0.82 0.08 340)", borderRadius: 6, padding: "16px", display: "flex", flexDirection: "column", gap: 14 }}>
+          {activeTab === "effects" && <>
+            {/* Text Size */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>▤ Text Size</span>
+                <span style={{ fontSize: "0.50rem", color: "oklch(0.58 0.10 340)" }}>{FONT_SIZES.find(f => f.scale === fontScale)?.title ?? "Custom"}</span>
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                {FONT_SIZES.map(({ label, title, scale }) => {
+                  const active = Math.abs(fontScale - scale) < 0.01;
+                  return (
+                    <button key={label} title={title} onClick={() => setFontScale(scale)}
+                      style={{ flex: 1, padding: "6px 0", fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", letterSpacing: "0.06em", borderRadius: 4, border: `1px solid ${active ? "oklch(0.55 0.18 340)" : "oklch(0.80 0.06 340)"}`, background: active ? "oklch(0.55 0.18 340)" : "transparent", color: active ? "white" : "oklch(0.55 0.08 340)", cursor: "pointer", fontWeight: active ? 700 : 400 }}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div style={{ height: 1, background: "oklch(0.88 0.06 340)" }} />
+            {/* Theme Hue */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◆ Theme Hue</span>
+                <button onClick={resetHue} style={{ fontSize: "0.44rem", fontFamily: "'Space Mono', monospace", padding: "2px 6px", borderRadius: 4, border: "1px solid oklch(0.72 0.040 330)", background: "transparent", color: "oklch(0.60 0.040 330)", cursor: "pointer" }}>RESET</button>
+              </div>
+              <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+                {presets.map((p) => (
+                  <button key={p.hue} onClick={() => setPresetHue(p.hue)} title={p.name}
+                    style={{ width: 28, height: 28, borderRadius: "50%", border: `2px solid ${Math.abs(hue - p.hue) < 5 ? "oklch(0.45 0.14 340)" : "transparent"}`, background: `hsl(${p.hue}, 55%, 65%)`, cursor: "pointer", minWidth: 28, minHeight: 28, boxSizing: "content-box", padding: 0 }} />
+                ))}
+              </div>
+              <HSlider value={(hue / 360) * 100} onChange={(v) => setHue(Math.round((v / 100) * 360))} accentColor={`hsl(${hue}, 70%, 55%)`} />
+            </div>
+            <div style={{ height: 1, background: "oklch(0.88 0.06 340)" }} />
+            {/* Work Mode */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div>
+                <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>▤ Work Mode</span>
+                <p style={{ fontSize: "0.48rem", color: "oklch(0.60 0.040 330)", marginTop: 2 }}>strips all colour → greyscale</p>
+              </div>
+              <button onClick={toggleWorkMode}
+                style={{ width: 36, height: 20, borderRadius: 10, border: `1px solid ${workMode ? "oklch(0.55 0.18 340)" : "oklch(0.72 0.040 330)"}`, background: workMode ? "oklch(0.55 0.18 340)" : "oklch(0.88 0.020 330)", cursor: "pointer", position: "relative", transition: "all 0.2s" }}>
+                <div style={{ position: "absolute", top: 2, left: workMode ? 18 : 2, width: 14, height: 14, borderRadius: "50%", background: "white", transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
+              </button>
+            </div>
+          </>}
+          {activeTab === "apikey" && <ApiKeySection />}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div ref={panelRef} style={{ position: "relative", width: "100%" }}>
       {/* ── Sidebar button ── */}
@@ -339,50 +419,6 @@ export function EffectsPanel() {
           }}>
               {/* ── EFFECTS TAB ── */}
               {activeTab === "effects" && <>
-                {/* Film Grain section */}
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                    <span style={{ fontSize: "0.55rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                      ▣ Film Grain
-                    </span>
-                    <button
-                      onClick={() => setIntensity(grainOn ? 0 : 40)}
-                      style={{
-                        fontSize: "0.44rem",
-                        fontFamily: "'Space Mono', monospace",
-                        letterSpacing: "0.08em",
-                        padding: "2px 6px",
-                        borderRadius: 10,
-                        border: `1px solid ${grainOn ? "oklch(0.55 0.18 340)" : "oklch(0.72 0.040 330)"}`,
-                        background: grainOn ? "oklch(0.55 0.18 340)" : "transparent",
-                        color: grainOn ? "white" : "oklch(0.60 0.040 330)",
-                        cursor: "pointer",
-                        transition: "all 0.15s",
-                      }}
-                    >
-                      {grainOn ? "ON" : "OFF"}
-                    </button>
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 10 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ fontSize: "0.48rem", color: "oklch(0.55 0.08 340)", letterSpacing: "0.06em" }}>INTENSITY</span>
-                      <span style={{ fontSize: "0.48rem", color: "oklch(0.55 0.14 340)", letterSpacing: "0.06em" }}>{intensity === 0 ? "OFF" : `${intensity}%`}</span>
-                    </div>
-                    <HSlider value={intensity} onChange={setIntensity} accentColor="oklch(0.55 0.18 340)" />
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ fontSize: "0.48rem", color: "oklch(0.55 0.08 340)", letterSpacing: "0.06em" }}>SPEED</span>
-                      <span style={{ fontSize: "0.48rem", color: "oklch(0.50 0.14 295)", letterSpacing: "0.06em" }}>{speed === 0 ? "FROZEN" : `${speed}%`}</span>
-                    </div>
-                    <HSlider value={speed} onChange={setSpeed} accentColor="oklch(0.55 0.14 295)" disabled={!grainOn} />
-                  </div>
-                </div>
-
-                 {/* Divider */}
-                <div style={{ height: 1, background: "oklch(0.88 0.06 340)", margin: "0 -2px" }} />
 
                 {/* ── Text Size section ── */}
                 <div>

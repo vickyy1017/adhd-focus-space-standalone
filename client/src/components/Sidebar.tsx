@@ -136,11 +136,28 @@ const NAV: Array<{
   { id: "dump",      short: "DUMP",   Icon: IconDump,   title: "Brain Dump"   },
 ];
 
-/* Mobile bottom tab bar */
+/* Mobile bottom tab bar — HOME / TASKS / DUMP / MONTHLY / SET */
 const MOBILE_NAV = [
   { id: "dashboard", short: "HOME",   Icon: IconHome,   title: "Dashboard"   },
   { id: "tasks",     short: "TASKS",  Icon: IconTasks,  title: "My Tasks"     },
   { id: "dump",      short: "DUMP",   Icon: IconDump,   title: "Brain Dump"   },
+  { id: "monthly",   short: "MONTHLY", Icon: (p: { color: string }) => (
+    <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+      <rect x="2" y="4" width="14" height="12" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <line x1="2" y1="8" x2="16" y2="8" stroke={p.color} strokeWidth="1.2"/>
+      <line x1="6" y1="2" x2="6" y2="6" stroke={p.color} strokeWidth="1.4" strokeLinecap="round"/>
+      <line x1="12" y1="2" x2="12" y2="6" stroke={p.color} strokeWidth="1.4" strokeLinecap="round"/>
+      <circle cx="6" cy="11" r="1" fill={p.color} />
+      <circle cx="9" cy="11" r="1" fill={p.color} />
+      <circle cx="12" cy="11" r="1" fill={p.color} />
+    </svg>
+  ), title: "Monthly" },
+  { id: "settings",  short: "SET",    Icon: (p: { color: string }) => (
+    <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+      <circle cx="10" cy="10" r="3" stroke={p.color} strokeWidth="1.4"/>
+      <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke={p.color} strokeWidth="1.4" strokeLinecap="round"/>
+    </svg>
+  ), title: "Settings" },
 ];
 
 /* ── Floating timer pill ── */
@@ -611,40 +628,7 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
               </button>
             );
           })}
-          {/* More button */}
-          <button
-            onClick={() => setShowMore(p => !p)}
-            title="More"
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 2,
-              background: showMore ? "oklch(0.58 0.18 340 / 0.10)" : "transparent",
-              border: "none",
-              borderTop: showMore ? "2px solid oklch(0.58 0.18 340)" : "2px solid transparent",
-              cursor: "pointer",
-              transition: "background 0.15s",
-              padding: "6px 2px 4px",
-            }}
-          >
-            <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
-              <circle cx="4" cy="10" r="1.5" fill={showMore ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)"}/>
-              <circle cx="10" cy="10" r="1.5" fill={showMore ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)"}/>
-              <circle cx="16" cy="10" r="1.5" fill={showMore ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)"}/>
-            </svg>
-            <span style={{
-              fontSize: "0.42rem",
-              letterSpacing: "0.10em",
-              fontFamily: "'Space Mono', monospace",
-              color: showMore ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)",
-              fontWeight: showMore ? 700 : 400,
-            }}>
-              MORE
-            </span>
-          </button>
+
         </nav>
       </>
     );

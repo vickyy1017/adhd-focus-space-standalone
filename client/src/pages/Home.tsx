@@ -37,10 +37,11 @@ import { Bot, Brain, Clock, LayoutDashboard, Moon, Sparkles, Star } from "lucide
 import { PixelDump } from "@/components/PixelIcons";
 import { NamePrompt } from "@/components/NamePrompt";
 import Monthly from "@/pages/Monthly";
+import { EffectsPanel } from "@/components/EffectsPanel";
 import { OnboardingTour, useOnboardingTour } from "@/components/OnboardingTour";
 
 
-type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly";
+type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly" | "settings";
 
 const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> = {
   dashboard:  { title: "Dashboard",    icon: LayoutDashboard },
@@ -48,6 +49,7 @@ const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> 
   tasks:      { title: "My Tasks",     icon: Star            },
   dump:       { title: "Brain Dump",   icon: Brain           },
   monthly:    { title: "Monthly Progress", icon: Star        },
+  settings:   { title: "Settings",     icon: Star            },
 };
 
 
@@ -65,7 +67,7 @@ export default function Home() {
   // URL-hash based section state — persists across refresh
   const [activeSection, setActiveSectionState] = useState<Section>(() => {
     const hash = window.location.hash.slice(1) as Section;
-    const VALID = ["dashboard","focus","tasks","dump","monthly"] as const;
+    const VALID = ["dashboard","focus","tasks","dump","monthly","settings"] as const;
     return (VALID as readonly string[]).includes(hash) ? hash as Section : "dashboard";
   });
   const setActiveSection = (s: Section) => {
@@ -547,6 +549,12 @@ export default function Home() {
 
             {activeSection === "monthly" && (
               <Monthly embedded onNavigate={(s) => setActiveSection(s as Section)} />
+            )}
+
+            {activeSection === "settings" && (
+              <div style={{ padding: isMobile ? "16px" : "32px", maxWidth: 480, margin: "0 auto" }}>
+                <EffectsPanel embedded />
+              </div>
             )}
           </div>
         </div>

@@ -99,7 +99,7 @@ export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump }: Gl
   const [open, setOpen]           = useState(false);
   const [configMode, setConfigMode] = useState(false);
   const [text, setText]           = useState("");
-  const [aiMode, setAiMode] = useState(false);
+  const [aiMode, setAiMode] = useState(true); // default to AI mode
   const [aiGenerating, setAiGenerating] = useState(false);
 
   const [dueDate, setDueDate] = useState<string>(() => new Date().toISOString().slice(0, 10));
@@ -275,12 +275,12 @@ Today is ${today} (${todayName}).`,
             {/* Header */}
             <div className="flex items-center gap-3 px-5 pt-5 pb-3">
               <div className="w-8 h-8 flex items-center justify-center shrink-0" style={{ background: M.coralBg, border: `1px solid ${M.coralBdr}` }}>
-                <Zap className="w-4 h-4" style={{ color: M.coral }} />
+                <Sparkles className="w-4 h-4" style={{ color: M.coral }} />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>Quick capture</p>
+                <p className="text-sm font-semibold" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>AI Assistant</p>
                 <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
-                  {configMode ? "Manage quick-reply chips" : "One sentence — no formatting needed"}
+                  {configMode ? "Manage quick-reply chips" : "Tell me what to add — task, dump, or anything"}
                 </p>
               </div>
               <div className="flex items-center gap-1">
