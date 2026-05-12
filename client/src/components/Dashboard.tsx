@@ -463,99 +463,32 @@ ${routineContext}`;
 
   return (
     <div data-tour-id="tour-dashboard" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      {/* ── HERO: Retro Lo-Fi Desktop Window ── */}
-      <div className="retro-window relative overflow-hidden" style={{ minHeight: 148 }}>
-        {/* Soft pink overlay */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, oklch(0.975 0.018 355 / 0.98) 0%, oklch(0.965 0.025 340 / 0.96) 100%)" }} />
-
-        {/* ── Retro title bar ── */}
-        <div className="retro-titlebar relative z-10">
-          <span>dashboard.exe</span>
-          <div className="retro-titlebar-buttons">
-            <span className="retro-titlebar-btn">_</span>
-            <span className="retro-titlebar-btn">□</span>
-            <span className="retro-titlebar-btn">✕</span>
-          </div>
-        </div>
-
-        {/* ── Decorative SVG Stickers ── */}
-        {/* Crescent moon — top right */}
-        <div className="absolute" style={{ top: 28, right: 18, opacity: 0.55, transform: "rotate(12deg)" }}>
-          <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
-            <path d="M28 20c0 8.837-7.163 16-16 16a16.07 16.07 0 0 1-4-.504C11.84 37.1 15.78 38 20 38c9.941 0 18-8.059 18-18S29.941 2 20 2c-4.22 0-8.16.9-11 2.504A16.07 16.07 0 0 1 13 4c8.837 0 15 7.163 15 16z" fill="oklch(0.68 0.12 340)" />
-            <circle cx="22" cy="9" r="1.2" fill="oklch(0.78 0.10 320)" />
-            <circle cx="30" cy="14" r="0.8" fill="oklch(0.78 0.10 320)" />
-            <circle cx="26" cy="5" r="0.6" fill="oklch(0.78 0.10 320)" />
-          </svg>
-        </div>
-        {/* Small stars cluster — top right area */}
-        <div className="absolute" style={{ top: 32, right: 62, opacity: 0.45 }}>
-          <svg width="28" height="20" viewBox="0 0 28 20" fill="none">
-            <path d="M4 2 L4.6 3.8 L6.5 3.8 L5 4.9 L5.6 6.7 L4 5.6 L2.4 6.7 L3 4.9 L1.5 3.8 L3.4 3.8 Z" fill="oklch(0.62 0.14 340)" />
-            <path d="M14 8 L14.4 9.2 L15.7 9.2 L14.7 10 L15.1 11.2 L14 10.4 L12.9 11.2 L13.3 10 L12.3 9.2 L13.6 9.2 Z" fill="oklch(0.62 0.14 340)" />
-            <path d="M23 2 L23.3 3 L24.3 3 L23.5 3.6 L23.8 4.6 L23 4 L22.2 4.6 L22.5 3.6 L21.7 3 L22.7 3 Z" fill="oklch(0.62 0.14 340)" />
-          </svg>
-        </div>
-        {/* Potted plant — bottom right */}
-        <div className="absolute" style={{ bottom: 6, right: 22, opacity: 0.50 }}>
-          <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
-            {/* pot */}
-            <path d="M10 30 Q9 38 8 40 L28 40 Q27 38 26 30 Z" fill="oklch(0.62 0.12 300)" />
-            <rect x="8" y="28" width="20" height="4" rx="2" fill="oklch(0.55 0.14 310)" />
-            {/* stem */}
-            <line x1="18" y1="28" x2="18" y2="14" stroke="oklch(0.55 0.14 290)" strokeWidth="1.5" strokeLinecap="round" />
-            {/* leaves */}
-            <path d="M18 22 Q10 18 8 10 Q14 14 18 22Z" fill="oklch(0.60 0.14 290)" />
-            <path d="M18 18 Q26 14 28 6 Q22 10 18 18Z" fill="oklch(0.55 0.14 295)" />
-            <path d="M18 26 Q12 22 11 16 Q16 20 18 26Z" fill="oklch(0.58 0.13 292)" />
-          </svg>
-        </div>
-        {/* Sticky note moved under greeting — rendered inline below */}
-        {/* Leaf sprig — slightly right of left pane edge, peeking under greeting */}
-        <div className="absolute" style={{ top: 38, left: 172, opacity: 0.45, transform: "rotate(-15deg)", zIndex: 12 }}>
-          <svg width="22" height="30" viewBox="0 0 22 30" fill="none">
-            <line x1="11" y1="28" x2="11" y2="4" stroke="oklch(0.55 0.14 290)" strokeWidth="1.2" strokeLinecap="round" />
-            <path d="M11 20 Q4 16 3 8 Q9 12 11 20Z" fill="oklch(0.60 0.14 290)" />
-            <path d="M11 14 Q18 10 19 2 Q13 6 11 14Z" fill="oklch(0.55 0.14 295)" />
-          </svg>
-        </div>
-        {/* Cloud puff — far right, mid height */}
-        <div className="absolute" style={{ top: 70, right: 8, opacity: 0.22 }}>
-          <svg width="44" height="22" viewBox="0 0 44 22" fill="none">
-            <ellipse cx="22" cy="14" rx="18" ry="8" fill="oklch(0.82 0.06 290)" />
-            <ellipse cx="14" cy="12" rx="10" ry="7" fill="oklch(0.84 0.05 300)" />
-            <ellipse cx="30" cy="11" rx="9" ry="6" fill="oklch(0.84 0.05 300)" />
-            <ellipse cx="22" cy="9" rx="8" ry="6" fill="oklch(0.86 0.04 310)" />
-          </svg>
-        </div>
-
-        {/* ── Content: just the quick capture input ── */}
-        <div className="relative z-10" style={{ padding: isMobile ? "12px" : "16px 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(0.975 0.018 355 / 0.85)", padding: "8px 14px", borderRadius: 8 }}>
-            <Zap size={13} style={{ color: TC, flexShrink: 0 }} />
-            <input
-              ref={dumpInputRef}
-              value={quickCapture}
-              onChange={(e) => setQuickCapture(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (quickCapture.trim()) {
-                    const text = quickCapture.trim();
-                    setQuickCapture("");
-                    fireDumpAnimation(e.target as HTMLInputElement);
-                    (e.target as HTMLInputElement).blur();
-                    onQuickDump?.(text);
-                  }
+      {/* ── HERO: just the quick capture input, no window frame ── */}
+      <div style={{ padding: isMobile ? "8px 0" : "8px 0" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(0.975 0.018 355 / 0.85)", padding: "10px 16px", borderRadius: 10 }}>
+          <Zap size={14} style={{ color: TC, flexShrink: 0 }} />
+          <input
+            ref={dumpInputRef}
+            value={quickCapture}
+            onChange={(e) => setQuickCapture(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                e.stopPropagation();
+                if (quickCapture.trim()) {
+                  const text = quickCapture.trim();
+                  setQuickCapture("");
+                  fireDumpAnimation(e.target as HTMLInputElement);
+                  (e.target as HTMLInputElement).blur();
+                  onQuickDump?.(text);
                 }
-              }}
-              placeholder="what's in your mind?"
-              autoComplete="new-password"
-              style={{ flex: 1, fontSize: 13, background: "transparent", border: "none", outline: "none", color: INK }}
-            />
-            <span style={{ fontSize: 11, color: MUTED, opacity: 0.65, fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>↵</span>
-          </div>
+              }
+            }}
+            placeholder="what's in your mind?"
+            autoComplete="new-password"
+            style={{ flex: 1, fontSize: 14, background: "transparent", border: "none", outline: "none", color: INK }}
+          />
+          <span style={{ fontSize: 11, color: MUTED, opacity: 0.65, fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>↵</span>
         </div>
       </div>
 
