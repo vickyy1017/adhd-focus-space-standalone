@@ -134,18 +134,13 @@ const NAV: Array<{
   { id: "dashboard", short: "HOME",   Icon: IconHome,   title: "Dashboard"   },
   { id: "tasks",     short: "TASKS",  Icon: IconTasks,  title: "My Tasks"     },
   { id: "dump",      short: "DUMP",   Icon: IconDump,   title: "Brain Dump"   },
-  { id: "wins",      short: "WINS",   Icon: IconWins,   title: "Daily Wins"   },
-  { id: "agents",    short: "AGENTS", Icon: IconAgents, title: "AI Agents"    },
-  { id: "storage",   short: "STORE",  Icon: IconStorage, title: "Storage & Backup" },
 ];
 
-/* Mobile bottom tab bar shows only the most important items */
+/* Mobile bottom tab bar */
 const MOBILE_NAV = [
   { id: "dashboard", short: "HOME",   Icon: IconHome,   title: "Dashboard"   },
   { id: "tasks",     short: "TASKS",  Icon: IconTasks,  title: "My Tasks"     },
   { id: "dump",      short: "DUMP",   Icon: IconDump,   title: "Brain Dump"   },
-  { id: "wins",      short: "WINS",   Icon: IconWins,   title: "Daily Wins"   },
-  { id: "agents",    short: "AGENTS", Icon: IconAgents, title: "AI Agents"    },
 ];
 
 /* ── Floating timer pill ── */
@@ -468,7 +463,6 @@ function MobileMoreMenu({
   onClose: () => void;
 }) {
   const MORE_ITEMS = [
-    { id: "storage", short: "STORAGE",    Icon: IconStorage, title: "Storage & Backup" },
     { id: "monthly", short: "MONTHLY",    Icon: (p: { color: string }) => (
       <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
         <rect x="2" y="4" width="14" height="12" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
@@ -480,12 +474,6 @@ function MobileMoreMenu({
         <circle cx="12" cy="11" r="1" fill={p.color} />
       </svg>
     ), title: "Monthly" },
-    { id: "guide",   short: "GUIDE",      Icon: (p: { color: string }) => (
-      <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
-        <circle cx="8" cy="8" r="6.5" stroke={p.color} strokeWidth="1.2"/>
-        <text x="8" y="12" textAnchor="middle" fontFamily="'Space Mono', monospace" fontSize="8" fill={p.color} fontWeight="600">?</text>
-      </svg>
-    ), title: "Guide" },
   ];
 
   return (
@@ -522,7 +510,7 @@ function MobileMoreMenu({
         <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", letterSpacing: "0.12em", color: "oklch(0.52 0.060 330)", textTransform: "uppercase", marginBottom: 4, opacity: 0.7 }}>
           More
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(1, 1fr)", gap: 8 }}>
           {MORE_ITEMS.map(({ id, short, Icon, title }) => {
             const active = activeSection === id;
             const color = active ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)";

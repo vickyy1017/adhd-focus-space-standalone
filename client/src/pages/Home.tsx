@@ -12,18 +12,14 @@ import { useMobile } from "@/hooks/useMobile";
 import { Dashboard } from "@/components/Dashboard";
 import { FocusTimer } from "@/components/FocusTimer";
 import { TaskManager, type Task } from "@/components/TaskManager";
-import { DailyWins, type Win } from "@/components/DailyWins";
 import { BrainDump } from "@/components/BrainDump";
-import { AgentTracker, type Agent } from "@/components/AgentTracker";
 import { RetroPageWrapper } from "@/components/RetroPageWrapper";
 import { GlobalQuickAdd } from "@/components/GlobalQuickAdd";
-import { GlobalRightPanel } from "@/components/GlobalRightPanel";
 import { ConfettiCelebration } from "@/components/ConfettiCelebration";
 import { DailyWrapUp } from "@/components/DailyWrapUp";
 import { recordWrapUp, recordDumpEntry, recordFocusSession, recordBlockComplete, recordMood } from "@/components/MonthlyProgress";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useBlockStreak } from "@/hooks/useBlockStreak";
-import { useAutoBackup } from "@/hooks/useAutoBackup";
 import { useOpenDayStreak } from "@/hooks/useOpenDayStreak";
 import { useTimer } from "@/contexts/TimerContext";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -33,18 +29,14 @@ import {
   DashboardDecor,
   FocusDecor,
   TasksDecor,
-  WinsDecor,
   BrainDumpDecor,
-  AgentsDecor,
 } from "@/components/PageDecor";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Bot, Brain, Clock, LayoutDashboard, Moon, Sparkles, Star } from "lucide-react";
 import { PixelDump } from "@/components/PixelIcons";
 import { NamePrompt } from "@/components/NamePrompt";
-import StorageBackup from "@/pages/StorageBackup";
 import Monthly from "@/pages/Monthly";
-import Guide from "@/pages/Guide";
 import { OnboardingTour, useOnboardingTour } from "@/components/OnboardingTour";
 
 
@@ -213,18 +205,14 @@ function MoodPill({ mood, onMoodChange }: { mood: number | null; onMoodChange: (
 }
 
 
-type Section = "dashboard" | "focus" | "tasks" | "wins" | "dump" | "agents" | "storage" | "monthly" | "guide";
+type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly";
 
 const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> = {
   dashboard:  { title: "Dashboard",    icon: LayoutDashboard },
   focus:      { title: "Focus Timer",  icon: Clock           },
-  tasks:      { title: "My Tasks",     icon: Star     },
-  wins:       { title: "Daily Wins",   icon: Sparkles        },
+  tasks:      { title: "My Tasks",     icon: Star            },
   dump:       { title: "Brain Dump",   icon: Brain           },
-  agents:     { title: "AI Agents",    icon: Bot             },
-  storage:    { title: "Storage & Backup", icon: Star            },
-  monthly:    { title: "Monthly Progress", icon: Star            },
-  guide:      { title: "App Guide",    icon: Star            },
+  monthly:    { title: "Monthly Progress", icon: Star        },
 };
 
 const INITIAL_TASKS: Task[] = [
@@ -240,7 +228,7 @@ export default function Home() {
   // URL-hash based section state — persists across refresh
   const [activeSection, setActiveSectionState] = useState<Section>(() => {
     const hash = window.location.hash.slice(1) as Section;
-    const VALID = ["dashboard","focus","tasks","wins","dump","agents","storage","monthly","guide"] as const;
+    const VALID = ["dashboard","focus","tasks","dump","monthly"] as const;
     return (VALID as readonly string[]).includes(hash) ? hash as Section : "dashboard";
   });
   const setActiveSection = (s: Section) => {
@@ -339,8 +327,6 @@ export default function Home() {
 
   // ── All data in localStorage ───────────────────────────────────────────────
   const [tasks,  setTasks]  = useLocalStorage<Task[]>("adhd-tasks",  INITIAL_TASKS);
-  const [wins,   setWins]   = useLocalStorage<Win[]>("adhd-wins",   []);
-  const [agents, setAgents] = useLocalStorage<Agent[]>("adhd-agents", []);
   const [mood,   setLocalMood]   = useLocalStorage<number | null>("adhd-mood", null);
 
   const setMood = useCallback((v: number | null | ((prev: number | null) => number | null)) => {
@@ -367,26 +353,15 @@ export default function Home() {
 
   const { streak: blockStreak, history: blockHistory, recordBlock } = useBlockStreak();
   const { streak: openDayStreak } = useOpenDayStreak();
-  // Always-on debounced Google Drive auto-backup (active on every page)
-  useAutoBackup();
   const [timerQuitCount, setTimerQuitCount] = useState(0);
   const [confettiTrigger, setConfettiTrigger] = useState(false);
   const [wrapUpOpen, setWrapUpOpen] = useState(false);
   const [pendingDump, setPendingDump] = useState<string | null>(null);
-  const [pendingAgentTask, setPendingAgentTask] = useState<string | null>(null);
   const [dashboardKey, setDashboardKey] = useState(0);
-  // Listen for coach summary updates from GlobalRightPanel so the card refreshes without a page reload
-  useEffect(() => {
-    const handler = () => setDashboardKey(k => k + 1);
-    window.addEventListener("coach-summary-updated", handler);
-    return () => window.removeEventListener("coach-summary-updated", handler);
-  }, []);
-  // Routine refresh counter — increments when adhd-routine-done changes so header re-reads localStorage
-  const [routineRefresh, setRoutineRefresh] = useState(0);
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      if (detail === "adhd-routine-done") setRoutineRefresh(n => n + 1);
+      if (detail) setDashboardKey(k => k + 1);
     };
     window.addEventListener("adhd-storage-update", handler);
     return () => window.removeEventListener("adhd-storage-update", handler);
@@ -407,36 +382,6 @@ export default function Home() {
 
     if (newlyDone.length > 0) {
       setConfettiTrigger(true);
-      // Use a stable win ID tied to the task so we can remove it on undo/delete
-      newlyDone.forEach((task) => {
-        const winId = `task-win-${task.id}`;
-        const ctx = task.context ?? "work";
-        const iconMap: Record<string, number> = {
-          work: 2, personal: 5, health: 0, fitness: 6,
-          study: 1, creative: 4, social: 3, nutrition: 7,
-        };
-        const win: Win = {
-          id: winId,
-          text: task.text.length > 40 ? task.text.slice(0, 40) + "…" : task.text,
-          iconIdx: iconMap[ctx] ?? 2,
-          createdAt: new Date(),
-        };
-        // Only add if not already present (prevent duplicate on re-complete)
-        setWins((prev) => prev.find((w) => w.id === winId) ? prev : [win, ...prev]);
-      });
-
-    }
-
-    // Bug fix 1: Undo task — remove its win entry
-    if (newlyUndone.length > 0) {
-      const undoneWinIds = newlyUndone.map((t) => `task-win-${t.id}`);
-      setWins((prev) => prev.filter((w) => !undoneWinIds.includes(w.id)));
-    }
-
-    // Bug fix 2: Deleted task — remove its win entry
-    if (deletedTasks.length > 0) {
-      const deletedWinIds = deletedTasks.map((t) => `task-win-${t.id}`);
-      setWins((prev) => prev.filter((w) => !deletedWinIds.includes(w.id)));
     }
 
     setTasks(newTasks);
@@ -446,8 +391,6 @@ export default function Home() {
     recordFocusSession(durations.focus);
     setConfettiTrigger(true);
     setFocusSessions((s) => s + 1);
-    // Add focus session win to total count (special iconIdx 97)
-    setWins((prev: any) => [{ id: nanoid(), text: `${durations.focus}min focus session`, iconIdx: 97, createdAt: new Date() }, ...prev]);
     // Accumulate focusMins in daily-logs for Monthly stats
     try {
       const dk = new Date().toDateString();
@@ -464,13 +407,6 @@ export default function Home() {
     const focusLabel = totalMins >= 60
       ? `${Math.floor(totalMins / 60)}h${totalMins % 60 > 0 ? ` ${totalMins % 60}min` : ""}`
       : `${totalMins}min`;
-    const blockWin: Win = {
-      id: nanoid(),
-      text: `${focusLabel} deep focus block complete`,
-      iconIdx: 99,
-      createdAt: new Date(),
-    };
-    setWins((prev) => [blockWin, ...prev]);
     setFocusSessions(0);
     recordBlock();
   };
@@ -492,16 +428,13 @@ export default function Home() {
   }, [activeSection]);
   const meta = SECTION_META[safeSection];
   const Icon = meta.icon;
-  const runningAgents = agents.filter((a) => a.status === "running").length;
+  const runningAgents = 0; // Agents removed
 
-  // ── Unified category system: aggregate all contexts from tasks, goals, agents ──
-  // Custom tags (non-builtin) are only shown if at least 1 item uses them
-  // Filter out null/undefined/"null"/"undefined" values that may come from old localStorage data
+  // ── Unified category system ──
   const isValidContext = (c: unknown): c is string =>
     typeof c === "string" && c.length > 0 && c !== "null" && c !== "undefined";
   const allItemContexts = new Set([
     ...tasks.map((t) => t.context).filter(isValidContext),
-    ...agents.map((a) => a.context).filter(isValidContext),
   ]);
   const allCategories = Array.from(new Set([
     "work", "personal",
@@ -513,17 +446,12 @@ export default function Home() {
     return allItemContexts.has(c);
   });
 
-  /** Clear all test data — wipes tasks, wins, agents but keeps settings */
+  /** Clear all test data */
   const handleClearTestData = () => {
-    if (!confirm("Clear all tasks, wins, and agents? This cannot be undone.")) return;
+    if (!confirm("Clear all tasks? This cannot be undone.")) return;
     setTasks([]);
-    setWins([]);
-    setAgents([]);
     setLocalMood(null);
     setDeletedCategories([]);
-    localStorage.removeItem(`adhd-checkin-skip-${today}`);
-    localStorage.removeItem(`adhd-checkin-x-${today}`);
-    // dismissCheckIn was undefined — removed
     setTimeout(() => { window.location.reload(); }, 300);
   };
 
@@ -531,7 +459,6 @@ export default function Home() {
   const handleDeleteCategory = (ctx: string) => {
     if (ctx === "work" || ctx === "personal") return;
     setTasks((prev) => prev.map((t) => t.context === ctx ? { ...t, context: "personal" } : t));
-    setAgents((prev) => prev.map((a) => a.context === ctx ? { ...a, context: "personal" } : a));
     setDeletedCategories((prev) => [...prev, ctx]);
   };
 
@@ -600,45 +527,14 @@ export default function Home() {
           {/* Right: stats + mood + wrap-up */}
           <div className="flex items-center shrink-0" style={{ gap: 0, overflow: "hidden" }}>
             {/* Quick-stats — visible on all sections */}
-            <div className="hidden sm:flex items-center" style={{ borderRight: "1.5px solid #E8B8D0", overflow: "hidden" }}>                {(() => {
-                  // routineRefresh is referenced here so React re-renders when it changes
-                  void routineRefresh;
-                  // Routine completion: read from localStorage (same keys as GlobalRightPanel)
+            <div className="hidden sm:flex items-center" style={{ borderRight: "1.5px solid #E8B8D0", overflow: "hidden" }}>{(() => {
                   const todayKey2 = new Date().toISOString().slice(0, 10);
-                  const todayDay = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][(new Date().getDay())];
-                  // Mon-indexed day for routine filter
-                  const DAYS2 = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-                  const todayDayMon = DAYS2[(new Date().getDay() + 6) % 7];
-                  const allRoutines: { id: string; name: string; days: string[] }[] = (() => {
-                    try { return JSON.parse(localStorage.getItem("adhd-routines") ?? "[]"); } catch { return []; }
-                  })();
-                  const todayRoutines = allRoutines.filter(r => r.days.includes(todayDayMon));
-                  const routineDoneData = (() => {
-                    try { return JSON.parse(localStorage.getItem("adhd-routine-done") ?? "{}"); } catch { return {}; }
-                  })();
-                  const routineDoneIds: string[] = routineDoneData.date === todayKey2 ? (routineDoneData.ids ?? []) : [];
-                  // Only count IDs that belong to today's active routines (exclude stale deleted-routine IDs)
-                  const todayRoutineIds = new Set(todayRoutines.map((r: any) => r.id));
-                  const routineDone = routineDoneIds.filter((id: string) => todayRoutineIds.has(id)).length;
-                  const routineTotal = todayRoutines.length;
-                  const routineLabel = routineTotal > 0 ? `${routineDone}/${routineTotal} routine` : null;
-
-                  // Retro lo-fi pastel palette — one per stat
-                  const STAT_COLORS = [
-                    { num: "#7A3060", lbl: "#C070A0" }, // tasks: dusty rose-plum
-                    { num: "oklch(0.40 0.10 168)", lbl: "oklch(0.52 0.10 168)" }, // wins: teal-green (badge color)
-                    { num: "#3A4878", lbl: "#7080C8" }, // agents: dusty indigo
-                    { num: "#7A5820", lbl: "#C09840" }, // routine: warm amber
-                  ];
                   const stats: { label: string; value: string | number; section: Section }[] = [
                     { label: "tasks left today", value: tasks.filter((t) => !t.done && (!t.dueDate || t.dueDate === todayKey2)).length, section: "tasks" as Section },
-                    { label: "wins",  value: wins.filter((w) => new Date(w.createdAt).toDateString() === today).length, section: "wins" as Section },
-                    { label: "agents live", value: agents.filter((a) => a.status === "running").length, section: "agents" as Section },
-                    ...(routineLabel ? [{ label: "routine", value: `${routineDone}/${routineTotal}`, section: "dashboard" as Section }] : []),
                   ];
                   return stats;
                 })().map(({ label, value, section }, i, arr) => {
-                  const sc = [{ num: "#7A3060", lbl: "#C070A0" }, { num: "oklch(0.40 0.10 168)", lbl: "oklch(0.52 0.10 168)" }, { num: "#3A4878", lbl: "#7080C8" }, { num: "#7A5820", lbl: "#C09840" }][i] ?? { num: "#6A1840", lbl: "#C070A0" };
+                  const sc = [{ num: "#7A3060", lbl: "#C070A0" }, { num: "oklch(0.40 0.10 168)", lbl: "oklch(0.52 0.10 168)" }][i] ?? { num: "#6A1840", lbl: "#C070A0" };
                   return (
                   <React.Fragment key={label}>
                     <button
@@ -704,9 +600,9 @@ export default function Home() {
                 <DashboardDecor />
               <Dashboard
                 tasks={tasks}
-                wins={wins}
+                wins={[]}
                 goals={[]}
-                agents={agents}
+                agents={[]}
                 mood={mood}
                 displayName={displayName || undefined}
                 blockStreak={openDayStreak}
@@ -724,8 +620,8 @@ export default function Home() {
                 }}
                 onTaskCreate={(task) => setTasks((prev) => [task, ...prev])}
                 onGoalCreate={() => {}}
-                onAgentCreate={(agent) => setAgents((prev) => [agent, ...prev])}
-                onWinCreate={(win) => setWins((prev) => [win, ...prev])}
+                onAgentCreate={() => {}}
+                onWinCreate={() => {}}
                 onDumpCreate={(text) => {
                   try {
                     const entries = JSON.parse(localStorage.getItem("adhd_braindump_entries") ?? "[]");
@@ -858,16 +754,6 @@ export default function Home() {
               </RetroPageWrapper>
             )}
 
-            {activeSection === "wins" && (
-              <RetroPageWrapper title="wins.log" sticker="sparkle">
-              <div className="flex flex-col relative overflow-hidden" style={{ padding: isMobile ? "12px" : "32px", minHeight: isMobile ? "auto" : 600 }}>
-                <WinsDecor />
-                <div className="relative z-10">
-                  <DailyWins wins={wins} onWinsChange={setWins} />
-                </div>
-              </div>
-              </RetroPageWrapper>
-            )}
 
 
             {activeSection === "dump" && (
@@ -877,11 +763,6 @@ export default function Home() {
                 <div className="relative z-10">
                   <BrainDump
                     onConvertToTask={handleConvertToTask}
-                    onCreateAgent={(taskText) => { toast("Agent created from dump!"); }}
-                    onAddGoal={(text) => {
-                      const id = nanoid();
-                      setGoals((p) => [{ id, text, progress: 0, context: "personal", createdAt: new Date() }, ...p]);
-                    }}
                     onDump={() => recordDumpEntry()}
                     initialText={pendingDump ?? undefined}
                     onInitialTextConsumed={() => setPendingDump(null)}
@@ -891,66 +772,30 @@ export default function Home() {
               </RetroPageWrapper>
             )}
 
-            {/* Goals section removed */}
-
-            {activeSection === "agents" && (
-              <RetroPageWrapper title="agents.app" sticker="star">
-              <div className="relative" style={{ padding: isMobile ? "12px" : "32px" }}>
-                <AgentsDecor />
-                <AgentTracker
-                  agents={agents}
-                  onAgentsChange={setAgents}
-                  tasks={tasks}
-                  allCategories={allCategories}
-                  pendingTaskText={pendingAgentTask ?? undefined}
-                  onPendingTaskConsumed={() => setPendingAgentTask(null)}
-                />
-              </div>
-              </RetroPageWrapper>
-            )}
-
-            {activeSection === "storage" && (
-              <RetroPageWrapper title="storage.exe" sticker="star">
-                <StorageBackup />
-              </RetroPageWrapper>
-            )}
-
             {activeSection === "monthly" && (
               <Monthly embedded onNavigate={(s) => setActiveSection(s as Section)} />
-            )}
-
-            {activeSection === "guide" && (
-              <Guide embedded onNavigate={(s) => setActiveSection(s as Section)} />
             )}
           </div>
         </div>
       </main>
 
       {/* ── Global overlays ── */}
-      <GlobalRightPanel goals={[]} onLogWin={(text, iconIdx, winId) => setWins((prev: any) => [{ id: winId, text, iconIdx, createdAt: new Date() }, ...prev])} onUndoWin={(winId) => setWins((prev: any) => prev.filter((w: any) => w.id !== winId))} />
       <GlobalQuickAdd
         onAddTask={(t) => setTasks((p) => [t, ...p])}
         onAddGoal={() => {}}
-        onAddWin={(text, iconIdx) => {
-          setWins((prev: any) => [{ id: nanoid(), text, iconIdx: iconIdx ?? 4, createdAt: new Date() }, ...prev]);
-        }}
-        onAddDump={(text) => {
-          setPendingDump(text);
-          // Stay on current page — GlobalQuickAdd already shows a toast
-        }}
+        onAddWin={() => {}}
+        onAddDump={(text) => { setPendingDump(text); }}
       />
       <ConfettiCelebration trigger={confettiTrigger} onComplete={() => setConfettiTrigger(false)} />
 
       {wrapUpOpen && (
         <DailyWrapUp
           tasks={tasks}
-          wins={wins}
-          agents={agents}
+          wins={[]}
           quitCount={timerQuitCount}
           onClose={() => {
-            const todayWins = wins.filter(w => new Date(w.createdAt).toDateString() === new Date().toDateString());
             const todayDone = tasks.filter(t => t.done && new Date(t.createdAt).toDateString() === new Date().toDateString());
-            const score = Math.min(100, todayDone.length * 15 + todayWins.length * 10 + 20);
+            const score = Math.min(100, todayDone.length * 20 + 20);
             recordWrapUp(mood, score);
             setWrapUpOpen(false);
           }}

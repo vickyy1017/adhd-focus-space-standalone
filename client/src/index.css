@@ -164,16 +164,8 @@
     @apply bg-background text-foreground;
     font-family: 'DM Sans', system-ui, sans-serif;
     font-feature-settings: "kern" 1, "liga" 1;
-    /* Dreamy pink grid paper — soft mauve lines on bubblegum pink bg */
+    /* Clean solid background */
     background-color: hsl(var(--base-hue), 38%, 95%);
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
-      linear-gradient(rgba(185, 140, 165, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(185, 140, 165, 0.12) 1px, transparent 1px),
-      linear-gradient(rgba(185, 140, 165, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(185, 140, 165, 0.05) 1px, transparent 1px);
-    background-size: 200px 200px, 128px 128px, 128px 128px, 32px 32px, 32px 32px;
-    background-attachment: fixed;
   }
 
   button:not(:disabled),
