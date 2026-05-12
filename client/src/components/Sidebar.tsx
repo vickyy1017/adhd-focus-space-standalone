@@ -708,18 +708,34 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
         <MonthlyLink onNavigate={onSectionChange} />
       </div>
 
-      {/* Effects panel (grain + work mode) */}
-      <EffectsPanel />
-
-
-
-      {/* Secondary divider — separates functional items from help */}
-      <div style={{ width: "60%", height: "1px", background: "oklch(0.80 0.060 340 / 0.5)", margin: "12px 0 4px" }} />
-
-      {/* Guide — secondary/help group, smaller and lighter */}
-      <GuideLink onNavigate={onSectionChange} />
-      {/* Tour replay button */}
-      <TourButton />
+      {/* Settings nav button */}
+      {(() => {
+        const active = activeSection === "settings";
+        const color = active ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)";
+        return (
+          <button
+            onClick={() => onSectionChange("settings")}
+            title="Settings"
+            className="relative w-full flex flex-col items-center justify-center py-2 transition-all duration-150"
+            style={{
+              background: active ? "oklch(0.58 0.18 340 / 0.12)" : "transparent",
+              borderRadius: 3,
+              border: active ? "1px solid oklch(0.58 0.18 340 / 0.25)" : "1px solid transparent",
+            }}
+            onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.58 0.18 340 / 0.06)"; }}
+            onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
+          >
+            {active && (
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-5" style={{ background: "oklch(0.58 0.18 340)", borderRadius: "0 2px 2px 0" }} />
+            )}
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="3" stroke={color} strokeWidth="1.4"/>
+              <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke={color} strokeWidth="1.4" strokeLinecap="round"/>
+            </svg>
+            <span style={{ fontSize: 6.5, marginTop: 2, letterSpacing: "0.12em", fontFamily: "'Space Mono', monospace", color, fontWeight: active ? 700 : 400 }}>SET</span>
+          </button>
+        );
+      })()}
     </aside>
   );
 }
