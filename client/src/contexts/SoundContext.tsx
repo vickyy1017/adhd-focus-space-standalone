@@ -174,18 +174,9 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   const [musicEnabled, setMusicEnabled] = useState(() => {
     try { return localStorage.getItem("adhd-music-enabled") === "true"; } catch { return false; }
   });
-  // Track if we're waiting for a user gesture to satisfy autoplay policy.
-  // Pre-set to true on init if music was enabled before the refresh — so the
-  // retry listener can trigger playback on first gesture on ANY page, not just
-  // the Focus page. The browser autoplay policy ensures no sound plays until
-  // the user interacts with the page.
-  const pendingAutoplayRef = useRef(
-    (() => {
-      try {
-        return localStorage.getItem("adhd-music-enabled") === "true";
-      } catch { return false; }
-    })()
-  );
+  // Never auto-play music on page load — only play when timer is running.
+  // Music will resume automatically when the timer starts.
+  const pendingAutoplayRef = useRef(false);
   const [musicVolume, setMusicVolumeState] = useState(() => {
     try { return parseFloat(localStorage.getItem("adhd-music-vol") ?? "0.25"); } catch { return 0.25; }
   });

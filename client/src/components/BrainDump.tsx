@@ -503,12 +503,23 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
                 </div>
 
                 {!entry.converted && (
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                  <div className="flex items-center gap-1 shrink-0" style={{ opacity: 1 }}>
                     <button onClick={() => convertToTask(entry)} className="m-chip active">
                       <ArrowRight className="w-3 h-3" />
                       Task
                     </button>
-                    <button onClick={() => deleteEntry(entry.id)} className="p-1 transition-colors" style={{ color: M.muted }}>
+                    <button
+                      onClick={() => deleteEntry(entry.id)}
+                      className="p-1 transition-colors"
+                      style={{
+                        color: M.muted,
+                        minWidth: 28,
+                        minHeight: 28,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>

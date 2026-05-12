@@ -38,7 +38,7 @@ import { PixelDump } from "@/components/PixelIcons";
 import { NamePrompt } from "@/components/NamePrompt";
 import Monthly from "@/pages/Monthly";
 import { EffectsPanel } from "@/components/EffectsPanel";
-import { OnboardingTour, useOnboardingTour } from "@/components/OnboardingTour";
+
 
 
 type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly" | "settings";
@@ -81,9 +81,6 @@ export default function Home() {
 
   // ── Name / personalisation (from DB via useUserData) ──
   const [showNamePrompt, setShowNamePrompt] = React.useState(false);
-
-  // ── Onboarding tour ──
-  const { show: showTour, close: closeTour } = useOnboardingTour();
 
   // Listen for navigateTo events
   React.useEffect(() => {
@@ -641,15 +638,7 @@ export default function Home() {
           onSkip={handleNameSkip}
         />
       )}
-      {/* ── Onboarding Tour ── */}
-      {showTour && (
-        <OnboardingTour
-          onClose={closeTour}
-          onNavigate={(s) => setActiveSection(s as Section)}
-          onOpenWrapUp={() => setWrapUpOpen(true)}
-          onCloseWrapUp={() => setWrapUpOpen(false)}
-        />
-      )}
+
     </div>
   );
 }
