@@ -428,28 +428,21 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
         onClick={(e) => e.stopPropagation()}
       >
 
-        {/* Retro title bar */}
+        {/* macOS title bar */}
         <div className="relative z-10" style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "5px 10px",
-          background: "#F9D6E8",
-          borderBottom: `1.5px solid ${M.border}`,
-          fontFamily: "'Space Mono', monospace",
-          fontSize: 10,
-          color: "#8A3060",
+          display: "flex", alignItems: "center", gap: 10,
+          padding: "10px 14px",
+          background: "oklch(0.945 0.030 355)",
+          borderBottom: `1px solid ${M.border}`,
           flexShrink: 0,
         }}>
-          <span>daily_wrapup.exe</span>
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <button
-              onClick={onClose}
-              style={{ fontSize: 9, padding: "1px 5px", cursor: "pointer",
-                background: "#F0D0E4", border: `1px solid ${M.border}`,
-                color: "#8A3060", fontFamily: "'Space Mono', monospace",
-                lineHeight: 1.4,
-              }}
-            >✕</button>
+          {/* Traffic lights */}
+          <div style={{ display: "flex", gap: 5 }}>
+            <button onClick={onClose} style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.72 0.18 25)", border: "none", cursor: "pointer", padding: 0, flexShrink: 0, boxShadow: "inset 0 1px 1px oklch(0.88 0.12 25 / 0.6)" }} title="Close" />
+            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.78 0.14 85)", boxShadow: "inset 0 1px 1px oklch(0.92 0.10 85 / 0.6)" }} />
+            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.72 0.14 160)", boxShadow: "inset 0 1px 1px oklch(0.88 0.10 160 / 0.6)" }} />
           </div>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, color: "oklch(0.35 0.040 320)", flex: 1, textAlign: "center", marginRight: 42 }}>Daily Wrap-Up</span>
         </div>
 
         {/* Header */}

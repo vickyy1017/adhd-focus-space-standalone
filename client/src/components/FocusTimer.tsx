@@ -875,30 +875,21 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       ...(fillHeight ? { display: "flex", flexDirection: "column", height: "100%" } : {}),
     }}>
 
-      {/* ── Inner window title bar: CYBER_PET.EXE ── */}
+      {/* ── macOS title bar ── */}
       <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "4px 8px",
-        background: ACCENT,
-        borderBottom: `2px solid ${DARK}`,
+        display: "flex", alignItems: "center", gap: 8,
+        padding: "9px 12px",
+        background: "oklch(0.945 0.030 355)",
+        borderBottom: `1px solid ${BORDER}`,
       }}>
-        <span style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 7, letterSpacing: "0.14em",
-          color: "#FAF6F1", fontWeight: 700,
-          textTransform: "uppercase",
-        }}>CYBER_PET.EXE</span>
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          {renderHearts()}
-          <button
-            onClick={running ? undefined : undefined}
-            style={{
-              width: 12, height: 12, fontSize: 8, lineHeight: 1,
-              background: "#FAF6F1", border: "none", cursor: "default",
-              color: DARK, display: "flex", alignItems: "center", justifyContent: "center",
-              fontFamily: "monospace",
-            }}
-          >×</button>
+        <div style={{ display: "flex", gap: 5 }}>
+          <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.72 0.18 25)", boxShadow: "inset 0 1px 1px oklch(0.88 0.12 25 / 0.6)" }} />
+          <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.78 0.14 85)", boxShadow: "inset 0 1px 1px oklch(0.92 0.10 85 / 0.6)" }} />
+          <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.72 0.14 160)", boxShadow: "inset 0 1px 1px oklch(0.88 0.10 160 / 0.6)" }} />
+        </div>
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginRight: 36 }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, color: "oklch(0.35 0.040 320)" }}>Focus Timer</span>
+          <div style={{ display: "flex", gap: 3 }}>{renderHearts()}</div>
         </div>
       </div>
       {/* ── Top bar: mode tabs + sound/settings + death counter ── */}

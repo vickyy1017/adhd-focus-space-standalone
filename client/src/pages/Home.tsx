@@ -538,6 +538,8 @@ export default function Home() {
                     onDump={() => recordDumpEntry()}
                     initialText={pendingDump ?? undefined}
                     onInitialTextConsumed={() => setPendingDump(null)}
+                    externalEntries={userData.brain_dump as any}
+                    onExternalEntriesChange={(entries) => setBrainDump(entries as any)}
                   />
                 </div>
               </div>

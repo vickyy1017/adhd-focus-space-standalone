@@ -508,22 +508,15 @@ ${routineContext}`;
 
         {/* Col 2: Next Up task list — taller when AI is hidden */}
         {(true || showAI) && (
-        <div className="retro-window" style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: isMobile ? "360px" : "410px" }}>
-          <div className="retro-titlebar">
-            <span>next_up.txt</span>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, marginLeft: "auto", marginRight: 6 }}>
-              {/* leaf sticker */}
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style={{ opacity: 0.55 }}>
-                <line x1="5" y1="11" x2="5" y2="2" stroke="oklch(0.55 0.14 290)" strokeWidth="1" strokeLinecap="round" />
-                <path d="M5 8 Q1 6 1 2 Q4 4 5 8Z" fill="oklch(0.60 0.14 290)" />
-                <path d="M5 6 Q9 4 9 0 Q6 2 5 6Z" fill="oklch(0.55 0.14 295)" />
-              </svg>
+        <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: isMobile ? "360px" : "410px", borderRadius: 12, border: `1px solid ${BORDER}`, background: "oklch(0.975 0.018 355 / 0.95)", boxShadow: "0 2px 16px oklch(0.58 0.18 340 / 0.08)" }}>
+          {/* macOS title bar */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "oklch(0.945 0.030 355)", borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
+            <div style={{ display: "flex", gap: 5 }}>
+              <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.72 0.18 25)" }} />
+              <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.78 0.14 85)" }} />
+              <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.72 0.14 160)" }} />
             </div>
-            <div className="retro-titlebar-buttons">
-              <span className="retro-titlebar-btn">_</span>
-              <span className="retro-titlebar-btn">□</span>
-              <span className="retro-titlebar-btn">✕</span>
-            </div>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, color: "oklch(0.35 0.040 320)", flex: 1, textAlign: "center", marginRight: 36 }}>Next Up</span>
           </div>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden", padding: "14px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8, flexShrink: 0 }}>

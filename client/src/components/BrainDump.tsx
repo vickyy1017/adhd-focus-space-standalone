@@ -29,6 +29,9 @@ interface BrainDumpProps {
   onDump?: () => void;
   initialText?: string;
   onInitialTextConsumed?: () => void;
+  // External entries control (for DB sync)
+  externalEntries?: Array<{ id: string; text: string; tags: string[]; createdAt: string; converted: boolean }>;
+  onExternalEntriesChange?: (entries: Array<{ id: string; text: string; tags: string[]; createdAt: string; converted: boolean }>) => void;
 }
 
 const M = {
@@ -85,7 +88,7 @@ function HighlightedText({ text, activeTag }: { text: string; activeTag: string 
   );
 }
 
-export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, initialText, onInitialTextConsumed }: BrainDumpProps) {
+export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, initialText, onInitialTextConsumed, externalEntries, onExternalEntriesChange }: BrainDumpProps) {
   const [currentThought, setCurrentThought] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [initialTextHandled, setInitialTextHandled] = useState(false);
@@ -101,40 +104,51 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
   }> | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // localStorage-backed entries
+  // localStorage-backed entries (fallback when no external entries provided)
   const [rawEntries, setRawEntries] = useLocalStorage<Array<{
     id: string; text: string; tags: string[]; createdAt: string; converted: boolean;
   }>>("adhd_braindump_entries", []);
 
+  // Use external entries if provided (DB sync), otherwise use localStorage
+  const effectiveRaw = externalEntries ?? rawEntries;
+  const setEffectiveRaw = (updater: ((prev: any[]) => any[]) | any[]) => {
+    const newVal = typeof updater === "function" ? updater(effectiveRaw) : updater;
+    if (onExternalEntriesChange) {
+      onExternalEntriesChange(newVal);
+    } else {
+      setRawEntries(newVal);
+    }
+  };
+
   const entries: BrainDumpEntry[] = useMemo(() =>
-    rawEntries.map((e) => ({ ...e, createdAt: new Date(e.createdAt) })),
-    [rawEntries]
+    effectiveRaw.map((e: any) => ({ ...e, createdAt: new Date(e.createdAt) })),
+    [effectiveRaw]
   );
 
   const isLoading = false;
 
   const createMutation = {
     mutate: ({ id, text, tags }: { id: string; text: string; tags: string[] }) => {
-      setRawEntries((prev) => [{ id, text, tags, createdAt: new Date().toISOString(), converted: false }, ...prev]);
+      setEffectiveRaw((prev: any[]) => [{ id, text, tags, createdAt: new Date().toISOString(), converted: false }, ...prev]);
     },
     isPending: false,
   };
 
   const updateMutation = {
     mutate: ({ id, converted }: { id: string; converted?: boolean }) => {
-      setRawEntries((prev) => prev.map((e) => e.id === id ? { ...e, ...(converted !== undefined && { converted }) } : e));
+      setEffectiveRaw((prev: any[]) => prev.map((e: any) => e.id === id ? { ...e, ...(converted !== undefined && { converted }) } : e));
     },
   };
 
   const deleteMutation = {
     mutate: ({ id }: { id: string }) => {
-      setRawEntries((prev) => prev.filter((e) => e.id !== id));
+      setEffectiveRaw((prev: any[]) => prev.filter((e: any) => e.id !== id));
     },
   };
 
   const deleteAllMutation = {
     mutate: () => {
-      setRawEntries([]);
+      setEffectiveRaw([]);
       setActiveTag(null);
     },
   };
@@ -199,14 +213,29 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
 - rewritten: make it a clear, actionable sentence. Keep short.`,
         active.map((e) => e.text).join("\n")
       );
-      const jsonMatch = result.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]) as { items: { original: string; category: string; rewritten: string; emoji: string }[] };
-        if (parsed.items?.length) {
-          setAiResults(parsed.items.map((item, i) => ({ ...item, id: String(i) })));
-        } else {
-          toast.info("Nothing to categorize.");
+      // Try to extract and parse JSON from the AI response
+      let parsed: { items: { original: string; category: string; rewritten: string; emoji: string }[] } | null = null;
+      try {
+        // First try: direct parse
+        parsed = JSON.parse(result);
+      } catch {
+        // Second try: extract JSON object
+        const jsonMatch = result.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          try { parsed = JSON.parse(jsonMatch[0]); } catch { /* ignore */ }
         }
+        // Third try: extract just the items array
+        if (!parsed) {
+          const arrMatch = result.match(/\[[\s\S]*\]/);
+          if (arrMatch) {
+            try { parsed = { items: JSON.parse(arrMatch[0]) }; } catch { /* ignore */ }
+          }
+        }
+      }
+      if (parsed?.items?.length) {
+        setAiResults(parsed.items.map((item, i) => ({ ...item, id: String(i) })));
+      } else {
+        toast.info("AI couldn't parse the entries. Try again.");
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "AI sort failed";

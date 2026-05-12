@@ -138,21 +138,7 @@ function DayCellHoverContent({ log, day, month, year }: { log?: DailyLog; day: n
               <span style={{ fontSize: 11, color: M.ink }}>{log!.blocksCompleted} deep focus {log!.blocksCompleted === 1 ? "block" : "blocks"} 🔥</span>
             </div>
           )}
-          {(log?.routinesDone ?? 0) > 0 && (
-            <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              <span style={{ fontSize: 13, lineHeight: 1, flexShrink: 0 }}>💫</span>
-              <span style={{ fontSize: 11, color: M.ink }}>
-                Routines: {log!.routinesDone}/{log!.routinesTotal ?? log!.routinesDone} done
-                {log!.routinesDone === log!.routinesTotal && log!.routinesTotal! > 0 ? " ✓" : ""}
-              </span>
-            </div>
-          )}
-          {(log?.mood ?? 4) && (
-            <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              <div style={{ width: 13, height: 13, borderRadius: "50%", background: MOOD_COLORS[(log?.mood ?? 4) - 1], flexShrink: 0 }} />
-              <span style={{ fontSize: 11, color: M.ink }}>Mood: {MOOD_LABELS[(log?.mood ?? 4) - 1]}</span>
-            </div>
-          )}
+
           {log?.score !== undefined && log.score > 0 && (
             <div style={{ marginTop: 2, paddingTop: 7, borderTop: `1px solid ${M.border}` }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
@@ -436,47 +422,11 @@ function DayDetail({ log, dateStr, dateKey: dk, onClose, isPast }: { log?: Daily
           </div>
         ) : (
           <>
-            {/* Mood + Focus Time inline row */}
-            {(log?.mood || focusCount > 0) && (
-              <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-                {(log?.mood ?? 4) && (
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <div style={{ width: 10, height: 10, borderRadius: "50%", background: MOOD_COLORS[(log?.mood ?? 4) - 1], flexShrink: 0 }} />
-                    <span style={{ fontSize: 12, color: M.ink }}>Mood: <strong>{MOOD_LABELS[(log?.mood ?? 4) - 1]}</strong></span>
-                  </div>
-                )}
-                {focusCount > 0 && (
-                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                    <span style={{ fontSize: 11, color: M.coral }}>⏱</span>
-                    <span style={{ fontSize: 12, color: M.ink }}>Focus: <strong style={{ color: M.coral }}>{focusCount} {focusCount === 1 ? "session" : "sessions"}</strong></span>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Routine count + missed list */}
-            {(log?.routinesTotal ?? 0) > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontSize: 13, lineHeight: 1, flexShrink: 0 }}>💫</span>
-                  <span style={{ fontSize: 12, color: M.ink }}>
-                    Routine: <strong style={{ color: (log!.routinesDone ?? 0) === log!.routinesTotal ? "oklch(0.52 0.12 145)" : M.coral }}>
-                      {log!.routinesDone ?? 0}/{log!.routinesTotal} done
-                      {(log!.routinesDone ?? 0) === log!.routinesTotal ? " ✓" : ""}
-                    </strong>
-                  </span>
-                </div>
-                {missedRoutineNames.length > 0 && (
-                  <div style={{ marginLeft: 20, display: "flex", flexDirection: "column", gap: 3 }}>
-                    <span style={{ fontSize: 10, color: M.muted, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 600 }}>Missed</span>
-                    {missedRoutineNames.map(name => (
-                      <div key={name} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontSize: 11, color: M.coral }}>✗</span>
-                        <span style={{ fontSize: 12, color: M.muted }}>{name}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+            {/* Focus sessions */}
+            {focusCount > 0 && (
+              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <span style={{ fontSize: 11, color: M.coral }}>⏱</span>
+                <span style={{ fontSize: 12, color: M.ink }}>Focus: <strong style={{ color: M.coral }}>{focusCount} {focusCount === 1 ? "session" : "sessions"}</strong></span>
               </div>
             )}
             {/* Wrap-up */}
@@ -487,33 +437,7 @@ function DayDetail({ log, dateStr, dateKey: dk, onClose, isPast }: { log?: Daily
               </div>
             )}
 
-            {/* Wins list */}
-            {dayWins.length > 0 && (
-              <div>
-                <p style={{ fontSize: 10, color: M.muted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, fontWeight: 600 }}>
-                  <Sparkles size={10} style={{ display: "inline", marginRight: 4, color: M.gold }} />
-                  Wins ({dayWins.length})
-                </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  {Object.entries(winsByCategory).map(([idxStr, catWins]) => {
-                    const idx = Number(idxStr);
-                    const color = WIN_CAT_COLORS[idx % WIN_CAT_COLORS.length];
-                    const label = WIN_CAT_LABELS[idx % WIN_CAT_LABELS.length];
-                    return (
-                      <div key={idx}>
-                        <p style={{ fontSize: 10, color, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 3 }}>{label}</p>
-                        {catWins.map(w => (
-                          <div key={w.id} style={{ display: "flex", alignItems: "flex-start", gap: 7, padding: "4px 0", borderBottom: `1px solid ${M.border}` }}>
-                            <div style={{ width: 3, height: 3, borderRadius: "50%", background: color, marginTop: 6, flexShrink: 0 }} />
-                            <span style={{ fontSize: 12, color: M.ink, lineHeight: 1.4 }}>{w.text}</span>
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+
 
             {/* Brain dump entries */}
             {dayDumps.length > 0 && (
@@ -779,18 +703,13 @@ export function MonthlyProgress({ wins, tasks, blockHistory = {}, blockStreak = 
           {[
             { color: M.sage, label: "Wrap-up" },
             { color: M.coral, label: "Brain dump" },
-            { color: M.gold, label: "Wins" },
-            { color: "oklch(0.55 0.14 245)", label: "Routines" },
+            { color: M.gold, label: "Focus" },
           ].map(l => (
             <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <div style={{ width: 7, height: 7, borderRadius: "50%", background: l.color }} />
               <span style={{ fontSize: 10, color: M.muted }}>{l.label}</span>
             </div>
           ))}
-          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <div style={{ width: 20, height: 3, borderRadius: 2, background: "linear-gradient(to right, oklch(0.78 0.06 290), oklch(0.72 0.12 340))" }} />
-            <span style={{ fontSize: 10, color: M.muted }}>Mood bar</span>
-          </div>
         </div>
         </div>{/* end padding wrapper */}
       </div>
