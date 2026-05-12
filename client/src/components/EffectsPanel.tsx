@@ -88,7 +88,7 @@ function TitleDots() {
 }
 
 /* ─── Main SettingsPanel ─────────────────────────────────────── */
-export function EffectsPanel({ embedded = false }: { embedded?: boolean }) {
+export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnly = false }: { embedded?: boolean; settingsOnly?: boolean; apiKeyOnly?: boolean }) {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"effects" | "apikey">("effects");
   const panelRef = useRef<HTMLDivElement>(null);
@@ -230,34 +230,12 @@ export function EffectsPanel({ embedded = false }: { embedded?: boolean }) {
     };
   }, [open, tourActive]);
 
-  // Embedded mode: render the settings content directly (no popup)
+  // Embedded mode: render content directly (no popup, no tab bar)
   if (embedded) {
     return (
       <div style={{ fontFamily: "'Space Mono', monospace", display: "flex", flexDirection: "column", gap: 14 }}>
-        {/* Tab bar */}
-        <div style={{ display: "flex", background: "oklch(0.96 0.020 340)", border: "1.5px solid oklch(0.82 0.08 340)", borderRadius: 6 }}>
-          {(["effects", "apikey"] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              style={{
-                flex: 1, padding: "8px 0",
-                fontSize: "0.50rem", letterSpacing: "0.12em", textTransform: "uppercase",
-                fontFamily: "'Space Mono', monospace", border: "none",
-                borderBottom: activeTab === tab ? "2px solid oklch(0.55 0.18 340)" : "2px solid transparent",
-                borderRight: tab === "effects" ? "1px solid oklch(0.88 0.06 340)" : "none",
-                background: activeTab === tab ? "oklch(0.98 0.015 340)" : "transparent",
-                color: activeTab === tab ? "oklch(0.45 0.14 340)" : "oklch(0.62 0.060 330)",
-                cursor: "pointer", fontWeight: activeTab === tab ? 700 : 400,
-                borderRadius: tab === "effects" ? "6px 0 0 0" : "0 6px 0 0",
-              }}
-            >
-              {tab === "effects" ? "Effects" : "API Key"}
-            </button>
-          ))}
-        </div>
-        <div style={{ background: "oklch(0.98 0.015 340)", border: "1.5px solid oklch(0.82 0.08 340)", borderRadius: 6, padding: "16px", display: "flex", flexDirection: "column", gap: 14 }}>
-          {activeTab === "effects" && <>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          {(settingsOnly || (!apiKeyOnly)) && <>
             {/* Text Size */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -304,7 +282,7 @@ export function EffectsPanel({ embedded = false }: { embedded?: boolean }) {
               </button>
             </div>
           </>}
-          {activeTab === "apikey" && <div>
+          {(apiKeyOnly || (!settingsOnly)) && <div>
             {/* OpenAI API Key section */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
               <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◉ OpenAI API Key</span>

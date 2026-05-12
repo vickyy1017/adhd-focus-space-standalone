@@ -75,7 +75,7 @@ export default function Home() {
     window.location.hash = s === "dashboard" ? "" : s;
   };
   const { durations } = useTimer();
-  const { user, loading: authLoading, setUser } = useAuth();
+  const { user, loading: authLoading, setUser, logout } = useAuth();
   const isMobile = useMobile(); // Must be called before any early returns (React Hooks rules)
   const today = new Date().toDateString();
 
@@ -552,8 +552,60 @@ export default function Home() {
             )}
 
             {activeSection === "settings" && (
-              <div style={{ padding: isMobile ? "16px" : "32px", maxWidth: 480, margin: "0 auto" }}>
-                <EffectsPanel embedded />
+              <div style={{ padding: isMobile ? "16px" : "32px", maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
+
+                {/* ── Account ── */}
+                <div style={{ background: "oklch(0.975 0.018 355 / 0.85)", border: "1.5px solid oklch(0.82 0.050 340)", borderRadius: 10, overflow: "hidden" }}>
+                  <div style={{ padding: "10px 16px", background: "oklch(0.930 0.045 355)", borderBottom: "1px solid oklch(0.82 0.050 340)" }}>
+                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "oklch(0.45 0.12 340)" }}>Account</span>
+                  </div>
+                  <div style={{ padding: "16px" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                      <div>
+                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 600, color: "oklch(0.28 0.040 320)", marginBottom: 2 }}>
+                          {userData.display_name || user?.name || "User"}
+                        </p>
+                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: "oklch(0.52 0.040 330)" }}>{user?.id ?? ""}</p>
+                      </div>
+                      <button
+                        onClick={async () => {
+                          await logout();
+                          window.location.reload();
+                        }}
+                        style={{
+                          fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.10em",
+                          padding: "6px 14px", borderRadius: 6, cursor: "pointer",
+                          border: "1px solid oklch(0.72 0.10 25)",
+                          background: "transparent", color: "oklch(0.52 0.14 25)",
+                          whiteSpace: "nowrap", flexShrink: 0,
+                        }}
+                      >
+                        Sign out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Appearance ── */}
+                <div style={{ background: "oklch(0.975 0.018 355 / 0.85)", border: "1.5px solid oklch(0.82 0.050 340)", borderRadius: 10, overflow: "hidden" }}>
+                  <div style={{ padding: "10px 16px", background: "oklch(0.930 0.045 355)", borderBottom: "1px solid oklch(0.82 0.050 340)" }}>
+                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "oklch(0.45 0.12 340)" }}>Appearance</span>
+                  </div>
+                  <div style={{ padding: "16px" }}>
+                    <EffectsPanel embedded settingsOnly />
+                  </div>
+                </div>
+
+                {/* ── AI / API Key ── */}
+                <div style={{ background: "oklch(0.975 0.018 355 / 0.85)", border: "1.5px solid oklch(0.82 0.050 340)", borderRadius: 10, overflow: "hidden" }}>
+                  <div style={{ padding: "10px 16px", background: "oklch(0.930 0.045 355)", borderBottom: "1px solid oklch(0.82 0.050 340)" }}>
+                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "oklch(0.45 0.12 340)" }}>AI / API Key</span>
+                  </div>
+                  <div style={{ padding: "16px" }}>
+                    <EffectsPanel embedded apiKeyOnly />
+                  </div>
+                </div>
+
               </div>
             )}
           </div>
