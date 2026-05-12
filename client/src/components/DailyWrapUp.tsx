@@ -416,9 +416,10 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg overflow-hidden max-h-[90vh] flex flex-col"
+        className="w-full max-w-lg overflow-hidden flex flex-col"
         data-tour-id="tour-wrapup-panel"
         style={{
+          maxHeight: "calc(80vh - env(safe-area-inset-bottom, 0px) - 60px)",
           background: M.card,
           border: `1.5px solid ${M.border}`,
           boxShadow: "4px 6px 20px rgba(212,88,152,0.18), 0 0 0 1px rgba(232,184,208,0.60)",
@@ -505,8 +506,8 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
             )}
           </Section>
 
-          {/* Daily Routine */}
-          <RoutineSection />
+          {/* Priority Matrix completion ring */}
+          <MatrixRing tasks={tasks} />
 
           {/* Focus Tracker */}
           <FocusTrackerSection />
@@ -631,45 +632,93 @@ function TaskRow({ text, color }: { text: string; color: string }) {
   );
 }
 
-/* ── Daily Routine Section ── */
-function RoutineSection() {
-  const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-  const todayDay = DAYS[(new Date().getDay() + 6) % 7];
-  const routineColor = "oklch(0.50 0.12 245)"; // dusty periwinkle
+/* ── Priority Matrix Ring — shows completed tasks per quadrant ── */
+const QUADRANT_META = [
+  { id: "q1", label: "Do Now",   color: "oklch(0.55 0.09 35)" },
+  { id: "q2", label: "Schedule", color: "oklch(0.52 0.14 290)" },
+  { id: "q3", label: "Delegate", color: "oklch(0.55 0.10 330)" },
+  { id: "q4", label: "Eliminate",color: "oklch(0.52 0.08 240)" },
+];
 
-  const routines: { id: string; name: string; days: string[]; iconIdx?: number }[] = (() => {
-    try { return JSON.parse(localStorage.getItem("adhd-routines") ?? "[]"); } catch { return []; }
+function priorityToQuadrant(p: string): string {
+  if (p === "urgent") return "q1";
+  if (p === "focus")  return "q2";
+  return "q4";
+}
+
+function MatrixRing({ tasks }: { tasks: Task[] }) {
+  const quadrantMap: Record<string, string> = (() => {
+    try { return JSON.parse(localStorage.getItem("adhd-quadrant-map") ?? "{}"); } catch { return {}; }
   })();
-  const todayRoutines = routines.filter(r => r.days.includes(todayDay));
 
-  const doneIds: string[] = (() => {
-    try {
-      const d = JSON.parse(localStorage.getItem("adhd-routine-done") ?? "{}");
-      const todayKey = new Date().toISOString().slice(0, 10);
-      return d.date === todayKey ? d.ids : [];
-    } catch { return []; }
-  })();
+  const doneTasks = tasks.filter(t => t.done);
+  const totalDone = doneTasks.length;
 
-  if (todayRoutines.length === 0) return null;
+  // Count done tasks per quadrant
+  const counts: Record<string, number> = { q1: 0, q2: 0, q3: 0, q4: 0 };
+  doneTasks.forEach(t => {
+    const q = quadrantMap[t.id] ?? priorityToQuadrant(t.priority);
+    if (counts[q] !== undefined) counts[q]++;
+  });
 
-  const done = todayRoutines.filter(r => doneIds.includes(r.id));
-  const missed = todayRoutines.filter(r => !doneIds.includes(r.id));
+  const ringColor = "oklch(0.58 0.18 340)";
+
+  if (totalDone === 0) {
+    return (
+      <Section icon={<span style={{ fontSize: 14 }}>📊</span>} title="Priority Matrix" color={ringColor}>
+        <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>No tasks completed yet.</p>
+      </Section>
+    );
+  }
+
+  // Draw arc ring
+  const SIZE = 200;
+  const cx = 100, cy = 100, R = 70, strokeW = 22;
+  const circumference = 2 * Math.PI * R;
+  let offset = 0;
+  const arcs = QUADRANT_META.map(q => {
+    const proportion = totalDone > 0 ? counts[q.id] / totalDone : 0;
+    const arc = { ...q, proportion, count: counts[q.id], offset };
+    offset += proportion;
+    return arc;
+  });
 
   return (
-    <Section icon={<span style={{ fontSize: 14 }}>💫</span>} title={`Daily Routine (${done.length}/${todayRoutines.length})`} color={routineColor}>
-      <div className="space-y-1.5">
-        {done.map(r => (
-          <div key={r.id} className="flex items-center gap-2 py-1.5 px-2.5" style={{ background: "oklch(0.50 0.12 245 / 0.07)", border: "1px solid oklch(0.50 0.12 245 / 0.20)", borderRadius: 6 }}>
-            <span style={{ fontSize: 13 }}>✅</span>
-            <span className="text-sm" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>{r.name}</span>
-          </div>
-        ))}
-        {missed.map(r => (
-          <div key={r.id} className="flex items-center gap-2 py-1.5 px-2.5" style={{ background: "oklch(0.92 0.010 245 / 0.5)", border: "1px dashed oklch(0.70 0.06 245)", borderRadius: 6, opacity: 0.65 }}>
-            <span style={{ fontSize: 13 }}>❌</span>
-            <span className="text-sm" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>{r.name}</span>
-          </div>
-        ))}
+    <Section icon={<span style={{ fontSize: 14 }}>📊</span>} title={`Priority Matrix (${totalDone} done)`} color={ringColor}>
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {/* Ring */}
+        <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ flexShrink: 0 }}>
+          {/* Background circle */}
+          <circle cx={cx} cy={cy} r={R} fill="none" stroke="oklch(0.88 0.025 340)" strokeWidth={strokeW} />
+          {/* Quadrant arcs */}
+          {arcs.filter(a => a.proportion > 0).map((a) => (
+            <circle
+              key={a.id}
+              cx={cx} cy={cy} r={R}
+              fill="none"
+              stroke={a.color}
+              strokeWidth={strokeW}
+              strokeDasharray={`${a.proportion * circumference} ${circumference}`}
+              strokeDashoffset={-(a.offset * circumference)}
+              strokeLinecap="round"
+              transform={`rotate(-90 ${cx} ${cy})`}
+              style={{ transition: "stroke-dasharray 0.6s ease" }}
+            />
+          ))}
+          {/* Center text */}
+          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 22, fontWeight: 700, fill: M.ink }}>{totalDone}</text>
+          <text x={cx} y={cy + 10} textAnchor="middle" style={{ fontFamily: "'Space Mono', monospace", fontSize: 8, fill: M.muted, letterSpacing: 1, textTransform: "uppercase" }}>done</text>
+        </svg>
+        {/* Legend */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {QUADRANT_META.map(q => (
+            <div key={q.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: q.color, flexShrink: 0 }} />
+              <span style={{ fontSize: "0.75rem", color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>{q.label}</span>
+              <span style={{ fontSize: "0.75rem", color: M.muted, fontFamily: "'Space Mono', monospace", marginLeft: "auto" }}>{counts[q.id]}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );

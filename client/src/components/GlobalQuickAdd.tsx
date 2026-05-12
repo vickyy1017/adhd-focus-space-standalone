@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Flame, Loader2, Plus, Settings, Sparkles, Star, Trash2, X, Zap } from "lucide-react";
-import { callAI } from "@/lib/ai";
+import { callAI, callAIStream } from "@/lib/ai";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useMobile } from "@/hooks/useMobile";
 import { toast } from "sonner";
