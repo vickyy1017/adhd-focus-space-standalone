@@ -428,21 +428,14 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
         onClick={(e) => e.stopPropagation()}
       >
 
-        {/* macOS title bar */}
-        <div className="relative z-10" style={{
-          display: "flex", alignItems: "center", gap: 10,
-          padding: "10px 14px",
-          background: "oklch(0.945 0.030 355)",
-          borderBottom: `1px solid ${M.border}`,
-          flexShrink: 0,
-        }}>
-          {/* Traffic lights */}
-          <div style={{ display: "flex", gap: 5 }}>
-            <button onClick={onClose} style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.72 0.18 25)", border: "none", cursor: "pointer", padding: 0, flexShrink: 0, boxShadow: "inset 0 1px 1px oklch(0.88 0.12 25 / 0.6)" }} title="Close" />
-            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.78 0.14 85)", boxShadow: "inset 0 1px 1px oklch(0.92 0.10 85 / 0.6)" }} />
-            <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.72 0.14 160)", boxShadow: "inset 0 1px 1px oklch(0.88 0.10 160 / 0.6)" }} />
+        {/* Pink dot title bar */}
+        <div className="relative z-10" style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: `1.5px solid ${M.border}`, flexShrink: 0 }}>
+          <div style={{ display: "flex", gap: 4 }}>
+            <button onClick={onClose} style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }} title="Close" />
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
           </div>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, color: "oklch(0.35 0.040 320)", flex: 1, textAlign: "center", marginRight: 42 }}>Daily Wrap-Up</span>
+          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>daily_wrapup.exe</span>
         </div>
 
         {/* Header */}

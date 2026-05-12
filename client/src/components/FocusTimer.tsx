@@ -876,19 +876,15 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
     }}>
 
       {/* ── macOS title bar ── */}
-      <div style={{
-        display: "flex", alignItems: "center", gap: 8,
-        padding: "9px 12px",
-        background: "oklch(0.945 0.030 355)",
-        borderBottom: `1px solid ${BORDER}`,
-      }}>
-        <div style={{ display: "flex", gap: 5 }}>
-          <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.72 0.18 25)", boxShadow: "inset 0 1px 1px oklch(0.88 0.12 25 / 0.6)" }} />
-          <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.78 0.14 85)", boxShadow: "inset 0 1px 1px oklch(0.92 0.10 85 / 0.6)" }} />
-          <div style={{ width: 11, height: 11, borderRadius: "50%", background: "oklch(0.72 0.14 160)", boxShadow: "inset 0 1px 1px oklch(0.88 0.10 160 / 0.6)" }} />
+      {/* Pink dot title bar */}
+      <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: `2px solid ${DARK}`, flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 4 }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
         </div>
-        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginRight: 36 }}>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 500, color: "oklch(0.35 0.040 320)" }}>Focus Timer</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 4 }}>
+          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060" }}>focus_timer.exe</span>
           <div style={{ display: "flex", gap: 3 }}>{renderHearts()}</div>
         </div>
       </div>

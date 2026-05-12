@@ -1,24 +1,9 @@
 /* ============================================================
-   MacPageWrapper — macOS-style card chrome for full pages
-   Replaces the old retro Windows-style window chrome.
-   Usage:
-     <RetroPageWrapper title="Tasks" sticker="star">
-       {children}
-     </RetroPageWrapper>
+   RetroPageWrapper — Monthly-style pink dot title bar chrome
+   Matches the calendar.exe / day_summary.txt style in Monthly.
    ============================================================ */
 
 import React from "react";
-
-/* macOS traffic-light dots */
-function TrafficLights() {
-  return (
-    <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-      <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.72 0.18 25)", boxShadow: "inset 0 1px 1px oklch(0.88 0.12 25 / 0.6), 0 1px 2px oklch(0.52 0.20 25 / 0.4)" }} />
-      <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.78 0.14 85)", boxShadow: "inset 0 1px 1px oklch(0.92 0.10 85 / 0.6), 0 1px 2px oklch(0.58 0.16 85 / 0.4)" }} />
-      <div style={{ width: 12, height: 12, borderRadius: "50%", background: "oklch(0.72 0.14 160)", boxShadow: "inset 0 1px 1px oklch(0.88 0.10 160 / 0.6), 0 1px 2px oklch(0.52 0.16 160 / 0.4)" }} />
-    </div>
-  );
-}
 
 interface RetroPageWrapperProps {
   title: string;
@@ -33,39 +18,30 @@ export function RetroPageWrapper({ title, children, className = "", style }: Ret
     <div
       className={`overflow-hidden ${className}`}
       style={{
-        borderRadius: 12,
-        border: "1px solid oklch(0.84 0.040 340)",
+        borderRadius: 10,
+        border: "1.5px solid oklch(0.78 0.08 330)",
         background: "oklch(0.975 0.018 355 / 0.95)",
-        boxShadow: "0 2px 16px oklch(0.58 0.18 340 / 0.08), 0 1px 4px oklch(0.58 0.18 340 / 0.06)",
+        boxShadow: "3px 3px 0 oklch(0.72 0.08 310)",
         position: "relative",
         ...style,
       }}
     >
-      {/* macOS title bar */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          padding: "10px 14px",
-          background: "oklch(0.945 0.030 355)",
-          borderBottom: "1px solid oklch(0.84 0.040 340)",
-          flexShrink: 0,
-        }}
-      >
-        <TrafficLights />
-        <span style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 13,
-          fontWeight: 500,
-          color: "oklch(0.35 0.040 320)",
-          letterSpacing: "0.01em",
-          flex: 1,
-          textAlign: "center",
-          marginRight: 42, // balance the traffic lights
-        }}>
-          {title}
-        </span>
+      {/* Pink dot title bar — matches Monthly style */}
+      <div style={{
+        background: "#F9D6E8",
+        padding: "5px 10px",
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        borderBottom: "1.5px solid oklch(0.78 0.08 330)",
+        flexShrink: 0,
+      }}>
+        <div style={{ display: "flex", gap: 4 }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
+        </div>
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>{title}</span>
       </div>
 
       {/* Content */}

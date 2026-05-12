@@ -35,7 +35,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Bot, Brain, Clock, LayoutDashboard, Moon, Sparkles, Star } from "lucide-react";
 import { PixelDump } from "@/components/PixelIcons";
-import { NamePrompt } from "@/components/NamePrompt";
+
 import Monthly from "@/pages/Monthly";
 import { EffectsPanel } from "@/components/EffectsPanel";
 
@@ -80,7 +80,7 @@ export default function Home() {
   const today = new Date().toDateString();
 
   // ── Name / personalisation (from DB via useUserData) ──
-  const [showNamePrompt, setShowNamePrompt] = React.useState(false);
+
 
   // Listen for navigateTo events
   React.useEffect(() => {
@@ -91,15 +91,6 @@ export default function Home() {
     window.addEventListener("navigateTo", onNavigateTo);
     return () => window.removeEventListener("navigateTo", onNavigateTo);
   }, []);
-
-  const handleNameSave = (name: string) => {
-    setDbDisplayName(name);
-    setShowNamePrompt(false);
-  };
-  const handleNameSkip = () => {
-    localStorage.setItem("adhd-name-skipped", "1");
-    setShowNamePrompt(false);
-  };
 
   // ── All data synced to DB via useUserData ─────────────────────────────────
   const {
@@ -562,7 +553,7 @@ export default function Home() {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                       <div>
                         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 600, color: "oklch(0.28 0.040 320)", marginBottom: 2 }}>
-                          {userData.display_name || user?.name || "User"}
+                          {user?.name || "User"}
                         </p>
                         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: "oklch(0.52 0.040 330)" }}>{user?.id ?? ""}</p>
                       </div>
@@ -634,12 +625,7 @@ export default function Home() {
         />
       )}
 
-      {showNamePrompt && (
-        <NamePrompt
-          onSave={handleNameSave}
-          onSkip={handleNameSkip}
-        />
-      )}
+
 
     </div>
   );
