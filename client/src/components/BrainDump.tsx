@@ -379,22 +379,22 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
       {aiResults && aiResults.length > 0 && (
         <div style={{
           background: "#FFFFFF",
-          border: "1.5px solid oklch(0.75 0.14 340)",
+          border: "1.5px solid #E5E5E5",
           borderRadius: 8,
           overflow: "hidden",
-          boxShadow: "3px 3px 0 oklch(0.75 0.14 340 / 0.25)",
+          boxShadow: "3px 3px 0 rgba(0,0,0,0.05)",
         }}>
           {/* Title bar */}
           <div style={{
-            background: "oklch(0.90 0.045 340)",
-            borderBottom: "1px solid oklch(0.80 0.08 340)",
+            background: "#F5F5F5",
+            borderBottom: "1px solid #E5E5E5",
             padding: "4px 10px",
             display: "flex", alignItems: "center", justifyContent: "space-between",
           }}>
-            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.10em", color: "oklch(0.35 0.08 330)" }}>
+            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.58rem", letterSpacing: "0.10em", color: "#555555" }}>
               ✦ AI_SORT.EXE — {aiResults.length} item{aiResults.length !== 1 ? "s" : ""}
             </span>
-            <button onClick={() => setAiResults(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "0.65rem", color: "oklch(0.52 0.06 330)", lineHeight: 1 }}>✕</button>
+            <button onClick={() => setAiResults(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "0.65rem", color: "#888888", lineHeight: 1 }}>✕</button>
           </div>
           {/* Items */}
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -402,27 +402,27 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
               <div key={item.id} style={{
                 display: "flex", alignItems: "center", gap: 8,
                 padding: "7px 10px",
-                borderBottom: i < aiResults.length - 1 ? "1px solid oklch(0.88 0.025 340)" : "none",
+                borderBottom: i < aiResults.length - 1 ? "1px solid #E5E5E5" : "none",
               }}>
                 <span style={{ fontSize: "0.85rem", flexShrink: 0 }}>{item.emoji}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", color: "#111111", lineHeight: 1.35, margin: 0 }}>
                     {item.rewritten || item.original}
                   </p>
-                  <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", color: "oklch(0.60 0.08 340)", textTransform: "uppercase" as const }}>
+                  <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", color: "#888888", textTransform: "uppercase" as const }}>
                     {item.category}
                   </span>
                 </div>
                 <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
                   <button
                     onClick={() => applyAiItem(item, "task")}
-                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 8, border: "1px solid oklch(0.72 0.14 290)", background: "oklch(0.72 0.14 290 / 0.10)", color: "oklch(0.40 0.14 290)", cursor: "pointer" }}
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 8, border: "1px solid #888888", background: "#F5F5F5", color: "#555555", cursor: "pointer" }}
                   >
                     + TASK
                   </button>
                   <button
                     onClick={() => applyAiItem(item, "goal")}
-                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 8, border: "1px solid oklch(0.72 0.10 168)", background: "oklch(0.72 0.10 168 / 0.10)", color: "oklch(0.35 0.10 168)", cursor: "pointer" }}
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 8, border: "1px solid #888888", background: "#F5F5F5", color: "#555555", cursor: "pointer" }}
                   >
                     + GOAL
                   </button>
@@ -464,7 +464,7 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
               key={entry.id}
               className={cn("group flex flex-col gap-2 p-3 transition-all")}
               style={{
-                background: entry.converted ? "oklch(0.93 0.030 355 / 0.5)" : M.card,
+                background: entry.converted ? "#F9F9F9" : M.card,
                 border: `1px solid ${editingId === entry.id ? M.coralBdr : M.border}`,
                 opacity: entry.converted ? 0.55 : 1,
               }}

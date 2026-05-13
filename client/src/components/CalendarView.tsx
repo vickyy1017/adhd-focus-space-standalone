@@ -25,8 +25,8 @@ const M = {
 
 const PRIORITY_COLOR: Record<string, string> = {
   urgent: "oklch(0.52 0.10 32)",
-  focus:  "oklch(0.52 0.14 290)",
-  normal: "oklch(0.55 0.10 330)",
+  focus:  "#888888",
+  normal: "#888888",
   someday:"oklch(0.62 0.04 330)",
 };
 
@@ -669,7 +669,7 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
                     {/* Priority + Date row */}
                     <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                       {["urgent","focus","normal"].map(p => {
-                        const colors: Record<string, string> = { urgent: "oklch(0.52 0.10 32)", focus: "oklch(0.52 0.14 290)", normal: "oklch(0.55 0.10 330)" };
+                        const colors: Record<string, string> = { urgent: "oklch(0.52 0.10 32)", focus: "#888888", normal: "#888888" };
                         const isAct = editPriority === p;
                         return (
                           <button key={p} onClick={() => setEditPriority(p)}

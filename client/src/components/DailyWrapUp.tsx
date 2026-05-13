@@ -153,7 +153,7 @@ function WinsRing({ wins }: { wins: Win[] }) {
       <div style={{ position: "relative", width: SIZE, height: SIZE }}>
         <svg width={SIZE} height={SIZE} style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
           {/* Background guide ring */}
-          <circle cx={cx} cy={cy} r={arcR} fill="none" stroke="oklch(0.88 0.025 340)" strokeWidth="1" strokeDasharray="3 5" />
+          <circle cx={cx} cy={cy} r={arcR} fill="none" stroke="#E5E5E5" strokeWidth="1" strokeDasharray="3 5" />
 
           {/* Arc segments — use butt caps so gaps are clean */}
           {arcSegments.map((seg) => {
@@ -251,8 +251,8 @@ function WinsRing({ wins }: { wins: Win[] }) {
                   transform: "translateX(-50%)",
                   background: "#FFFFFF",
                   color: "#111111",
-                  border: "2px solid oklch(0.58 0.12 340)",
-                  boxShadow: "3px 3px 0px oklch(0.30 0.030 320)",
+                  border: "2px solid #888888",
+                  boxShadow: "3px 3px 0px #111111",
                   borderRadius: 8,
                   padding: "7px 12px",
                   whiteSpace: "nowrap",
@@ -291,7 +291,7 @@ const M = {
   sageBdr:  "#E5E5E5",
   pink:     "oklch(0.70 0.06 10)",      // muted rose
   pinkBg:   "#F5F5F5",
-  pinkBdr:  "oklch(0.88 0.04 10)",
+  pinkBdr:  "#E5E5E5",
   slumber:  "oklch(0.60 0.01 20)",      // muted grey
   ink:      "#111111",      // near-black
   muted:    "#888888",      // muted text
@@ -412,7 +412,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(180,60,120,0.20)", backdropFilter: "blur(4px)" }}
+      style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(4px)" }}
       onClick={onClose}
     >
       <div
@@ -422,7 +422,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
           maxHeight: "calc(80vh - env(safe-area-inset-bottom, 0px) - 60px)",
           background: M.card,
           border: `1px solid ${M.border}`,
-          boxShadow: "4px 6px 20px rgba(212,88,152,0.18), 0 0 0 1px rgba(232,184,208,0.60)",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.15)",
           position: "relative",
         }}
         onClick={(e) => e.stopPropagation()}
@@ -458,7 +458,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
               <div className="h-full transition-all duration-700" style={{ width: `${score}%`, background: M.coral }} />
             </div>
             {quitCount > 0 && (
-              <p className="text-xs mt-1" style={{ color: "#C8603A", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.08em" }}>
+              <p className="text-xs mt-1" style={{ color: "#888888", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.08em" }}>
                 −{quitPenalty} penalty · {quitCount} session{quitCount !== 1 ? 's' : ''} quit today
               </p>
             )}
@@ -523,7 +523,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
                 fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.875rem",
                 color: M.ink, lineHeight: 1.7, padding: "10px 12px",
                 border: `1px dashed ${M.border}`, borderRadius: 8,
-                background: "oklch(0.990 0.006 355 / 0.60)",
+                background: "rgba(255,255,255,0.6)",
                 resize: "vertical", outline: "none",
               }}
             />
@@ -618,10 +618,10 @@ function TaskRow({ text, color }: { text: string; color: string }) {
 
 /* ── Priority Matrix Ring — shows completed tasks per quadrant ── */
 const QUADRANT_META = [
-  { id: "q1", label: "Do Now",   color: "oklch(0.55 0.09 35)" },
-  { id: "q2", label: "Schedule", color: "oklch(0.52 0.14 290)" },
-  { id: "q3", label: "Delegate", color: "oklch(0.55 0.10 330)" },
-  { id: "q4", label: "Eliminate",color: "oklch(0.52 0.08 240)" },
+  { id: "q1", label: "Do Now",   color: "#888888" },
+  { id: "q2", label: "Schedule", color: "#888888" },
+  { id: "q3", label: "Delegate", color: "#888888" },
+  { id: "q4", label: "Eliminate",color: "#888888" },
 ];
 
 function priorityToQuadrant(p: string): string {
@@ -673,7 +673,7 @@ function MatrixRing({ tasks }: { tasks: Task[] }) {
         {/* Ring */}
         <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ flexShrink: 0 }}>
           {/* Background circle */}
-          <circle cx={cx} cy={cy} r={R} fill="none" stroke="oklch(0.88 0.025 340)" strokeWidth={strokeW} />
+          <circle cx={cx} cy={cy} r={R} fill="none" stroke="#E5E5E5" strokeWidth={strokeW} />
           {/* Quadrant arcs */}
           {arcs.filter(a => a.proportion > 0).map((a) => (
             <circle

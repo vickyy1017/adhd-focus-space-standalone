@@ -263,14 +263,16 @@ export default function Home() {
             <h1 style={{ fontSize: 18, fontWeight: 900, color: "#111111", margin: 0 }}>
               {meta.title}
             </h1>
-            <button
-              onClick={() => setWrapUpOpen(true)}
-              className="btn-primary"
-              style={{ padding: "7px 16px", fontSize: 13 }}
-            >
-              <Moon size={14} />
-              Wrap up
-            </button>
+            {/* Wrap up only shows on non-home pages */}
+            {activeSection !== "dashboard" && (
+              <button
+                onClick={() => setWrapUpOpen(true)}
+                style={{ background: "#111111", color: "#FFFFFF", border: "none", borderRadius: 9999, padding: "7px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 5, fontFamily: "inherit" }}
+              >
+                <Moon size={14} />
+                Wrap up
+              </button>
+            )}
           </header>
         )}
 
@@ -291,6 +293,7 @@ export default function Home() {
                   onTasksChange={handleTasksChange}
                   onNavigateToTasks={() => setActiveSection("tasks" as Section)}
                   onNavigateToDump={() => setActiveSection("dump" as Section)}
+                  onWrapUp={() => setWrapUpOpen(true)}
                   userName={user?.name || undefined}
                 />
               ) : (
@@ -397,10 +400,10 @@ export default function Home() {
                           window.location.reload();
                         }}
                         style={{
-                          fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.10em",
-                          padding: "6px 14px", borderRadius: 8, cursor: "pointer",
-                          border: "1px solid oklch(0.72 0.10 25)",
-                          background: "transparent", color: "oklch(0.52 0.14 25)",
+                          fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 600,
+                          padding: "8px 16px", borderRadius: 9999, cursor: "pointer",
+                          border: "1.5px solid #E5E5E5",
+                          background: "transparent", color: "#111111",
                           whiteSpace: "nowrap", flexShrink: 0,
                         }}
                       >

@@ -675,7 +675,7 @@ ${routineContext}`;
 
       {/* ── BOTTOM: Today's wins + focus strip ── */}
       {(todayWins.length > 0 || focusSessions > 0) && (
-        <div style={{ position: "relative", border: `1px solid oklch(0.65 0.12 340 / 0.3)`, background: "oklch(0.65 0.12 340 / 0.04)", padding: "7px 14px", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", borderRadius: 8 }}>
+        <div style={{ position: "relative", border: `1px solid #E5E5E5`, background: "#F9F9F9", padding: "7px 14px", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", borderRadius: 8 }}>
           {/* Cat sticker: olive playing cat — right side of wins strip */}
           <img src={CAT_OLIVE} alt="" aria-hidden="true" style={{ position: "absolute", right: 8, bottom: -22, width: 60, opacity: 0.42, pointerEvents: "none", zIndex: 5 }} />
           <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>

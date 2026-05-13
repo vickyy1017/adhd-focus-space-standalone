@@ -1027,14 +1027,14 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       {/* ── Block complete ── */}
       {phase === "block_complete" && (
         <div style={{ background: BG, padding: "22px 16px", textAlign: "center" }}>
-          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.22em", color: "oklch(0.55 0.14 310)", textTransform: "uppercase", marginBottom: 7 }}>BLOCK COMPLETE</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.22em", color: "#888888", textTransform: "uppercase", marginBottom: 7 }}>BLOCK COMPLETE</p>
           <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: DARK, marginBottom: 5 }}>4 sessions done.</p>
           <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 8, color: BORDER, lineHeight: 1.6, marginBottom: 16 }}>
             You completed a full Pomodoro block.<br />Take a real break — you earned it.
           </p>
           <div style={{ display: "flex", gap: 5, justifyContent: "center", marginBottom: 16 }}>
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} style={{ width: 7, height: 7, background: "oklch(0.55 0.14 310)" }} />
+              <div key={i} style={{ width: 7, height: 7, background: "#888888" }} />
             ))}
           </div>
           <button onClick={handleNewSession} style={{
@@ -1127,14 +1127,14 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               <span style={{
                 fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: 9, fontWeight: 700,
-                color: displayedGrowth >= 100 ? ACCENT : "oklch(0.72 0.12 350)",
+                color: displayedGrowth >= 100 ? ACCENT : "#888888",
                 letterSpacing: "0.04em",
                 lineHeight: 1,
               }}>{displayedGrowth}%</span>
               <span style={{
                 fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: 5, letterSpacing: "0.12em",
-                color: "oklch(0.72 0.10 350)", textTransform: "uppercase", marginTop: 1,
+                color: "#888888", textTransform: "uppercase", marginTop: 1,
               }}>grown</span>
             </div>
           </div>

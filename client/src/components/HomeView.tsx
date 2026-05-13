@@ -7,7 +7,7 @@
    ============================================================ */
 
 import React, { useState, useRef } from "react";
-import { Check, Plus, ChevronRight } from "lucide-react";
+import { Check, Plus, ChevronRight, Moon } from "lucide-react";
 import { nanoid } from "nanoid";
 import type { Task } from "./TaskManager";
 
@@ -26,10 +26,11 @@ interface HomeViewProps {
   onTasksChange: (tasks: Task[]) => void;
   onNavigateToTasks: () => void;
   onNavigateToDump: () => void;
+  onWrapUp?: () => void;
   userName?: string;
 }
 
-export function HomeView({ tasks, onTasksChange, onNavigateToTasks, onNavigateToDump, userName }: HomeViewProps) {
+export function HomeView({ tasks, onTasksChange, onNavigateToTasks, onNavigateToDump, onWrapUp, userName }: HomeViewProps) {
   const today = new Date();
   const todayYMD = toYMD(today);
   const [quickInput, setQuickInput] = useState("");
@@ -257,6 +258,32 @@ export function HomeView({ tasks, onTasksChange, onNavigateToTasks, onNavigateTo
             </button>
           )}
         </div>
+
+        {/* End Day button */}
+        {onWrapUp && (
+          <button
+            onClick={onWrapUp}
+            style={{
+              width: "100%",
+              background: "transparent",
+              border: "none",
+              borderTop: "1px solid #F0F0F0",
+              padding: "14px 16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              cursor: "pointer",
+              color: "#888888",
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "inherit",
+            }}
+          >
+            <Moon size={15} strokeWidth={1.5} />
+            End Day
+          </button>
+        )}
       </div>
     </div>
   );
