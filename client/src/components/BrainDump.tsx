@@ -35,18 +35,18 @@ interface BrainDumpProps {
 }
 
 const M = {
-  coral:    "oklch(0.82 0.08 10)",      // soft rose
-  coralBg:  "oklch(0.97 0.02 10)",      // rose tint
-  coralBdr: "oklch(0.88 0.05 10)",      // rose border
-  sage:     "oklch(0.55 0.08 160)",     // sage green
-  sageBg:   "oklch(0.96 0.02 160)",
-  sageBdr:  "oklch(0.82 0.05 160)",
-  ink:      "oklch(0.12 0.01 20)",      // near-black
-  muted:    "oklch(0.52 0.01 20)",      // muted text
-  border:   "oklch(0.88 0.005 20)",     // hairline
-  card:     "oklch(1 0 0)",             // pure white
-  tagBg:    "oklch(0.96 0.002 20)",     // tag bg
-  tagBdr:   "oklch(0.88 0.005 20)",     // tag border
+  coral:    "#111111",      // soft rose
+  coralBg:  "#F5F5F5",      // rose tint
+  coralBdr: "#E5E5E5",      // rose border
+  sage:     "#666666",     // sage green
+  sageBg:   "#F5F5F5",
+  sageBdr:  "#E5E5E5",
+  ink:      "#111111",      // near-black
+  muted:    "#888888",      // muted text
+  border:   "#E5E5E5",     // hairline
+  card:     "#FFFFFF",             // pure white
+  tagBg:    "#F5F5F5",     // tag bg
+  tagBdr:   "#E5E5E5",     // tag border
 };
 
 /** Extract all #tags from a string, return lowercase without the # */
@@ -70,10 +70,10 @@ function HighlightedText({ text, activeTag }: { text: string; activeTag: string 
               key={i}
               style={{
                 display: "inline-block",
-                background: isActive ? "oklch(0.12 0.01 20)" : "oklch(0.96 0.002 20)",
-                border: `1px solid ${isActive ? "oklch(0.12 0.01 20)" : "oklch(0.88 0.005 20)"}`,
+                background: isActive ? "#111111" : "#F5F5F5",
+                border: `1px solid ${isActive ? "#111111" : "#E5E5E5"}`,
                 borderRadius: 9999,
-                color: isActive ? "oklch(1 0 0)" : "oklch(0.52 0.01 20)",
+                color: isActive ? "#FFFFFF" : "#888888",
                 fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: "0.72rem",
                 fontWeight: 600,
@@ -311,7 +311,7 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
             {liveTagsInInput.map((t) => (
               <span
                 key={t}
-                style={{ display: "inline-block", background: "oklch(0.96 0.002 20)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 9999, color: "oklch(0.52 0.01 20)", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", fontWeight: 600, padding: "1px 8px" }}
+                style={{ display: "inline-block", background: "#F5F5F5", border: "1px solid #E5E5E5", borderRadius: 9999, color: "#888888", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", fontWeight: 600, padding: "1px 8px" }}
               >
                 {t}
               </span>
@@ -357,7 +357,7 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
                 Showing {visibleEntries.length} idea{visibleEntries.length !== 1 ? "s" : ""} tagged
               </span>
               <span className="inline-flex items-center gap-0.5 px-2 py-0.5 text-xs font-bold"
-                style={{ background: "oklch(0.12 0.01 20)", borderRadius: 9999, color: "oklch(1 0 0)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
+                style={{ background: "#111111", borderRadius: 9999, color: "#FFFFFF", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                 {activeTag}
               </span>
               <button onClick={() => setActiveTag(null)} className="p-0.5 transition-opacity hover:opacity-60" style={{ color: M.muted }}>
@@ -391,9 +391,9 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
       {/* AI Sort Results Panel */}
       {aiResults && aiResults.length > 0 && (
         <div style={{
-          background: "oklch(1 0 0)",
+          background: "#FFFFFF",
           border: "1.5px solid oklch(0.75 0.14 340)",
-          borderRadius: 6,
+          borderRadius: 8,
           overflow: "hidden",
           boxShadow: "3px 3px 0 oklch(0.75 0.14 340 / 0.25)",
         }}>
@@ -419,7 +419,7 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
               }}>
                 <span style={{ fontSize: "0.85rem", flexShrink: 0 }}>{item.emoji}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", color: "oklch(0.12 0.01 20)", lineHeight: 1.35, margin: 0 }}>
+                  <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", color: "#111111", lineHeight: 1.35, margin: 0 }}>
                     {item.rewritten || item.original}
                   </p>
                   <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", color: "oklch(0.60 0.08 340)", textTransform: "uppercase" as const }}>
@@ -429,13 +429,13 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
                 <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
                   <button
                     onClick={() => applyAiItem(item, "task")}
-                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 3, border: "1px solid oklch(0.72 0.14 290)", background: "oklch(0.72 0.14 290 / 0.10)", color: "oklch(0.40 0.14 290)", cursor: "pointer" }}
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 8, border: "1px solid oklch(0.72 0.14 290)", background: "oklch(0.72 0.14 290 / 0.10)", color: "oklch(0.40 0.14 290)", cursor: "pointer" }}
                   >
                     + TASK
                   </button>
                   <button
                     onClick={() => applyAiItem(item, "goal")}
-                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 3, border: "1px solid oklch(0.72 0.10 168)", background: "oklch(0.72 0.10 168 / 0.10)", color: "oklch(0.35 0.10 168)", cursor: "pointer" }}
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", padding: "2px 7px", borderRadius: 8, border: "1px solid oklch(0.72 0.10 168)", background: "oklch(0.72 0.10 168 / 0.10)", color: "oklch(0.35 0.10 168)", cursor: "pointer" }}
                   >
                     + GOAL
                   </button>
@@ -512,7 +512,7 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
                         setEditingId(null);
                       }}
                       ref={(el) => { if (el) { el.style.height = "auto"; el.style.height = el.scrollHeight + "px"; } }}
-                      style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.875rem", color: M.ink, lineHeight: 1.6, padding: "4px 6px", border: `1px solid ${M.coralBdr}`, borderRadius: 4, outline: "none", resize: "none", overflow: "hidden", background: "oklch(0.995 0.008 355)" }}
+                      style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.875rem", color: M.ink, lineHeight: 1.6, padding: "4px 6px", border: `1px solid ${M.coralBdr}`, borderRadius: 8, outline: "none", resize: "none", overflow: "hidden", background: "oklch(0.995 0.008 355)" }}
                     />
                   ) : (
                     <p

@@ -1,7 +1,6 @@
 /* ============================================================
-   ADHD FOCUS SPACE — Nori Design System v1.0
-   Aesthetic: Editorial Minimal — pure white, near-black, soft rose
-   Inspired by Nori Korean Learning App design language
+   ADHD Focus Space — Pure Minimal Design System
+   Pure white, near-black, no color, clean typography
    ============================================================ */
 
 @import "tailwindcss";
@@ -43,333 +42,416 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* ── Nori Color Tokens ── */
 :root {
   --radius: 0.75rem;
 
-  /* Core palette */
-  --background:           oklch(1 0 0);           /* Pure white */
-  --foreground:           oklch(0.12 0.01 20);     /* Near-black */
-  --card:                 oklch(1 0 0);            /* White cards */
-  --card-foreground:      oklch(0.12 0.01 20);
-  --popover:              oklch(1 0 0);
-  --popover-foreground:   oklch(0.12 0.01 20);
-  --primary:              oklch(0.15 0.01 20);     /* Black buttons */
-  --primary-foreground:   oklch(1 0 0);
-  --secondary:            oklch(0.96 0.002 20);    /* Muted bg */
-  --secondary-foreground: oklch(0.12 0.01 20);
-  --muted:                oklch(0.96 0.002 20);
-  --muted-foreground:     oklch(0.52 0.01 20);     /* Subdued labels */
-  --accent:               oklch(0.82 0.08 10);     /* Soft rose */
-  --accent-foreground:    oklch(0.12 0.01 20);
-  --destructive:          oklch(0.55 0.20 25);
-  --destructive-foreground: oklch(1 0 0);
-  --border:               oklch(0.88 0.005 20);    /* Hairline borders */
-  --input:                oklch(0.88 0.005 20);
-  --ring:                 oklch(0.82 0.08 10);
-  --sidebar:              oklch(1 0 0);
-  --sidebar-foreground:   oklch(0.12 0.01 20);
-  --sidebar-primary:      oklch(0.15 0.01 20);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent:       oklch(0.96 0.002 20);
-  --sidebar-accent-foreground: oklch(0.12 0.01 20);
-  --sidebar-border:       oklch(0.88 0.005 20);
-  --sidebar-ring:         oklch(0.82 0.08 10);
-
-  /* Nori semantic tokens */
-  --nori-rose:            oklch(0.82 0.08 10);     /* Soft rose accent */
-  --nori-rose-bg:         oklch(0.97 0.02 10);     /* Rose tint bg */
-  --nori-rose-border:     oklch(0.88 0.05 10);     /* Rose border */
-  --nori-ink:             oklch(0.12 0.01 20);     /* Near-black */
-  --nori-muted:           oklch(0.52 0.01 20);     /* Muted text */
-  --nori-border:          oklch(0.88 0.005 20);    /* Hairline */
-  --nori-bg-soft:         oklch(0.96 0.002 20);    /* Soft bg */
-
-  /* Morandi dot colors for tags/categories */
-  --morandi-1: #c4a99a;  /* dusty rose */
-  --morandi-2: #b5b09a;  /* warm sand */
-  --morandi-3: #9aafaa;  /* sage green */
-  --morandi-4: #a3afc0;  /* slate blue */
-  --morandi-5: #b8a8c8;  /* muted lavender */
-  --morandi-6: #c0aa98;  /* terracotta */
-}
-
-/* Work mode: greyscale */
-.work-mode {
-  filter: grayscale(1);
+  --background:           #FFFFFF;
+  --foreground:           #111111;
+  --card:                 #FFFFFF;
+  --card-foreground:      #111111;
+  --popover:              #FFFFFF;
+  --popover-foreground:   #111111;
+  --primary:              #111111;
+  --primary-foreground:   #FFFFFF;
+  --secondary:            #F5F5F5;
+  --secondary-foreground: #111111;
+  --muted:                #F5F5F5;
+  --muted-foreground:     #888888;
+  --accent:               #F5F5F5;
+  --accent-foreground:    #111111;
+  --destructive:          #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border:               #E5E5E5;
+  --input:                #E5E5E5;
+  --ring:                 #111111;
+  --sidebar:              #FFFFFF;
+  --sidebar-foreground:   #111111;
+  --sidebar-primary:      #111111;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:       #F5F5F5;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-border:       #E5E5E5;
+  --sidebar-ring:         #111111;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Pretendard', 'Noto Sans SC', system-ui, sans-serif;
-    font-feature-settings: "kern" 1, "liga" 1;
-    background-color: oklch(1 0 0);
+    background: #FFFFFF;
+    color: #111111;
+    font-family: 'Pretendard', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 15px;
+    line-height: 1.5;
   }
 
-  /* Prevent iOS input zoom */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  input[type="date"],
-  textarea,
-  select {
-    font-size: 16px;
+  /* Prevent iOS zoom on inputs */
+  input, textarea, select {
+    font-size: 16px !important;
   }
 
-  input::placeholder,
-  textarea::placeholder {
-    color: oklch(0.70 0.005 20);
-    font-weight: 400;
+  input::placeholder, textarea::placeholder {
+    color: #BBBBBB;
   }
 
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]) {
-    cursor: pointer;
-  }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: 0.4; }
 }
 
 @layer components {
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    max-width: 480px;
-  }
 
-  /* ── Nori Card ── */
-  .nori-card {
-    background: oklch(1 0 0);
-    border: 1px solid oklch(0.88 0.005 20);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  /* ── Nori Section Header ── */
-  .nori-section-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: oklch(0.52 0.01 20);
-    font-family: 'Pretendard', system-ui, sans-serif;
-  }
-
-  .nori-page-title {
-    font-size: 1.5rem;
+  /* ── Typography ── */
+  .t-title {
+    font-size: 22px;
     font-weight: 900;
-    color: oklch(0.12 0.01 20);
-    font-family: 'Pretendard', system-ui, sans-serif;
+    color: #111111;
     line-height: 1.1;
+    letter-spacing: -0.02em;
   }
-
-  /* ── Nori Buttons ── */
-  /* Primary: black filled, full rounded */
-  .m-btn-primary {
-    background: oklch(0.12 0.01 20);
-    color: oklch(1 0 0);
-    border: none;
-    border-radius: 9999px;
-    padding: 0.6rem 1.25rem;
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.875rem;
+  .t-heading {
+    font-size: 17px;
     font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: opacity 0.15s;
-    cursor: pointer;
-    white-space: nowrap;
+    color: #111111;
+    line-height: 1.2;
   }
-  .m-btn-primary:hover { opacity: 0.85; }
-  .m-btn-primary:active { opacity: 0.7; transform: scale(0.98); }
-
-  /* Ghost: outline, full rounded */
-  .m-btn-ghost {
-    background: transparent;
-    color: oklch(0.12 0.01 20);
-    border: 1.5px solid oklch(0.88 0.005 20);
-    border-radius: 9999px;
-    padding: 0.6rem 1.25rem;
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: border-color 0.15s, background 0.15s;
-    cursor: pointer;
+  .t-body {
+    font-size: 15px;
+    font-weight: 400;
+    color: #111111;
+    line-height: 1.5;
   }
-  .m-btn-ghost:hover {
-    border-color: oklch(0.60 0.005 20);
-    background: oklch(0.96 0.002 20);
+  .t-small {
+    font-size: 13px;
+    font-weight: 400;
+    color: #888888;
+    line-height: 1.4;
   }
-
-  /* Link button */
-  .m-btn-link {
-    background: transparent;
-    color: oklch(0.52 0.01 20);
-    border: none;
-    padding: 0;
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-  .m-btn-link:hover { color: oklch(0.12 0.01 20); }
-
-  /* Rose accent button */
-  .m-btn-rose {
-    background: oklch(0.82 0.08 10);
-    color: oklch(0.12 0.01 20);
-    border: none;
-    border-radius: 9999px;
-    padding: 0.6rem 1.25rem;
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.875rem;
+  .t-label {
+    font-size: 11px;
     font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: opacity 0.15s;
-    cursor: pointer;
-  }
-  .m-btn-rose:hover { opacity: 0.85; }
-
-  /* ── Nori Chip ── */
-  .m-chip {
-    background: oklch(0.96 0.002 20);
-    color: oklch(0.12 0.01 20);
-    border: 1.5px solid oklch(0.88 0.005 20);
-    border-radius: 9999px;
-    padding: 0.25rem 0.75rem;
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    white-space: nowrap;
-  }
-  .m-chip:hover {
-    border-color: oklch(0.60 0.005 20);
-    background: oklch(0.92 0.003 20);
-  }
-  .m-chip.active {
-    background: oklch(0.12 0.01 20);
-    color: oklch(1 0 0);
-    border-color: oklch(0.12 0.01 20);
+    color: #888888;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  /* ── Nori Input ── */
-  .nori-input {
-    width: 100%;
-    background: oklch(0.96 0.002 20);
-    border: 1.5px solid oklch(0.88 0.005 20);
+  /* ── Cards ── */
+  .card {
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
     border-radius: 12px;
-    padding: 0.75rem 1rem;
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.9rem;
-    color: oklch(0.12 0.01 20);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .nori-input:focus {
-    border-color: oklch(0.12 0.01 20);
-    background: oklch(1 0 0);
-  }
-
-  /* ── Nori Divider ── */
-  .nori-divider {
-    border: none;
-    border-top: 1px solid oklch(0.88 0.005 20);
-    margin: 0;
-  }
-
-  /* ── Task row ── */
-  .nori-task-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid oklch(0.93 0.003 20);
-  }
-  .nori-task-row:last-child { border-bottom: none; }
-
-  /* ── Retro window (legacy compat — now maps to nori card) ── */
-  .retro-window {
-    background: oklch(1 0 0);
-    border: 1px solid oklch(0.88 0.005 20);
-    border-radius: 16px;
     overflow: hidden;
   }
-
-  .retro-titlebar {
+  .card-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid #E5E5E5;
+    background: #F9F9F9;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
-    background: oklch(0.96 0.002 20);
-    border-bottom: 1px solid oklch(0.88 0.005 20);
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: oklch(0.12 0.01 20);
+  }
+  .card-body {
+    padding: 16px;
   }
 
-  .retro-titlebar-buttons { display: none; }
-  .retro-titlebar-btn { display: none; }
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #111111;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 9999px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-primary:active { opacity: 0.7; transform: scale(0.98); }
 
-  /* ── Retro task list (legacy compat) ── */
-  .retro-task-list {
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: transparent;
+    color: #111111;
+    border: 1.5px solid #E5E5E5;
+    border-radius: 9999px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: border-color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .btn-secondary:hover { border-color: #111111; background: #F5F5F5; }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: transparent;
+    color: #888888;
+    border: none;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: color 0.15s;
+  }
+  .btn-ghost:hover { color: #111111; }
+
+  .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background: transparent;
+    border: none;
+    color: #888888;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-icon:hover { background: #F5F5F5; color: #111111; }
+
+  /* ── Inputs ── */
+  .input {
+    width: 100%;
+    background: #F5F5F5;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #111111;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .input:focus {
+    border-color: #111111;
+    background: #FFFFFF;
+  }
+  .input-inline {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-family: inherit;
+    color: #111111;
+    width: 100%;
+    padding: 0;
+  }
+
+  /* ── List rows ── */
+  .list-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #F0F0F0;
+    transition: background 0.1s;
+  }
+  .list-row:last-child { border-bottom: none; }
+  .list-row:hover { background: #FAFAFA; }
+
+  /* ── Checkbox ── */
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #CCCCCC;
+    background: transparent;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+    padding: 0;
+  }
+  .checkbox.checked {
+    background: #111111;
+    border-color: #111111;
+  }
+
+  /* ── Tags/Chips ── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    background: #F5F5F5;
+    border: 1.5px solid #E5E5E5;
+    border-radius: 9999px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555555;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: #111111; color: #111111; }
+  .chip.active {
+    background: #111111;
+    border-color: #111111;
+    color: #FFFFFF;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: #E5E5E5;
+    border: none;
+    margin: 0;
+  }
+
+  /* ── Section header ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 16px 12px;
+  }
+
+  /* ── FAB (Floating Action Button) ── */
+  .fab {
+    position: fixed;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px) + 16px);
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #111111;
+    color: #FFFFFF;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 40;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .fab:hover { transform: scale(1.05); }
+  .fab:active { transform: scale(0.95); }
+
+  /* ── Bottom nav ── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(60px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: #FFFFFF;
+    border-top: 1px solid #E5E5E5;
+    display: flex;
+    align-items: stretch;
+    z-index: 50;
+  }
+  .bottom-nav-item {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    border-top: 2px solid transparent;
+    padding: 6px 2px 4px;
+    transition: all 0.15s;
+    cursor: pointer;
   }
-
-  /* ── Editorial label (legacy compat) ── */
-  .editorial-label {
-    font-size: 10px;
+  .bottom-nav-item.active {
+    border-top-color: #111111;
+  }
+  .bottom-nav-item .nav-label {
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: oklch(0.52 0.01 20);
-    font-family: 'Pretendard', system-ui, sans-serif;
+    color: #BBBBBB;
+  }
+  .bottom-nav-item.active .nav-label {
+    color: #111111;
   }
 
-  .retro-label {
-    font-size: 10px;
+  /* ── Desktop sidebar ── */
+  .desktop-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 56px;
+    background: #FFFFFF;
+    border-right: 1px solid #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    z-index: 50;
+  }
+  .sidebar-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin: 2px 0;
+    position: relative;
+  }
+  .sidebar-item:hover { background: #F5F5F5; }
+  .sidebar-item.active { background: #F5F5F5; }
+  .sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: #111111;
+    border-radius: 0 2px 2px 0;
+  }
+  .sidebar-label {
+    font-size: 7px;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: oklch(0.52 0.01 20);
-    font-family: 'Pretendard', system-ui, sans-serif;
+    color: #BBBBBB;
   }
+  .sidebar-item.active .sidebar-label { color: #111111; }
 
-  /* ── Font display (legacy compat) ── */
-  .font-display {
-    font-family: 'Pretendard', system-ui, sans-serif;
-    font-weight: 900;
+  /* ── Page layout ── */
+  .page {
+    min-height: 100vh;
+    background: #FFFFFF;
   }
-
-  /* ── Morandi card (legacy compat) ── */
-  .m-card {
-    background: oklch(1 0 0);
-    border: 1px solid oklch(0.88 0.005 20);
-    border-radius: 16px;
+  .page-content {
+    padding: 16px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+  .page-content-desktop {
+    padding: 32px;
+    margin-left: 56px;
   }
 
   /* ── Animations ── */
@@ -386,19 +468,26 @@
     to   { transform: translateY(0); opacity: 1; }
   }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   .animate-spin { animation: spin 1s linear infinite; }
   .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-  .animate-slide-up { animation: slideUp 0.3s ease-out; }
+  .animate-slide-up { animation: slideUp 0.25s ease-out; }
   .animate-fade-in { animation: fadeIn 0.2s ease-out; }
 
-  /* ── Mobile safe area ── */
-  .pb-safe {
-    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
-  }
-  .pb-nav {
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 16px);
-  }
+  /* ── Legacy compat ── */
+  .m-btn-primary { @apply btn-primary; }
+  .m-btn-ghost { @apply btn-ghost; }
+  .m-chip { @apply chip; }
+  .m-chip.active { @apply chip active; }
+  .nori-card { @apply card; }
+  .retro-window { @apply card; }
+  .retro-titlebar { @apply card-header; }
+  .retro-titlebar-buttons { display: none; }
+  .retro-titlebar-btn { display: none; }
+  .editorial-label { @apply t-label; }
+  .retro-label { @apply t-label; }
+  .font-display { font-weight: 900; }
+  .m-card { @apply card; }
 }

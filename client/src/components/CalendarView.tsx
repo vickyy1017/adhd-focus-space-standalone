@@ -13,14 +13,14 @@ import { ChevronLeft, ChevronRight, List, CalendarDays } from "lucide-react";
 import { useMobile } from "@/hooks/useMobile";
 
 const M = {
-  ink:     "oklch(0.12 0.01 20)",
-  muted:   "oklch(0.52 0.01 20)",
-  border:  "oklch(0.88 0.005 20)",
-  card:    "oklch(1 0 0)",
-  coral:   "oklch(0.82 0.08 10)",       // soft rose
-  coralBg: "oklch(0.97 0.02 10)",
-  coralBdr:"oklch(0.88 0.05 10)",
-  bg:      "oklch(0.96 0.002 20)",
+  ink:     "#111111",
+  muted:   "#888888",
+  border:  "#E5E5E5",
+  card:    "#FFFFFF",
+  coral:   "#111111",       // soft rose
+  coralBg: "#F5F5F5",
+  coralBdr:"#E5E5E5",
+  bg:      "#F5F5F5",
 };
 
 const PRIORITY_COLOR: Record<string, string> = {
@@ -176,7 +176,7 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
             background: "#fff",
             border: `1px solid ${isOver ? M.coral : M.border}`,
             borderLeft: `3px solid ${PRIORITY_COLOR[task.priority] ?? M.coral}`,
-            borderRadius: 3, padding: isMobile ? "5px 7px" : "2px 5px",
+            borderRadius: 8, padding: isMobile ? "5px 7px" : "2px 5px",
             cursor: "grab", opacity: dragId === task.id ? 0.4 : 1,
             display: "flex", alignItems: "center", gap: isMobile ? 6 : 4,
             marginBottom: isMobile ? 3 : 0,
@@ -191,7 +191,7 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
               minWidth: isMobile ? 14 : 10,
               minHeight: isMobile ? 14 : 10,
               borderRadius: "50%",
-              border: `1.5px solid ${PRIORITY_COLOR[task.priority] ?? M.muted}`,
+              border: `1px solid ${PRIORITY_COLOR[task.priority] ?? M.muted}`,
               background: "transparent", cursor: "pointer", padding: 0,
               boxSizing: "content-box",
             }}
@@ -230,7 +230,7 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
           flex: 1, display: "flex", flexDirection: "column",
           background: isToday ? M.coralBg : isOver ? "oklch(0.97 0.018 340)" : "transparent",
           border: isToday ? `1.5px solid ${M.coralBdr}` : isOver ? `1.5px dashed ${M.coral}` : `1px solid ${M.border}`,
-          borderRadius: 6, minWidth: 0,
+          borderRadius: 8, minWidth: 0,
           transition: "background 0.1s",
         }}
       >
@@ -296,13 +296,13 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
       return (
         <div style={{ background: "white", display: "flex", flexDirection: "column", minHeight: 120 }}>
           {/* Pink dot title bar */}
-          <div style={{ background: "oklch(0.96 0.002 20)", padding: "8px 10px", display: "flex", alignItems: "center", gap: 5, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
+          <div style={{ background: "#F5F5F5", padding: "8px 10px", display: "flex", alignItems: "center", gap: 5, borderBottom: "1px solid #E5E5E5" }}>
             <div style={{ display: "flex", gap: 3 }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.62 0.18 340)" }} />
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.72 0.10 310)" }} />
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.78 0.10 290)" }} />
             </div>
-            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>To-dos</span>
+            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: 900, color: "#111111" }}>To-dos</span>
           </div>
           <div style={{ padding: "8px 10px", display: "flex", flexDirection: "column", gap: 5, flex: 1 }}>
             {noDateTasks.length === 0 && <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.75rem", color: M.muted, fontStyle: "italic" }}>No tasks</p>}
@@ -326,13 +326,13 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
     return (
       <div style={{ background: isToday ? "oklch(0.98 0.015 355)" : "white", display: "flex", flexDirection: "column", minHeight: 120 }}>
         {/* Pink dot title bar */}
-        <div style={{ background: isToday ? M.coral : "oklch(0.96 0.002 20)", padding: "8px 10px", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${isToday ? M.coralBdr : "oklch(0.88 0.005 20)"}` }}>
+        <div style={{ background: isToday ? M.coral : "#F5F5F5", padding: "8px 10px", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${isToday ? M.coralBdr : "#E5E5E5"}` }}>
           <div style={{ display: "flex", gap: 3 }}>
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: isToday ? "rgba(255,255,255,0.6)" : "oklch(0.62 0.18 340)" }} />
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: isToday ? "rgba(255,255,255,0.6)" : "oklch(0.72 0.10 310)" }} />
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: isToday ? "rgba(255,255,255,0.6)" : "oklch(0.78 0.10 290)" }} />
           </div>
-          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: 700, color: isToday ? "white" : "oklch(0.12 0.01 20)" }}>
+          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: 700, color: isToday ? "white" : "#111111" }}>
             {dayName} {dayNum}
           </span>
         </div>
@@ -362,7 +362,7 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
           <button onClick={() => setWeekStart(d => addDays(d, -7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 2 }}><ChevronLeft size={16} /></button>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "1.0rem", fontWeight: 700, color: M.ink }}>{month}</span>
-            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", color: M.muted, background: M.border, borderRadius: 10, padding: "1px 6px" }}>W{weekNum}</span>
+            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", color: M.muted, background: M.border, borderRadius: 12, padding: "1px 6px" }}>W{weekNum}</span>
           </div>
           <button onClick={() => setWeekStart(d => addDays(d, 7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 2 }}><ChevronRight size={16} /></button>
         </div>
@@ -433,7 +433,7 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
                 onDrop={() => handleDrop(ymd)}
                 style={{
                   border: isToday ? `1.5px solid ${M.coralBdr}` : isOver ? `1.5px dashed ${M.coral}` : `1px solid ${M.border}`,
-                  borderRadius: 4, padding: "3px 3px 4px",
+                  borderRadius: 8, padding: "3px 3px 4px",
                   background: isToday ? M.coralBg : isOver ? "oklch(0.97 0.018 340)" : "transparent",
                   minHeight: 88, overflow: "hidden", cursor: "pointer",
                 }}
@@ -487,7 +487,7 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
             key={v}
             onClick={() => setCalView(v)}
             style={{
-              padding: "2px 10px", borderRadius: 3, fontSize: "0.58rem",
+              padding: "2px 10px", borderRadius: 8, fontSize: "0.58rem",
               fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em",
               border: `1px solid ${calView === v ? M.coral : M.border}`,
               background: calView === v ? M.coralBg : "transparent",
@@ -582,15 +582,15 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(140,40,90,0.18)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
       onClick={onClose}>
-      <div style={{ background: "oklch(1 0 0)", borderRadius: 16, width: "min(600px, 96vw)", maxHeight: "85vh", display: "flex", flexDirection: "column", boxShadow: "0 24px 60px rgba(140,40,90,0.28), 0 8px 24px rgba(0,0,0,0.10)", overflow: "hidden" }}
+      <div style={{ background: "#FFFFFF", borderRadius: 16, width: "min(600px, 96vw)", maxHeight: "85vh", display: "flex", flexDirection: "column", boxShadow: "0 24px 60px rgba(140,40,90,0.28), 0 8px 24px rgba(0,0,0,0.10)", overflow: "hidden" }}
         onClick={e => e.stopPropagation()}>
 
         {/* Header */}
-        <div style={{ padding: "12px 16px 10px", borderBottom: "1px solid oklch(0.88 0.005 20)", background: "oklch(0.96 0.002 20)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "1rem", fontWeight: 700, color: "oklch(0.12 0.01 20)", fontStyle: "italic" }}>
+        <div style={{ padding: "12px 16px 10px", borderBottom: "1px solid #E5E5E5", background: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "1rem", fontWeight: 700, color: "#111111", fontStyle: "italic" }}>
             {dayDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
           </span>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1rem", color: "oklch(0.52 0.01 20)" }}>×</button>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1rem", color: "#888888" }}>×</button>
         </div>
 
         {/* Tag filter */}
@@ -598,7 +598,7 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
           <div style={{ padding: "8px 14px 0", display: "flex", gap: 6, flexWrap: "wrap" }}>
             {["all", ...allContexts].map(ctx => (
               <button key={ctx} onClick={() => setFilterCtx(ctx)}
-                style={{ fontSize: "0.58rem", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em", padding: "2px 8px", borderRadius: 10, border: `1px solid ${filterCtx === ctx ? M.coral : M.border}`, background: filterCtx === ctx ? M.coralBg : "transparent", color: filterCtx === ctx ? M.coral : M.muted, cursor: "pointer", textTransform: "uppercase" as const }}>
+                style={{ fontSize: "0.58rem", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em", padding: "2px 8px", borderRadius: 12, border: `1px solid ${filterCtx === ctx ? M.coral : M.border}`, background: filterCtx === ctx ? M.coralBg : "transparent", color: filterCtx === ctx ? M.coral : M.muted, cursor: "pointer", textTransform: "uppercase" as const }}>
                 {ctx}
               </button>
             ))}
@@ -633,10 +633,10 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
                   }}
                   style={{
                     display: "flex", alignItems: "center", gap: 0, padding: "10px 18px 10px 12px", position: "relative", zIndex: 1,
-                    borderRadius: 6, margin: "0 6px",
+                    borderRadius: 8, margin: "0 6px",
                     transition: "background 0.12s",
                     cursor: "grab", background: editingId === task.id ? "oklch(0.97 0.015 340)" : "transparent",
-                    borderTop: dragOverTask?.id === task.id && dragOverTask.pos === "before" ? `2px solid oklch(0.82 0.08 10)` : "none",
+                    borderTop: dragOverTask?.id === task.id && dragOverTask.pos === "before" ? `2px solid #111111` : "none",
                   }}
                 >
                   {/* Time — left of spine */}
@@ -646,7 +646,7 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
                   {/* Gap crosses the spine line */}
                   <div style={{ width: 10, flexShrink: 0 }} />
                   {/* Circle — RIGHT of spine */}
-                  <button onClick={() => onTaskToggle(task.id)} style={{ flexShrink: 0, width: 16, height: 16, minWidth: 16, minHeight: 16, borderRadius: "50%", border: `1.8px solid ${PRIORITY_COLOR[task.priority] ?? "oklch(0.82 0.08 10)"}`, background: task.done ? PRIORITY_COLOR[task.priority] : "oklch(1 0 0)", cursor: "pointer", padding: 0, position: "relative", zIndex: 1, boxShadow: `0 0 0 2px oklch(1 0 0)`, boxSizing: "content-box" }} />
+                  <button onClick={() => onTaskToggle(task.id)} style={{ flexShrink: 0, width: 16, height: 16, minWidth: 16, minHeight: 16, borderRadius: "50%", border: `1.8px solid ${PRIORITY_COLOR[task.priority] ?? "#111111"}`, background: task.done ? PRIORITY_COLOR[task.priority] : "#FFFFFF", cursor: "pointer", padding: 0, position: "relative", zIndex: 1, boxShadow: `0 0 0 2px #FFFFFF`, boxSizing: "content-box" }} />
                   {/* Gap after circle */}
                   <div style={{ width: 10, flexShrink: 0 }} />
                   {/* Task text */}
@@ -661,11 +661,11 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
 
                 {/* Inline edit panel */}
                 {editingId === task.id && (
-                  <div style={{ margin: "2px 10px 8px 10px", padding: "12px 14px", background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 10, display: "flex", flexDirection: "column", gap: 8, position: "relative", zIndex: 2, boxShadow: "0 2px 12px oklch(0.96 0.002 20)" }}>
+                  <div style={{ margin: "2px 10px 8px 10px", padding: "12px 14px", background: "#FFFFFF", border: "1px solid #E5E5E5", borderRadius: 12, display: "flex", flexDirection: "column", gap: 8, position: "relative", zIndex: 2, boxShadow: "0 2px 12px #F5F5F5" }}>
                     {/* Text */}
                     <textarea value={editText} onChange={e => setEditText(e.target.value)}
                       autoFocus rows={3}
-                      style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.85rem", padding: "5px 8px", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 4, outline: "none", color: M.ink, resize: "vertical", lineHeight: 1.5 }} />
+                      style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.85rem", padding: "5px 8px", border: "1px solid #E5E5E5", borderRadius: 8, outline: "none", color: M.ink, resize: "vertical", lineHeight: 1.5 }} />
                     {/* Priority + Date row */}
                     <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                       {["urgent","focus","normal"].map(p => {
@@ -673,7 +673,7 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
                         const isAct = editPriority === p;
                         return (
                           <button key={p} onClick={() => setEditPriority(p)}
-                            style={{ width: 24, height: 24, borderRadius: 4, border: `1.5px solid ${isAct ? colors[p] : M.border}`, background: isAct ? colors[p] + "20" : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                            style={{ width: 24, height: 24, borderRadius: 8, border: `1px solid ${isAct ? colors[p] : M.border}`, background: isAct ? colors[p] + "20" : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
                             title={p}
                           >
                             <span style={{ fontSize: 9, color: isAct ? colors[p] : M.muted }}>
@@ -689,12 +689,12 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
                         );
                       })}
                       <input type="date" value={editDate} onChange={e => setEditDate(e.target.value)}
-                        style={{ fontSize: "0.60rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 5px", border: `1px solid ${editDate ? "oklch(0.82 0.08 10)" : M.border}`, background: "transparent", color: editDate ? M.coral : M.muted, borderRadius: 3, outline: "none", flex: 1 }} />
+                        style={{ fontSize: "0.60rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 5px", border: `1px solid ${editDate ? "#111111" : M.border}`, background: "transparent", color: editDate ? M.coral : M.muted, borderRadius: 8, outline: "none", flex: 1 }} />
                     </div>
                     {/* Goal link */}
                     {goals.length > 0 && (
                       <select value={editGoalId} onChange={e => setEditGoalId(e.target.value)}
-                        style={{ width: "100%", fontSize: "0.62rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 6px", border: `1px solid ${editGoalId ? "oklch(0.82 0.08 10)" : M.border}`, background: "transparent", color: editGoalId ? M.coral : M.muted, borderRadius: 3, outline: "none", cursor: "pointer" }}>
+                        style={{ width: "100%", fontSize: "0.62rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 6px", border: `1px solid ${editGoalId ? "#111111" : M.border}`, background: "transparent", color: editGoalId ? M.coral : M.muted, borderRadius: 8, outline: "none", cursor: "pointer" }}>
                         <option value="">No goal linked</option>
                         {goals.filter((g: any) => !g.archived).map((g: any) => <option key={g.id} value={g.id}>{g.text.length > 40 ? g.text.slice(0,40)+"…" : g.text}</option>)}
                       </select>
@@ -702,7 +702,7 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
                     {/* Save/Cancel */}
                     <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
                       <button onClick={() => setEditingId(null)} style={{ fontSize: "0.60rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 10px", border: `1px solid ${M.border}`, background: "transparent", color: M.muted, cursor: "pointer", borderRadius: 3 }}>Cancel</button>
-                      <button onClick={saveEdit} style={{ fontSize: "0.60rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 10px", border: "none", background: "oklch(0.12 0.01 20)", color: "white", cursor: "pointer", borderRadius: 9999 }}>Save</button>
+                      <button onClick={saveEdit} style={{ fontSize: "0.60rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "3px 10px", border: "none", background: "#111111", color: "white", cursor: "pointer", borderRadius: 9999 }}>Save</button>
                     </div>
                   </div>
                 )}

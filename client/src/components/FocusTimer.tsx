@@ -21,14 +21,14 @@ import { useSoundContext } from "@/contexts/SoundContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 // ── Palette (dreamy pink/lavender/mint — SukiSketch reference) ───────────────
-const BG = "oklch(1 0 0)";              // pure white (Nori)
-const PANEL = "oklch(0.96 0.002 20)";   // soft muted bg
-const BORDER = "oklch(0.88 0.005 20)";  // hairline border
-const DARK = "oklch(0.12 0.01 20)";     // near-black
-const ACCENT = "oklch(0.82 0.08 10)";   // soft rose accent
-const BTN_BG = "oklch(0.96 0.002 20)";  // button bg
-const SCREEN_BG = "oklch(0.96 0.002 20)"; // screen bg
-const MINT = "oklch(0.55 0.08 160)";     // sage/mint
+const BG = "#FFFFFF";              // pure white (Nori)
+const PANEL = "#F5F5F5";   // soft muted bg
+const BORDER = "#E5E5E5";  // hairline border
+const DARK = "#111111";     // near-black
+const ACCENT = "#111111";   // soft rose accent
+const BTN_BG = "#F5F5F5";  // button bg
+const SCREEN_BG = "#F5F5F5"; // screen bg
+const MINT = "#666666";     // sage/mint
 const LAVENDER = "oklch(0.70 0.06 10)";  // muted rose
 
 // ── Inject keyframes once ────────────────────────────────────────────────────
@@ -81,8 +81,8 @@ function PetAlive({ blink }: { blink: boolean }) {
           <rect x="18" y="14" width="1" height="1" fill="#fff" />
         </>
       )}
-      <rect x="10" y="18" width="3" height="2" fill="oklch(0.82 0.08 10)" />
-      <rect x="19" y="18" width="3" height="2" fill="oklch(0.82 0.08 10)" />
+      <rect x="10" y="18" width="3" height="2" fill="#111111" />
+      <rect x="19" y="18" width="3" height="2" fill="#111111" />
       <rect x="13" y="20" width="6" height="1" fill="#6B2A3A" />
       <rect x="12" y="19" width="1" height="1" fill="#6B2A3A" />
       <rect x="19" y="19" width="1" height="1" fill="#6B2A3A" />
@@ -305,7 +305,7 @@ function StripEditor({ strips, onChange }: {
                 <Pencil size={9} color={BORDER} />
               </button>
               <button onClick={() => removeStrip(i)} style={{ background: "none", border: "none", cursor: "pointer", padding: 2 }}>
-                <Trash2 size={9} color="oklch(0.82 0.08 10)" />
+                <Trash2 size={9} color="#111111" />
               </button>
             </div>
           </div>
@@ -475,7 +475,7 @@ function CompleteWrapUp({ sessions, mode, onNewSession, duration }: {
           {aiLoading ? "…" : "✦ REFLECT"}
         </button>
         <button onClick={onNewSession} style={{
-          background: DARK, border: "none", color: "oklch(1 0 0)",
+          background: DARK, border: "none", color: "#FFFFFF",
           padding: "8px 22px", fontSize: 8, cursor: "pointer",
           fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.14em",
           boxShadow: `2px 2px 0 ${BORDER}`,
@@ -512,7 +512,7 @@ function QuitWrapUp({ quitCount, stripsLeft, onNewSession }: {
       <div style={{ display: "flex", gap: 8, width: "100%" }}>
         {[
           { label: "QUIT" + (quitCount !== 1 ? "S" : "") + " TODAY", value: quitCount, color: BORDER },
-          { label: "SCORE PENALTY", value: `-${penalty}`, color: "oklch(0.82 0.08 10)" },
+          { label: "SCORE PENALTY", value: `-${penalty}`, color: "#111111" },
           { label: "STRIPS LEFT", value: stripsLeft, color: BORDER },
         ].map(({ label, value, color }) => (
           <div key={label} style={{ flex: 1, background: PANEL, border: `1px solid ${BORDER}`, padding: "9px 5px", textAlign: "center" }}>
@@ -522,7 +522,7 @@ function QuitWrapUp({ quitCount, stripsLeft, onNewSession }: {
         ))}
       </div>
       <button onClick={onNewSession} style={{
-        background: PANEL, border: `1.5px solid ${BORDER}`, color: DARK,
+        background: PANEL, border: `1px solid ${BORDER}`, color: DARK,
         padding: "7px 20px", fontSize: 8, cursor: "pointer",
         fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.12em",
         boxShadow: `2px 2px 0 ${BORDER}`,
@@ -839,8 +839,8 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       title={`${lifetimeSessions} deep focus session${lifetimeSessions !== 1 ? "s" : ""} completed (lifetime total)`}
       style={{ fontSize: 9, letterSpacing: 1, cursor: "default", display: "flex", alignItems: "center", gap: 2 }}
     >
-      <span style={{ color: "oklch(1 0 0)" }}>❤</span>
-      <span style={{ color: "oklch(1 0 0)", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, fontWeight: 700 }}>{lifetimeSessions}</span>
+      <span style={{ color: "#FFFFFF" }}>❤</span>
+      <span style={{ color: "#FFFFFF", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, fontWeight: 700 }}>{lifetimeSessions}</span>
     </span>
   );
 
@@ -868,20 +868,20 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
   return (
     <div style={{
       fontFamily: "'Pretendard', system-ui, sans-serif",
-      background: BG,
-      border: `3px solid ${DARK}`,
-      boxShadow: `4px 4px 0 ${DARK}`,
+      background: "#FFFFFF",
+      border: "1px solid #E5E5E5",
+      borderRadius: 16,
       overflow: "hidden",
       ...(fillHeight ? { display: "flex", flexDirection: "column", height: "100%" } : {}),
     }}>
 
       {/* ── Nori title bar ── */}
-      <div style={{ background: "oklch(0.96 0.002 20)", padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
+      <div style={{ background: "#F5F5F5", padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
         <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: DARK }}>Focus Timer</span>
         <div style={{ display: "flex", gap: 3 }}>{renderHearts()}</div>
       </div>
       {/* ── Top bar: mode tabs + sound/settings + death counter ── */}
-      <div style={{ display: "flex", alignItems: "stretch", borderBottom: `2px solid ${DARK}`, background: PANEL }}>
+      <div style={{ display: "flex", alignItems: "stretch", borderBottom: "1px solid #E5E5E5", background: "#F9F9F9" }}>
         {/* Mode tabs */}
         <div style={{ display: "flex", flex: 1 }}>
           {(["focus", "short", "long"] as TimerMode[]).map((m, idx) => (
@@ -889,8 +889,8 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               flex: 1, padding: "6px 0",
               fontSize: 7, letterSpacing: "0.18em", textTransform: "uppercase",
               border: "none", borderRight: idx < 2 ? `1px solid ${BORDER}50` : "none",
-              background: mode === m ? ACCENT : PANEL,
-              color: mode === m ? "oklch(1 0 0)" : "oklch(0.52 0.01 20)",
+              background: mode === m ? "#111111" : "transparent",
+              color: mode === m ? "#FFFFFF" : "#888888",
               cursor: running ? "not-allowed" : "pointer",
               fontFamily: "'Pretendard', system-ui, sans-serif",
               opacity: running && mode !== m ? 0.5 : 1,
@@ -930,7 +930,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
 
       {/* Settings panel */}
       {showSettings && (
-        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: "oklch(0.96 0.002 20)" }}>
+        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: "#F5F5F5" }}>
           <p style={{ fontSize: 7, letterSpacing: "0.2em", color: BORDER, textTransform: "uppercase", marginBottom: 9, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Duration (min) — click to edit</p>
           <div style={{ display: "flex", gap: 12 }}>
             {(["focus", "short", "long"] as TimerMode[]).map(m => (
@@ -969,7 +969,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
 
       {/* Sound panel */}
       {showSound && (
-        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: "oklch(0.96 0.002 20)" }}>
+        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: "#F5F5F5" }}>
           <p style={{ fontSize: 7, letterSpacing: "0.2em", color: BORDER, textTransform: "uppercase", marginBottom: 9, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Sound</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
@@ -980,7 +980,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               <input type="range" min={0} max={1} step={0.05} value={sound.sfxVolume}
                 onChange={e => sound.setSfxVolume(parseFloat(e.target.value))}
                 disabled={!sound.sfxEnabled}
-                style={{ flex: 1, accentColor: "oklch(0.12 0.01 20)", cursor: sound.sfxEnabled ? "pointer" : "default", opacity: sound.sfxEnabled ? 1 : 0.4 }} />
+                style={{ flex: 1, accentColor: "#111111", cursor: sound.sfxEnabled ? "pointer" : "default", opacity: sound.sfxEnabled ? 1 : 0.4 }} />
               <span style={{ fontSize: 7, color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", width: 22, textAlign: "right" }}>{Math.round(sound.sfxVolume * 100)}%</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
@@ -991,7 +991,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               <input type="range" min={0} max={1} step={0.05} value={sound.musicVolume}
                 onChange={e => sound.setMusicVolume(parseFloat(e.target.value))}
                 disabled={!sound.musicEnabled}
-                style={{ flex: 1, accentColor: "oklch(0.82 0.08 10)", cursor: sound.musicEnabled ? "pointer" : "default", opacity: sound.musicEnabled ? 1 : 0.4 }} />
+                style={{ flex: 1, accentColor: "#111111", cursor: sound.musicEnabled ? "pointer" : "default", opacity: sound.musicEnabled ? 1 : 0.4 }} />
               <span style={{ fontSize: 7, color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", width: 22, textAlign: "right" }}>{Math.round(sound.musicVolume * 100)}%</span>
             </div>
 
@@ -1039,7 +1039,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
           </div>
           <button onClick={handleNewSession} style={{
             fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.14em",
-            background: DARK, color: "oklch(1 0 0)", border: "none", padding: "7px 20px", cursor: "pointer",
+            background: DARK, color: "#FFFFFF", border: "none", padding: "7px 20px", cursor: "pointer",
             boxShadow: `2px 2px 0 ${BORDER}`,
           }}>Start new block</button>
         </div>
@@ -1052,12 +1052,12 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
           display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
         }}>
           <div style={{ fontSize: 22 }}>💀</div>
-          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 10, letterSpacing: "0.22em", color: "oklch(0.82 0.08 10)", textTransform: "uppercase", fontWeight: 700 }}>YOUR PET IS GONE</p>
-          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, color: "oklch(1 0 0)", opacity: 0.7, lineHeight: 1.7 }}>You ran out of hearts today.<br />Come back tomorrow — or reset to try again.</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 10, letterSpacing: "0.22em", color: "#111111", textTransform: "uppercase", fontWeight: 700 }}>YOUR PET IS GONE</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, color: "#FFFFFF", opacity: 0.7, lineHeight: 1.7 }}>You ran out of hearts today.<br />Come back tomorrow — or reset to try again.</p>
           <button onClick={resetDeaths} style={{
             fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.14em",
-            background: "oklch(0.82 0.08 10)", color: "#fff", border: "none", padding: "6px 16px",
-            cursor: "pointer", marginTop: 4, boxShadow: `2px 2px 0 #FAF6F1`,
+            background: "#111111", color: "#fff", border: "none", padding: "6px 16px",
+            cursor: "pointer", marginTop: 4, boxShadow: `2px 2px 0 #FFFFFF`,
           }}>↺ Revive pet</button>
         </div>
       )}
@@ -1067,7 +1067,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
         <div style={{ display: "flex", flexDirection: "column" }}>
           {/* Pet screen */}
           <div style={{
-            background: "oklch(0.96 0.002 20)",
+            background: "#F5F5F5",
             margin: "8px 8px 0",
             border: `2px solid ${DARK}`,
             position: "relative",
@@ -1093,7 +1093,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                 transform: "translateX(-50%)",
                 pointerEvents: "none",
                 transition: "none",
-                color: "oklch(0.82 0.08 10)",
+                color: "#111111",
               }}>♥</div>
             ))}
 
@@ -1165,15 +1165,16 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                 onClick={() => { if (phase === "idle") applyDuration(mode, p); }}
                 disabled={phase !== "idle"}
                 style={{
-                  padding: "3px 10px",
-                  fontSize: 8,
-                  letterSpacing: "0.12em",
-                  background: durations[mode] === p ? ACCENT : BTN_BG,
-                  color: durations[mode] === p ? "oklch(1 0 0)" : "oklch(0.12 0.01 20)",
-                  border: `1.5px solid ${BORDER}`,
+                  padding: "6px 14px",
+                  fontSize: 13,
+                  fontWeight: durations[mode] === p ? 700 : 500,
+                  background: durations[mode] === p ? "#111111" : "transparent",
+                  color: durations[mode] === p ? "#FFFFFF" : "#888888",
+                  border: `1.5px solid ${durations[mode] === p ? "#111111" : "#E5E5E5"}`,
+                  borderRadius: 9999,
                   cursor: phase === "idle" ? "pointer" : "default",
                   fontFamily: "'Pretendard', system-ui, sans-serif",
-                  boxShadow: durations[mode] === p ? `1px 1px 0 ${DARK}` : "none",
+                  boxShadow: "none",
                   opacity: phase === "idle" ? 1 : 0.35,
                   transition: "opacity 0.2s",
                 }}
@@ -1218,8 +1219,8 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
 
           {/* Controls row */}
           <div style={{
-            display: "flex", alignItems: "center", gap: 6, padding: "6px 9px",
-            background: PANEL, borderTop: `2px solid ${DARK}`,
+            display: "flex", alignItems: "center", gap: 8, padding: "10px 16px",
+            background: "#FFFFFF", borderTop: "1px solid #E5E5E5",
             flexShrink: 0, flexWrap: "nowrap", overflow: "hidden",
           }}>
             {/* Quit */}
@@ -1227,7 +1228,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               <button onClick={handleQuit} title="Quit session" style={{
                 display: "flex", alignItems: "center", gap: 4,
                 padding: "4px 9px", background: "transparent",
-                border: `1.5px solid ${BORDER}`, color: BORDER,
+                border: `1px solid ${BORDER}`, color: BORDER,
                 cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: 7, letterSpacing: "0.12em",
                 boxShadow: `2px 2px 0 ${BORDER}`,
@@ -1240,17 +1241,17 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
             {phase !== "recovering" && (
               <>
                 <button onClick={handleStartPause} style={{
-                  display: "flex", alignItems: "center", gap: 5,
-                  padding: "5px 16px",
-                  background: running ? BTN_BG : ACCENT,
-                  border: `1.5px solid ${running ? BORDER : DARK}`,
-                  color: running ? DARK : "#fff",
-                  fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7,
-                  letterSpacing: "0.14em", cursor: "pointer",
-                  boxShadow: running ? `2px 2px 0 ${BORDER}` : `2px 2px 0 ${DARK}`,
-                  fontWeight: 700, transition: "all 0.12s", flexShrink: 0,
+                  display: "flex", alignItems: "center", gap: 6,
+                  padding: "10px 24px",
+                  background: "#111111",
+                  border: "none",
+                  borderRadius: 9999,
+                  color: "#FFFFFF",
+                  fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14,
+                  cursor: "pointer",
+                  fontWeight: 700, transition: "opacity 0.15s", flexShrink: 0,
                 }}>
-                  {running ? <><Pause size={8} /> PAUSE</> : <><Play size={8} /> {phase === "paused" ? "RESUME" : "START"}</>}
+                  {running ? <><Pause size={14} /> Pause</> : <><Play size={14} /> {phase === "paused" ? "Resume" : "Start"}</>}
                 </button>
                 <span style={{
                   display: "inline-flex", alignItems: "center", gap: 3,

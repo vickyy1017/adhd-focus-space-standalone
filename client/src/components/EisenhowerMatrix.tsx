@@ -35,12 +35,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "urgent",
     urgent: true,
     important: true,
-    color:      "oklch(0.12 0.01 20)",   // near-black
-    bg:         "oklch(1 0 0)",           // white
-    border:     "oklch(0.88 0.005 20)",   // hairline
-    shadow:     "oklch(0.88 0.005 20)",
+    color:      "#111111",   // near-black
+    bg:         "#FFFFFF",           // white
+    border:     "#E5E5E5",   // hairline
+    shadow:     "#E5E5E5",
     numeral:    "I",
-    ruledColor: "oklch(0.93 0.003 20)",   // very subtle ruled lines
+    ruledColor: "#F0F0F0",   // very subtle ruled lines
   },
   {
     id: "q2",
@@ -50,12 +50,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "focus",
     urgent: false,
     important: true,
-    color:      "oklch(0.12 0.01 20)",
-    bg:         "oklch(1 0 0)",
-    border:     "oklch(0.88 0.005 20)",
-    shadow:     "oklch(0.88 0.005 20)",
+    color:      "#111111",
+    bg:         "#FFFFFF",
+    border:     "#E5E5E5",
+    shadow:     "#E5E5E5",
     numeral:    "II",
-    ruledColor: "oklch(0.93 0.003 20)",
+    ruledColor: "#F0F0F0",
   },
   {
     id: "q3",
@@ -65,12 +65,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "normal",
     urgent: true,
     important: false,
-    color:      "oklch(0.52 0.01 20)",   // muted
-    bg:         "oklch(0.98 0.001 20)",   // very light grey
-    border:     "oklch(0.88 0.005 20)",
-    shadow:     "oklch(0.88 0.005 20)",
+    color:      "#888888",   // muted
+    bg:         "#FAFAFA",   // very light grey
+    border:     "#E5E5E5",
+    shadow:     "#E5E5E5",
     numeral:    "III",
-    ruledColor: "oklch(0.93 0.003 20)",
+    ruledColor: "#F0F0F0",
   },
   {
     id: "q4",
@@ -80,12 +80,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "normal",
     urgent: false,
     important: false,
-    color:      "oklch(0.52 0.01 20)",
-    bg:         "oklch(0.98 0.001 20)",
-    border:     "oklch(0.88 0.005 20)",
-    shadow:     "oklch(0.88 0.005 20)",
+    color:      "#888888",
+    bg:         "#FAFAFA",
+    border:     "#E5E5E5",
+    shadow:     "#E5E5E5",
     numeral:    "IV",
-    ruledColor: "oklch(0.93 0.003 20)",
+    ruledColor: "#F0F0F0",
   },
 ];
 
@@ -312,7 +312,7 @@ export function EisenhowerMatrix({
                 onDrop={(e) => handleDrop(e, q.id)}
                 style={{
                   background: q.bg,
-                  border: isOver ? `2px dashed oklch(0.12 0.01 20)` : `1px solid ${q.border}`,
+                  border: isOver ? `2px dashed #111111` : `1px solid ${q.border}`,
                   borderRadius: 16,
                   boxShadow: isOver ? "0 0 0 3px oklch(0.12 0.01 20 / 0.1)" : "none",
                   display: "flex",
@@ -349,7 +349,7 @@ export function EisenhowerMatrix({
                   flexShrink: 0,
                   position: "relative",
                   zIndex: 1,
-                  background: "oklch(0.96 0.002 20)",
+                  background: "#F5F5F5",
                 }}>
                   <div>
                     <div style={{
@@ -363,7 +363,7 @@ export function EisenhowerMatrix({
                     <div style={{
                       fontFamily: "'Pretendard', system-ui, sans-serif",
                       fontSize: 9,
-                      color: "oklch(0.60 0.005 20)",
+                      color: "#888888",
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
                       marginTop: 1,
@@ -477,7 +477,7 @@ function TaskChip({
       title={task.text}
       style={{
         background: "oklch(1 0 0 / 0.80)",
-        border: `1.5px solid ${quadrantBorder}`,
+        border: `1px solid ${quadrantBorder}`,
         borderLeft: `3px solid ${quadrantColor}`,
         borderRadius: 2,
         padding: "4px 8px",

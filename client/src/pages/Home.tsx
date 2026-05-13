@@ -249,75 +249,37 @@ export default function Home() {
 
       {/* Main content */}
       <main className={isMobile ? "flex-1 min-h-screen flex flex-col" : "flex-1 ml-14 min-h-screen flex flex-col"}>
-        {/* Top header bar — Nori minimal style (hidden on mobile, tab bar shows page name) */}
-        {!isMobile && <header
-          className="sticky top-0 z-30 flex items-center justify-between"
-          style={{
-            background: "oklch(1 0 0)",
-            borderBottom: "1px solid oklch(0.88 0.005 20)",
-            minHeight: 52,
-            padding: "0 24px",
-          }}
-        >
-          {/* Left: page title */}
-          <div className="flex items-center gap-2">
-            <h1 style={{
-              fontFamily: "'Pretendard', system-ui, sans-serif",
-              fontSize: "1.1rem",
-              fontWeight: 900,
-              color: "oklch(0.12 0.01 20)",
-              margin: 0,
-              lineHeight: 1,
-            }}>
-              {meta.title}
-            </h1>
-          </div>
-
-          {/* Right: tasks count + wrap-up */}
-          <div className="flex items-center gap-3">
-            {/* Tasks left */}
-            <button
-              onClick={() => setActiveSection("tasks" as Section)}
-              style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
-            >
-              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.85rem", fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>
-                {tasks.filter((t) => !t.done && (!t.dueDate || t.dueDate === new Date().toISOString().slice(0, 10))).length}
-              </span>
-              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.65rem", fontWeight: 500, color: "oklch(0.52 0.01 20)" }}>left</span>
-            </button>
-            {/* Wrap-up */}
-            <button
-              onClick={() => setWrapUpOpen(true)}
-              style={{
-                background: "oklch(0.12 0.01 20)",
-                color: "oklch(1 0 0)",
-                border: "none",
-                borderRadius: 9999,
-                padding: "6px 14px",
-                fontFamily: "'Pretendard', system-ui, sans-serif",
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-              }}
-            >
-              <Moon className="w-3 h-3" />
-              <span>Wrap up</span>
-            </button>
-          </div>
-        </header>}
+        {/* Sticky header */}
+        <header style={{
+          position: "sticky", top: 0, zIndex: 30,
+          background: "#FFFFFF",
+          borderBottom: "1px solid #E5E5E5",
+          height: 52,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: isMobile ? "0 16px" : "0 24px",
+        }}>
+          <h1 style={{ fontSize: 18, fontWeight: 900, color: "#111111", margin: 0 }}>
+            {meta.title}
+          </h1>
+          <button
+            onClick={() => setWrapUpOpen(true)}
+            className="btn-primary"
+            style={{ padding: "7px 16px", fontSize: 13 }}
+          >
+            <Moon size={14} />
+            Wrap up
+          </button>
+        </header>
 
         {/* Page content */}
         <div
           className="flex-1 overflow-y-auto"
           style={{
-            padding: isMobile ? "12px 12px" : "32px",
-            paddingBottom: isMobile ? "calc(72px + env(safe-area-inset-bottom, 0px))" : "32px",
+            padding: isMobile ? "16px" : "32px",
+            paddingBottom: isMobile ? "calc(76px + env(safe-area-inset-bottom, 0px))" : "32px",
           }}
         >
-          <div className={cn("mx-auto", activeSection === "dashboard" ? "max-w-7xl" : "max-w-3xl")}>
+          <div style={{ maxWidth: activeSection === "dashboard" ? 900 : 720, margin: "0 auto" }}>
 
             {activeSection === "dashboard" && (
               <div className="relative">
@@ -404,17 +366,17 @@ export default function Home() {
               <div style={{ padding: isMobile ? "16px" : "32px", maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
 
                 {/* ── Account ── */}
-                <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
-                  <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
-                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Account</span>
+                <div style={{ background: "#FFFFFF", border: "1px solid #E5E5E5", borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid #E5E5E5" }}>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "#111111" }}>Account</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                       <div>
-                        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.95rem", fontWeight: 600, color: "oklch(0.12 0.01 20)", marginBottom: 2 }}>
+                        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.95rem", fontWeight: 600, color: "#111111", marginBottom: 2 }}>
                           {user?.name || "User"}
                         </p>
-                        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.78rem", color: "oklch(0.52 0.01 20)" }}>{user?.id ?? ""}</p>
+                        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.78rem", color: "#888888" }}>{user?.id ?? ""}</p>
                       </div>
                       <button
                         onClick={async () => {
@@ -423,7 +385,7 @@ export default function Home() {
                         }}
                         style={{
                           fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.10em",
-                          padding: "6px 14px", borderRadius: 6, cursor: "pointer",
+                          padding: "6px 14px", borderRadius: 8, cursor: "pointer",
                           border: "1px solid oklch(0.72 0.10 25)",
                           background: "transparent", color: "oklch(0.52 0.14 25)",
                           whiteSpace: "nowrap", flexShrink: 0,
@@ -436,9 +398,9 @@ export default function Home() {
                 </div>
 
                 {/* ── Appearance ── */}
-                <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
-                  <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
-                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Appearance</span>
+                <div style={{ background: "#FFFFFF", border: "1px solid #E5E5E5", borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid #E5E5E5" }}>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "#111111" }}>Appearance</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <EffectsPanel embedded settingsOnly />
@@ -446,9 +408,9 @@ export default function Home() {
                 </div>
 
                 {/* ── Gemini API Key ── */}
-                <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
-                  <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
-                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Gemini API Key</span>
+                <div style={{ background: "#FFFFFF", border: "1px solid #E5E5E5", borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid #E5E5E5" }}>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "#111111" }}>Gemini API Key</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <EffectsPanel embedded apiKeyOnly />

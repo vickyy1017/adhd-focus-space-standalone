@@ -13,13 +13,13 @@ import { nanoid } from "nanoid";
 import type { Task } from "./TaskManager";
 
 const M = {
-  coral:    "oklch(0.82 0.08 10)",      // soft rose (Nori accent)
-  coralBg:  "oklch(0.97 0.02 10)",      // rose tint
-  coralBdr: "oklch(0.88 0.05 10)",      // rose border
-  ink:      "oklch(0.12 0.01 20)",      // near-black
-  muted:    "oklch(0.52 0.01 20)",      // muted text
-  border:   "oklch(0.88 0.005 20)",     // hairline
-  card:     "oklch(1 0 0)",             // pure white
+  coral:    "#111111",      // soft rose (Nori accent)
+  coralBg:  "#F5F5F5",      // rose tint
+  coralBdr: "#E5E5E5",      // rose border
+  ink:      "#111111",      // near-black
+  muted:    "#888888",      // muted text
+  border:   "#E5E5E5",     // hairline
+  card:     "#FFFFFF",             // pure white
 };
 
 const PRIORITY_CFG = {
@@ -78,7 +78,7 @@ function MobileAwareQuickAddTrigger({ open, onOpen }: { open: boolean; onOpen: (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "oklch(0.12 0.01 20)",
+          background: "#111111",
           border: "none",
           borderRadius: "50%",
           cursor: "pointer",
@@ -88,7 +88,7 @@ function MobileAwareQuickAddTrigger({ open, onOpen }: { open: boolean; onOpen: (
         onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)"; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
       >
-        <Plus style={{ width: 22, height: 22, color: "oklch(1 0 0)" }} />
+        <Plus style={{ width: 22, height: 22, color: "#FFFFFF" }} />
       </button>
     </div>
   );
@@ -413,8 +413,8 @@ Today is ${today} (${todayName}).`,
           >
             {/* Header */}
             <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px", borderBottom: `1px solid ${M.border}` }}>
-              <div style={{ width: 36, height: 36, borderRadius: "50%", background: "oklch(0.12 0.01 20)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <Sparkles className="w-4 h-4" style={{ color: "oklch(1 0 0)" }} />
+              <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#111111", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Sparkles className="w-4 h-4" style={{ color: "#FFFFFF" }} />
               </div>
               <div className="flex-1">
                 <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.95rem", fontWeight: 900, color: M.ink, margin: 0 }}>AI Assistant</p>

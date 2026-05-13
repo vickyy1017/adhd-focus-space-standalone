@@ -33,18 +33,18 @@ const MOOD_COLORS = ["#C8B8D8","#D4B8E0","#E8A8C8","#F0B8D8","#F8C8E8"];
 const MOOD_LABELS = ["Drained","Low","Okay","Good","Glowing"];
 
 const M = {
-  ink:     "oklch(0.12 0.01 20)",
-  muted:   "oklch(0.52 0.01 20)",
-  border:  "oklch(0.88 0.005 20)",
-  card:    "oklch(1 0 0)",
-  coral:   "oklch(0.82 0.08 10)",       // soft rose
-  coralBg: "oklch(0.97 0.02 10)",
-  sage:    "oklch(0.55 0.08 160)",      // sage green
-  sageBg:  "oklch(0.96 0.02 160)",
+  ink:     "#111111",
+  muted:   "#888888",
+  border:  "#E5E5E5",
+  card:    "#FFFFFF",
+  coral:   "#111111",       // soft rose
+  coralBg: "#F5F5F5",
+  sage:    "#666666",      // sage green
+  sageBg:  "#F5F5F5",
   gold:    "oklch(0.70 0.06 10)",       // muted rose/gold
-  goldBg:  "oklch(0.97 0.02 10)",
-  pink:    "oklch(0.82 0.08 10)",       // soft rose
-  pinkBg:  "oklch(0.97 0.02 10)",
+  goldBg:  "#F5F5F5",
+  pink:    "#111111",       // soft rose
+  pinkBg:  "#F5F5F5",
 };
 
 /* ── Helpers ── */
@@ -124,8 +124,8 @@ function DayCellHoverContent({ log, day, month, year }: { log?: DailyLog; day: n
           {(log?.focusSessions ?? 0) > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-                <circle cx="12" cy="12" r="9" stroke="oklch(0.82 0.08 10)" strokeWidth="1.5" />
-                <polyline points="12,7 12,12 15,15" stroke="oklch(0.82 0.08 10)" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="12" cy="12" r="9" stroke="#111111" strokeWidth="1.5" />
+                <polyline points="12,7 12,12 15,15" stroke="#111111" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
               <span style={{ fontSize: 11, color: M.ink }}>{log!.focusSessions} focus {log!.focusSessions === 1 ? "session" : "sessions"}</span>
             </div>
@@ -133,7 +133,7 @@ function DayCellHoverContent({ log, day, month, year }: { log?: DailyLog; day: n
           {(log?.blocksCompleted ?? 0) > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-                <path d="M12 2c0 0-1 3-1 5 0 1.5 1 3 1 3s-3-1-3-4c0 0-3 3-3 7a6 6 0 0 0 12 0c0-5-4-8-6-11z" fill="oklch(0.82 0.08 10)" opacity="0.85" />
+                <path d="M12 2c0 0-1 3-1 5 0 1.5 1 3 1 3s-3-1-3-4c0 0-3 3-3 7a6 6 0 0 0 12 0c0-5-4-8-6-11z" fill="#111111" opacity="0.85" />
               </svg>
               <span style={{ fontSize: 11, color: M.ink }}>{log!.blocksCompleted} deep focus {log!.blocksCompleted === 1 ? "block" : "blocks"} 🔥</span>
             </div>
@@ -273,7 +273,7 @@ const WIN_CAT_COLORS = [
   "oklch(0.62 0.14 310)",  // social
   "oklch(0.55 0.10 300)", // creative
   "oklch(0.55 0.07 185)", // mindful
-  "oklch(0.82 0.08 10)",  // fitness
+  "#111111",  // fitness
   "oklch(0.55 0.12 270)", // nutrition
 ];
 const WIN_CAT_LABELS = ["Health","Study","Work","Social","Creative","Mindful","Fitness","Nutrition"];
@@ -294,7 +294,7 @@ function EditableDiary({ dateKey, initialNote }: { dateKey: string; initialNote?
     <div style={{ marginTop: 8 }}>
       <p style={{ fontSize: 10, fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em", color: M.muted, textTransform: "uppercase", marginBottom: 4 }}>📝 My Diary</p>
       <textarea value={text} onChange={(e) => save(e.target.value)} placeholder="Write your thoughts for this day…" rows={3}
-        style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, color: M.ink, lineHeight: 1.6, padding: "10px 12px", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 12, background: "oklch(0.96 0.002 20)", resize: "vertical", outline: "none" }} />
+        style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, color: M.ink, lineHeight: 1.6, padding: "10px 12px", border: "1px solid #E5E5E5", borderRadius: 12, background: "#F5F5F5", resize: "vertical", outline: "none" }} />
     </div>
   );
 }
@@ -383,7 +383,7 @@ function DayDetail({ log, dateStr, dateKey: dk, onClose, isPast }: { log?: Daily
       overflow: "hidden",
     }}>
       {/* Nori title bar */}
-      <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: `1px solid ${M.border}` }}>
+      <div style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: `1px solid ${M.border}` }}>
         <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: M.ink }}>Day Summary</span>
       </div>
       {/* Date header */}
@@ -401,8 +401,8 @@ function DayDetail({ log, dateStr, dateKey: dk, onClose, isPast }: { log?: Daily
             <span style={{ fontSize: 10, color: M.muted, textTransform: "uppercase", letterSpacing: 1 }}>Day Score</span>
             <span style={{ fontSize: 11, fontWeight: 700, color: M.ink }}>{log.score}/100</span>
           </div>
-          <div style={{ height: 5, borderRadius: 3, background: M.border, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${log.score}%`, background: "oklch(0.12 0.01 20)", borderRadius: 3, transition: "width 0.5s" }} />
+          <div style={{ height: 5, borderRadius: 8, background: M.border, overflow: "hidden" }}>
+                <div style={{ height: "100%", width: `${log.score}%`, background: "#111111", borderRadius: 8, transition: "width 0.5s" }} />
           </div>
         </div>
       )}
@@ -628,7 +628,7 @@ export function MonthlyProgress({ wins, tasks, blockHistory = {}, blockStreak = 
         overflow: "hidden",
       }}>
         {/* Retro titlebar */}
-        <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Monthly Calendar</span></div>
+        <div style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid #E5E5E5" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "#111111" }}>Monthly Calendar</span></div>
         <div style={{ padding: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <button onClick={prevMonth} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, padding: 4, borderRadius: 6 }}>
@@ -764,14 +764,14 @@ Average mood: ${avgMood ?? "not tracked"}/5`
   };
 
   const M2 = {
-    coral: "oklch(0.82 0.08 10)", coralBg: "oklch(0.97 0.02 10)",
-    coralBdr: "oklch(0.88 0.005 20)", ink: "oklch(0.12 0.01 20)",
-    muted: "oklch(0.52 0.01 20)", border: "oklch(0.88 0.025 340)", card: "oklch(1 0 0)",
+    coral: "#111111", coralBg: "#F5F5F5",
+    coralBdr: "#E5E5E5", ink: "#111111",
+    muted: "#888888", border: "oklch(0.88 0.025 340)", card: "#FFFFFF",
   };
 
   return (
     <div style={{ marginTop: 16, background: M2.card, border: `1px solid ${M2.border}`, borderRadius: 16, overflow: "hidden",  }}>
-      <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>AI Monthly Review</span></div>
+      <div style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid #E5E5E5" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "#111111" }}>AI Monthly Review</span></div>
       <div style={{ padding: 16 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {!review ? (
@@ -784,8 +784,8 @@ Average mood: ${avgMood ?? "not tracked"}/5`
               disabled={generating}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                background: generating ? "oklch(0.96 0.002 20)" : "oklch(0.12 0.01 20)",
-                border: "none", color: generating ? "oklch(0.52 0.01 20)" : "oklch(1 0 0)",
+                background: generating ? "#F5F5F5" : "#111111",
+                border: "none", color: generating ? "#888888" : "#FFFFFF",
                 borderRadius: 9999, padding: "8px 16px", fontSize: 13,
                 cursor: generating ? "not-allowed" : "pointer",
                 fontFamily: "'Pretendard', system-ui, sans-serif", fontWeight: 700, alignSelf: "flex-start",
@@ -796,7 +796,7 @@ Average mood: ${avgMood ?? "not tracked"}/5`
           </div>
         ) : (
           <div>
-            <div style={{ padding: "12px 14px", background: "oklch(0.96 0.002 20)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 12, fontSize: 13, color: M2.ink, lineHeight: 1.7, fontFamily: "'Pretendard', system-ui, sans-serif", whiteSpace: "pre-wrap" }}>
+            <div style={{ padding: "12px 14px", background: "#F5F5F5", border: "1px solid #E5E5E5", borderRadius: 12, fontSize: 13, color: M2.ink, lineHeight: 1.7, fontFamily: "'Pretendard', system-ui, sans-serif", whiteSpace: "pre-wrap" }}>
               {review}
             </div>
             <button onClick={() => setReview(null)} style={{ marginTop: 8, fontSize: 11, color: M2.muted, background: "none", border: "none", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif" }}>

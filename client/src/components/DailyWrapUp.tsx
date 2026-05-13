@@ -21,7 +21,7 @@ const WIN_CAT_COLORS = [
   "oklch(0.62 0.14 310)",   // social
   "oklch(0.55 0.10 300)",  // creative
   "oklch(0.55 0.07 250)",  // mindful
-  "oklch(0.82 0.08 10)",   // fitness
+  "#111111",   // fitness
   "oklch(0.55 0.12 270)",  // nutrition
 ];
 const WIN_CAT_LABELS = ["Health","Study","Work","Social","Creative","Mindful","Fitness","Nutrition"];
@@ -83,7 +83,7 @@ function WinsRing({ wins }: { wins: Win[] }) {
 
   if (wins.length === 0) {
     return (
-      <p className="text-sm italic" style={{ color: "oklch(0.52 0.01 20)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
+      <p className="text-sm italic" style={{ color: "#888888", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
         No wins logged yet — completing tasks adds them automatically.
       </p>
     );
@@ -177,8 +177,8 @@ function WinsRing({ wins }: { wins: Win[] }) {
           })}
 
           {/* Center count */}
-          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 30, fill: "oklch(0.12 0.01 20)", fontWeight: 700 }}>{total}</text>
-          <text x={cx} y={cy + 12} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 9, fill: "oklch(0.52 0.01 20)", textTransform: "uppercase", letterSpacing: 2 }}>wins</text>
+          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 30, fill: "#111111", fontWeight: 700 }}>{total}</text>
+          <text x={cx} y={cy + 12} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 9, fill: "#888888", textTransform: "uppercase", letterSpacing: 2 }}>wins</text>
         </svg>
 
         {/* Category icons — positioned OUTSIDE the arc ring, fixed small size */}
@@ -249,11 +249,11 @@ function WinsRing({ wins }: { wins: Win[] }) {
                   bottom: "calc(100% + 8px)",
                   left: "50%",
                   transform: "translateX(-50%)",
-                  background: "oklch(1 0 0)",
-                  color: "oklch(0.12 0.01 20)",
+                  background: "#FFFFFF",
+                  color: "#111111",
                   border: "2px solid oklch(0.58 0.12 340)",
                   boxShadow: "3px 3px 0px oklch(0.30 0.030 320)",
-                  borderRadius: 4,
+                  borderRadius: 8,
                   padding: "7px 12px",
                   whiteSpace: "nowrap",
                   fontSize: 11,
@@ -283,21 +283,21 @@ function WinsRing({ wins }: { wins: Win[] }) {
 }
 
 const M = {
-  coral:    "oklch(0.82 0.08 10)",      // soft rose (Nori accent)
-  coralBg:  "oklch(0.97 0.02 10)",      // rose tint bg
-  coralBdr: "oklch(0.88 0.05 10)",      // rose border
-  sage:     "oklch(0.55 0.08 160)",     // sage green
-  sageBg:   "oklch(0.96 0.02 160)",
-  sageBdr:  "oklch(0.82 0.05 160)",
+  coral:    "#111111",      // soft rose (Nori accent)
+  coralBg:  "#F5F5F5",      // rose tint bg
+  coralBdr: "#E5E5E5",      // rose border
+  sage:     "#666666",     // sage green
+  sageBg:   "#F5F5F5",
+  sageBdr:  "#E5E5E5",
   pink:     "oklch(0.70 0.06 10)",      // muted rose
-  pinkBg:   "oklch(0.97 0.02 10)",
+  pinkBg:   "#F5F5F5",
   pinkBdr:  "oklch(0.88 0.04 10)",
   slumber:  "oklch(0.60 0.01 20)",      // muted grey
-  ink:      "oklch(0.12 0.01 20)",      // near-black
-  muted:    "oklch(0.52 0.01 20)",      // muted text
-  border:   "oklch(0.88 0.005 20)",     // hairline
-  card:     "oklch(1 0 0)",             // pure white
-  bg:       "oklch(0.96 0.002 20)",     // soft bg
+  ink:      "#111111",      // near-black
+  muted:    "#888888",      // muted text
+  border:   "#E5E5E5",     // hairline
+  card:     "#FFFFFF",             // pure white
+  bg:       "#F5F5F5",     // soft bg
 };
 
 interface DailyWrapUpProps {
@@ -421,7 +421,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
         style={{
           maxHeight: "calc(80vh - env(safe-area-inset-bottom, 0px) - 60px)",
           background: M.card,
-          border: `1.5px solid ${M.border}`,
+          border: `1px solid ${M.border}`,
           boxShadow: "4px 6px 20px rgba(212,88,152,0.18), 0 0 0 1px rgba(232,184,208,0.60)",
           position: "relative",
         }}
@@ -429,7 +429,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
       >
 
         {/* Nori title bar */}
-        <div className="relative z-10" style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${M.border}`, flexShrink: 0 }}>
+        <div className="relative z-10" style={{ background: "#F5F5F5", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${M.border}`, flexShrink: 0 }}>
           <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 15, fontWeight: 900, color: M.ink }}>Daily Wrap-Up</span>
           <button onClick={onClose} style={{ background: "transparent", border: "none", cursor: "pointer", color: M.muted, padding: 4, display: "flex", alignItems: "center" }} title="Close">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><line x1="4" y1="4" x2="16" y2="16" stroke={M.muted} strokeWidth="1.5" strokeLinecap="round"/><line x1="16" y1="4" x2="4" y2="16" stroke={M.muted} strokeWidth="1.5" strokeLinecap="round"/></svg>
@@ -458,7 +458,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
               <div className="h-full transition-all duration-700" style={{ width: `${score}%`, background: M.coral }} />
             </div>
             {quitCount > 0 && (
-              <p className="text-xs mt-1" style={{ color: "#C8603A", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.08em" }}>
+              <p className="text-xs mt-1" style={{ color: "#C8603A", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.08em" }}>
                 −{quitPenalty} penalty · {quitCount} session{quitCount !== 1 ? 's' : ''} quit today
               </p>
             )}
@@ -522,7 +522,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
                 width: "100%", boxSizing: "border-box",
                 fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.875rem",
                 color: M.ink, lineHeight: 1.7, padding: "10px 12px",
-                border: `1px dashed ${M.border}`, borderRadius: 6,
+                border: `1px dashed ${M.border}`, borderRadius: 8,
                 background: "oklch(0.990 0.006 355 / 0.60)",
                 resize: "vertical", outline: "none",
               }}
@@ -570,7 +570,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
                 </button>
                 <button
                   onClick={() => { navigator.clipboard.writeText(aiSummary ?? ""); toast.success("Summary copied!"); }}
-                  style={{ fontSize: "0.75rem", color: M.coral, background: "none", border: `1px solid ${M.coralBdr}`, borderRadius: 4, padding: "2px 10px", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif", display: "flex", alignItems: "center", gap: 4 }}
+                  style={{ fontSize: "0.75rem", color: M.coral, background: "none", border: `1px solid ${M.coralBdr}`, borderRadius: 8, padding: "2px 10px", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif", display: "flex", alignItems: "center", gap: 4 }}
                 >
                   📋 Copy
                 </button>
@@ -611,7 +611,7 @@ function TaskRow({ text, color }: { text: string; color: string }) {
   return (
     <div className="flex items-center gap-2 py-1">
       <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color }} />
-      <span className="text-sm" style={{ color: "oklch(0.12 0.01 20)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>{text}</span>
+      <span className="text-sm" style={{ color: "#111111", fontFamily: "'Pretendard', system-ui, sans-serif" }}>{text}</span>
     </div>
   );
 }
@@ -645,7 +645,7 @@ function MatrixRing({ tasks }: { tasks: Task[] }) {
     if (counts[q] !== undefined) counts[q]++;
   });
 
-  const ringColor = "oklch(0.82 0.08 10)";
+  const ringColor = "#111111";
 
   if (totalDone === 0) {
     return (
@@ -740,7 +740,7 @@ function FocusTrackerSection() {
   })();
 
   const count = Math.max(sessions.length, logCount);
-  const timerColor = "oklch(0.82 0.08 10)"; // coral / timer color
+  const timerColor = "#111111"; // coral / timer color
 
   return (
     <Section
@@ -761,16 +761,16 @@ function FocusTrackerSection() {
                 key={s.sessionNumber}
                 className="flex items-center gap-3 py-1.5 px-2.5"
                 style={{
-                  background: "oklch(0.96 0.002 20)",
-                  border: "1px solid oklch(0.88 0.005 20)",
-                  borderRadius: 6,
+                  background: "#F5F5F5",
+                  border: "1px solid #E5E5E5",
+                  borderRadius: 8,
                 }}
               >
                 <span
                   className="text-xs font-bold"
                   style={{
                     color: timerColor,
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'Pretendard', system-ui, sans-serif",
                     letterSpacing: "0.08em",
                     minWidth: 20,
                   }}
@@ -795,16 +795,16 @@ function FocusTrackerSection() {
               key={i}
               className="flex items-center gap-3 py-1.5 px-2.5"
               style={{
-                background: "oklch(0.96 0.002 20)",
-                border: "1px solid oklch(0.88 0.005 20)",
-                borderRadius: 6,
+                background: "#F5F5F5",
+                border: "1px solid #E5E5E5",
+                borderRadius: 8,
               }}
             >
               <span
                 className="text-xs font-bold"
                 style={{
                   color: timerColor,
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
                   letterSpacing: "0.08em",
                   minWidth: 20,
                 }}

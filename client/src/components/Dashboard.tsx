@@ -154,18 +154,18 @@ function getGreeting() {
 }
 
 /* ── Dreamy SukiSketch Palette (aligned with index.css CSS vars) ── */
-const TC        = "oklch(0.12 0.01 20)";    // near-black (Nori primary)
-const CREAM     = "oklch(0.96 0.002 20)";   // soft muted bg
-const BORDER    = "oklch(0.88 0.005 20)";   // hairline border
-const INK       = "oklch(0.12 0.01 20)";    // near-black text
-const MUTED     = "oklch(0.52 0.01 20)";    // muted text
+const TC        = "#111111";    // near-black (Nori primary)
+const CREAM     = "#F5F5F5";   // soft muted bg
+const BORDER    = "#E5E5E5";   // hairline border
+const INK       = "#111111";    // near-black text
+const MUTED     = "#888888";    // muted text
 // AI panel: soft lavender
-const AI_BG     = "oklch(0.96 0.002 20)";    // soft muted bg
-const AI_BORDER = "oklch(0.88 0.005 20)";    // hairline border
-const AI_MSG_BG = "oklch(0.96 0.002 20)";    // message bg
-const AI_ACCENT = "oklch(0.82 0.08 10)";     // soft rose accent
-const TITLEBAR  = "oklch(0.96 0.002 20)";    // Nori muted title bar
-const TITLEBAR_TEXT = "oklch(0.12 0.01 20)";  // near-black title text
+const AI_BG     = "#F5F5F5";    // soft muted bg
+const AI_BORDER = "#E5E5E5";    // hairline border
+const AI_MSG_BG = "#F5F5F5";    // message bg
+const AI_ACCENT = "#111111";     // soft rose accent
+const TITLEBAR  = "#F5F5F5";    // Nori muted title bar
+const TITLEBAR_TEXT = "#111111";  // near-black title text
 
 function CornerMark() {
   return (
@@ -179,11 +179,10 @@ function CornerMark() {
 /* Priority config — distinct colors per level, sorted urgent → focus → normal → someday */
 const PRIORITY_ORDER: Record<string, number> = { urgent: 0, focus: 1, normal: 2, someday: 3 };
 const PRIORITY_DOTS: Record<string, { color: string; bg: string; label: string; labelBg: string }> = {
-  // Muted ink-stamp palette — desaturated, dusty, lo-fi
-  urgent:  { color: "#C0306A", bg: "oklch(0.95 0.040 355)",  label: "urgent",  labelBg: "rgba(192, 48, 106, 0.10)" },
-  focus:   { color: "#7A50A0", bg: "oklch(0.95 0.030 290)",  label: "focus",   labelBg: "rgba(122, 80, 160, 0.10)" },
-  normal:  { color: "#7A50A0", bg: "oklch(0.95 0.025 290)",  label: "normal",  labelBg: "rgba(122, 80, 160, 0.08)" },
-  someday: { color: "#6070A0", bg: "oklch(0.95 0.020 240)",  label: "someday", labelBg: "rgba(96, 112, 160, 0.08)" },
+  urgent:  { color: "#111111", bg: "#F5F5F5", label: "urgent",  labelBg: "#F5F5F5" },
+  focus:   { color: "#555555", bg: "#F5F5F5", label: "focus",   labelBg: "#F5F5F5" },
+  normal:  { color: "#888888", bg: "#F5F5F5", label: "normal",  labelBg: "#F5F5F5" },
+  someday: { color: "#AAAAAA", bg: "#F5F5F5", label: "someday", labelBg: "#F5F5F5" },
 };
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
@@ -465,7 +464,7 @@ ${routineContext}`;
     <div data-tour-id="tour-dashboard" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {/* ── HERO: just the quick capture input, no window frame ── */}
       <div style={{ padding: isMobile ? "8px 0" : "8px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(1 0 0)", padding: "10px 16px", borderRadius: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "#FFFFFF", padding: "10px 16px", borderRadius: 10 }}>
           <Zap size={14} style={{ color: TC, flexShrink: 0 }} />
           <input
             ref={dumpInputRef}
@@ -508,10 +507,10 @@ ${routineContext}`;
 
         {/* Col 2: Next Up task list — taller when AI is hidden */}
         {(true || showAI) && (
-        <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: isMobile ? "360px" : "410px", borderRadius: 16, border: "1px solid oklch(0.88 0.005 20)", background: "oklch(1 0 0)" }}>
+        <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: isMobile ? "360px" : "410px", borderRadius: 16, border: "1px solid #E5E5E5", background: "#FFFFFF" }}>
           {/* Nori title bar */}
-          <div style={{ background: "oklch(0.96 0.002 20)", padding: "10px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)", flexShrink: 0 }}>
-            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Next Up</span>
+          <div style={{ background: "#F5F5F5", padding: "10px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid #E5E5E5", flexShrink: 0 }}>
+            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 900, color: "#111111" }}>Next Up</span>
           </div>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden", padding: "10px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: 8, flexShrink: 0 }}>
@@ -521,7 +520,7 @@ ${routineContext}`;
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 {(["today", "all"] as const).map(f => (
                   <button key={f} onClick={() => setNextUpFilter(f)}
-                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: nextUpFilter === f ? 700 : 500, padding: "2px 10px", borderRadius: 9999, border: `1px solid ${nextUpFilter === f ? "oklch(0.12 0.01 20)" : BORDER}`, background: nextUpFilter === f ? "oklch(0.12 0.01 20)" : "transparent", color: nextUpFilter === f ? "oklch(1 0 0)" : MUTED, cursor: "pointer" }}>
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: nextUpFilter === f ? 700 : 500, padding: "2px 10px", borderRadius: 9999, border: `1px solid ${nextUpFilter === f ? "#111111" : BORDER}`, background: nextUpFilter === f ? "#111111" : "transparent", color: nextUpFilter === f ? "#FFFFFF" : MUTED, cursor: "pointer" }}>
                     {f === "today" ? "Today" : "All"}
                   </button>
                 ))}
@@ -592,20 +591,22 @@ ${routineContext}`;
                   return (
                     <div
                       key={t.id}
-                      className={`retro-task-row ${t.priority}`}
                       style={{
-                        opacity: isCompleting ? 0.5 : 1,
+                        display: "flex", alignItems: "center", gap: 10,
+                        padding: "10px 16px",
+                        borderBottom: "1px solid #F5F5F5",
+                        opacity: isCompleting ? 0.45 : 1,
                         transition: "all 0.3s ease",
-                        padding: "6px 8px",
                       }}
                     >
                       {/* Task text */}
                       <p style={{
-                        fontSize: 11, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-                        color: isCompleting ? MUTED : INK,
+                        fontSize: 14, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                        color: isCompleting ? "#888888" : "#111111",
                         textDecoration: isCompleting ? "line-through" : "none",
                         fontFamily: "'Pretendard', system-ui, sans-serif",
                         fontWeight: 500,
+                        margin: 0,
                       }}>
                         {cleanText}
                       </p>
@@ -624,23 +625,20 @@ ${routineContext}`;
                         );
                       })()}
 
-                      {/* Priority stamp tag */}
-                      {!isCompleting && (
+                      {/* Priority chip - only show urgent */}
+                      {!isCompleting && t.priority === "urgent" && (
                         <span style={{
                           fontFamily: "'Pretendard', system-ui, sans-serif",
-                          fontSize: "0.52rem",
+                          fontSize: 11,
                           fontWeight: 700,
-                          letterSpacing: "0.07em",
-                          textTransform: "uppercase",
-                          color: pd.color,
-                          border: `1.5px solid ${pd.color}55`,
-                          borderRadius: 2,
-                          padding: "1px 4px",
-                          background: pd.labelBg,
+                          color: "#111111",
+                          background: "#F0F0F0",
+                          borderRadius: 9999,
+                          padding: "2px 8px",
                           flexShrink: 0,
                           whiteSpace: "nowrap",
                         }}>
-                          {pd.label}
+                          !
                         </span>
                       )}
 
@@ -649,14 +647,14 @@ ${routineContext}`;
                         onClick={() => handleCheck(t.id)}
                         title="Mark done"
                         style={{
-                          width: 18, height: 18, flexShrink: 0, borderRadius: 3,
-                          border: `2px solid ${isCompleting ? "oklch(0.60 0.08 290)" : "oklch(0.88 0.018 355)"}`,
-                          background: isCompleting ? "oklch(0.60 0.08 290 / 0.15)" : "transparent",
+                          width: 20, height: 20, flexShrink: 0, borderRadius: "50%",
+                          border: `1.5px solid ${isCompleting ? "#111111" : "#CCCCCC"}`,
+                          background: isCompleting ? "#111111" : "transparent",
                           display: "flex", alignItems: "center", justifyContent: "center",
-                          transition: "all 0.2s",
+                          transition: "all 0.2s", cursor: "pointer", padding: 0,
                         }}
                       >
-                        {isCompleting && <Check size={10} style={{ color: "oklch(0.60 0.08 290)" }} />}
+                        {isCompleting && <Check size={11} color="white" strokeWidth={3} />}
                       </button>
                     </div>
                   );

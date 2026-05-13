@@ -68,102 +68,63 @@ export function LoginScreen({ onLogin }: Props) {
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center"
-      style={{ background: "oklch(0.93 0.045 355)" }}
+      style={{ background: "#FFFFFF" }}
     >
       <div
         style={{
-          background: "oklch(0.978 0.012 355)",
-          border: "1.5px solid oklch(0.82 0.08 340)",
-          borderRadius: 8,
-          boxShadow: "0 20px 60px rgba(140,40,90,0.25), 0 4px 16px rgba(180,60,120,0.15)",
+          background: "#FFFFFF",
+          border: "1px solid #E5E5E5",
+          borderRadius: 20,
+          boxShadow: "0 8px 40px rgba(0,0,0,0.08)",
           width: "min(360px, 92vw)",
           overflow: "hidden",
+          padding: "40px 32px 32px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 24,
+          textAlign: "center",
         }}
       >
-        {/* Retro title bar */}
-        <div style={{
-          background: "#F9D6E8",
-          borderBottom: "1.5px solid oklch(0.80 0.08 340)",
-          padding: "6px 10px",
-          display: "flex", alignItems: "center", gap: 6,
-        }}>
-          {["oklch(0.62 0.18 340)", "oklch(0.72 0.10 310)", "oklch(0.78 0.10 290)"].map((bg, i) => (
-            <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: bg }} />
-          ))}
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>
-            daily_checkin.exe
-          </span>
+        {/* App icon */}
+        <div style={{ width: 52, height: 52, borderRadius: 14, background: "#111111", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+            <circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9"/>
+          </svg>
         </div>
 
-        {/* Content */}
-        <div style={{ padding: "32px 32px 28px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
-          {/* Logo / icon */}
-          <div style={{ fontSize: 36 }}>✦</div>
-
-          <div>
-            <h1 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "1.6rem", fontWeight: 700,
-              color: "oklch(0.28 0.040 320)",
-              margin: "0 0 8px",
-            }}>
-              ADHD Focus Space
-            </h1>
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "0.85rem", color: "oklch(0.55 0.040 330)",
-              margin: 0, lineHeight: 1.5,
-            }}>
-              Sign in to get started. Your data stays on your device.
-            </p>
-          </div>
-
-          {/* Google Sign-In button */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "100%" }}>
-            {loading ? (
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: "oklch(0.55 0.040 330)" }}>
-                Signing in…
-              </div>
-            ) : (
-              <div ref={btnRef} />
-            )}
-            {error && (
-              <p style={{
-                fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem",
-                color: "oklch(0.52 0.14 25)", margin: 0, textAlign: "center", lineHeight: 1.4,
-              }}>
-                {error}
-              </p>
-            )}
-          </div>
-
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif", fontSize: "0.68rem",
-            color: "oklch(0.65 0.030 330)", margin: 0, lineHeight: 1.5,
-          }}>
-            Your OpenAI key is stored encrypted. Your data is stored on your device — back up to Google Drive to sync across devices.
+        <div>
+          <h1 style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 22, fontWeight: 900, color: "#111111", margin: "0 0 8px" }}>
+            ADHD Focus Space
+          </h1>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, color: "#888888", margin: 0, lineHeight: 1.5 }}>
+            Sign in to sync your data across devices.
           </p>
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            <a
-              href="/privacy"
-              style={{
-                fontFamily: "'DM Sans', sans-serif", fontSize: "0.68rem",
-                color: "oklch(0.52 0.10 340)", textDecoration: "underline",
-              }}
-            >
-              Privacy Policy
-            </a>
-            <span style={{ fontSize: "0.68rem", color: "oklch(0.65 0.03 330)" }}>·</span>
-            <a
-              href="/terms"
-              style={{
-                fontFamily: "'DM Sans', sans-serif", fontSize: "0.68rem",
-                color: "oklch(0.52 0.10 340)", textDecoration: "underline",
-              }}
-            >
-              Terms of Service
-            </a>
-          </div>
+        </div>
+
+        {/* Google Sign-In button */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "100%" }}>
+          {loading ? (
+            <div style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, color: "#888888" }}>
+              Signing in…
+            </div>
+          ) : (
+            <div ref={btnRef} />
+          )}
+          {error && (
+            <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, color: "#EF4444", margin: 0, textAlign: "center" }}>
+              {error}
+            </p>
+          )}
+        </div>
+
+        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 12, color: "#BBBBBB", margin: 0, lineHeight: 1.5 }}>
+          Your data is stored securely. Gemini API key is encrypted.
+        </p>
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <a href="/privacy" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 12, color: "#BBBBBB", textDecoration: "underline" }}>Privacy</a>
+          <span style={{ fontSize: 12, color: "#DDDDDD" }}>·</span>
+          <a href="/terms" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 12, color: "#BBBBBB", textDecoration: "underline" }}>Terms</a>
         </div>
       </div>
     </div>
