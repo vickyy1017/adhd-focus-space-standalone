@@ -279,98 +279,85 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
   const liveTagsInInput = extractTags(currentThought);
 
   return (
-    <div data-tour-id="tour-dump" className="flex flex-col gap-4 h-full">
+    <div data-tour-id="tour-dump" style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
 
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-1">
-        <PixelBrain size={28} color={M.coral} />
-        <div>
-          <p className="text-sm font-semibold italic" style={{ color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Brain Dump</p>
-          <p className="editorial-label" style={{ color: M.muted }}>Use <span style={{ color: M.coral }}>#tags</span> to organise</p>
-        </div>
-      </div>
-
-      {/* Input */}
-      <div className="flex flex-col gap-2">
-        <Textarea
+      {/* ── Input area ── */}
+      <div style={{ padding: "20px 16px 12px", borderBottom: "1px solid #F0F0F0" }}>
+        <textarea
           ref={textareaRef}
           value={currentThought}
           onChange={(e) => setCurrentThought(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) dump(); }}
-          placeholder={"What's on your mind? Use #tags to label ideas…"}
-          className="resize-none min-h-[100px]"
-          style={{ background: M.card, border: `1px solid ${M.border}`, color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}
+          placeholder="What's on your mind? Use #tags to label..."
           rows={4}
+          style={{
+            width: "100%",
+            border: "none",
+            outline: "none",
+            background: "transparent",
+            resize: "none",
+            fontSize: 17,
+            lineHeight: 1.6,
+            color: "#111111",
+            fontFamily: "inherit",
+            boxSizing: "border-box",
+          }}
         />
-
-        {/* Live tag preview */}
+        {/* Live tags */}
         {liveTagsInInput.length > 0 && (
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <Tag className="w-3 h-3 shrink-0" style={{ color: M.muted }} />
-            <span className="text-xs" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Detected:</span>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
             {liveTagsInInput.map((t) => (
-              <span
-                key={t}
-                style={{ display: "inline-block", background: "#F5F5F5", border: "1px solid #E5E5E5", borderRadius: 9999, color: "#888888", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", fontWeight: 600, padding: "1px 8px" }}
-              >
-                {t}
-              </span>
+              <span key={t} style={{ background: "#F0F0F0", borderRadius: 9999, color: "#888888", fontSize: 12, fontWeight: 600, padding: "2px 10px" }}>{t}</span>
             ))}
           </div>
         )}
-
-        <div className="flex items-center justify-between">
-          <span className="text-xs" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>⌘ + Enter to capture</span>
-          <button onClick={() => dump()} disabled={createMutation.isPending} className="m-btn-primary">
-            {createMutation.isPending ? "Saving…" : "Dump It"}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: 12, color: "#BBBBBB" }}>⌘+Enter to save</span>
+          <button
+            onClick={() => dump()}
+            disabled={createMutation.isPending || !currentThought.trim()}
+            style={{
+              background: currentThought.trim() ? "#111111" : "#F0F0F0",
+              color: currentThought.trim() ? "#FFFFFF" : "#BBBBBB",
+              border: "none",
+              borderRadius: 9999,
+              padding: "8px 20px",
+              fontSize: 14,
+              fontWeight: 700,
+              cursor: currentThought.trim() ? "pointer" : "default",
+              fontFamily: "inherit",
+              transition: "all 0.15s",
+            }}
+          >
+            {createMutation.isPending ? "Saving..." : "Save"}
           </button>
         </div>
       </div>
 
-      {/* AI Results Panel */}
-      {/* Tag filter bar */}
+      {/* Tag filter */}
       {allTags.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-medium" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.10em", textTransform: "uppercase" }}>
-              Filter by tag
-            </span>
-            <button onClick={() => setActiveTag(null)} className={cn("m-chip", !activeTag && "active")}>
-              All ({entries.filter(e => !e.converted).length})
+        <div style={{ padding: "10px 16px", display: "flex", gap: 6, flexWrap: "wrap", borderBottom: "1px solid #F0F0F0" }}>
+          <button
+            onClick={() => setActiveTag(null)}
+            style={{ background: !activeTag ? "#111111" : "#F5F5F5", color: !activeTag ? "#FFFFFF" : "#888888", border: "none", borderRadius: 9999, padding: "4px 12px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}
+          >
+            All
+          </button>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+              style={{ background: activeTag === tag ? "#111111" : "#F5F5F5", color: activeTag === tag ? "#FFFFFF" : "#888888", border: "none", borderRadius: 9999, padding: "4px 12px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}
+            >
+              {tag}
             </button>
-            {allTags.map((tag) => {
-              const count = entries.filter((e) => e.tags.includes(tag) && !e.converted).length;
-              return (
-                <button
-                  key={tag}
-                  onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                  className={cn("m-chip", activeTag === tag && "active")}
-                >
-                  {tag} ({count})
-                </button>
-              );
-            })}
-          </div>
-          {activeTag && (
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
-                Showing {visibleEntries.length} idea{visibleEntries.length !== 1 ? "s" : ""} tagged
-              </span>
-              <span className="inline-flex items-center gap-0.5 px-2 py-0.5 text-xs font-bold"
-                style={{ background: "#111111", borderRadius: 9999, color: "#FFFFFF", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
-                {activeTag}
-              </span>
-              <button onClick={() => setActiveTag(null)} className="p-0.5 transition-opacity hover:opacity-60" style={{ color: M.muted }}>
-                <X className="w-3 h-3" />
-              </button>
-            </div>
-          )}
+          ))}
         </div>
       )}
 
       {/* Entries header */}
       {entries.filter(e => !e.converted).length > 0 && (
-        <div className="flex items-center justify-between">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px 4px" }}>
           <p className="text-sm font-medium" style={{ color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
             {activeTag ? `#${activeTag}` : "All thoughts"}{" "}
             <span style={{ color: M.muted }}>({visibleEntries.length})</span>

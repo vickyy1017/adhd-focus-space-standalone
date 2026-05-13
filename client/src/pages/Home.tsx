@@ -10,6 +10,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Sidebar, TimerPill } from "@/components/Sidebar";
 import { useMobile } from "@/hooks/useMobile";
 import { Dashboard } from "@/components/Dashboard";
+import { HomeView } from "@/components/HomeView";
 import { FocusTimer } from "@/components/FocusTimer";
 import { TaskManager, type Task } from "@/components/TaskManager";
 import { DailyPlanView } from "@/components/DailyPlanView";
@@ -249,72 +250,84 @@ export default function Home() {
 
       {/* Main content */}
       <main className={isMobile ? "flex-1 min-h-screen flex flex-col" : "flex-1 ml-14 min-h-screen flex flex-col"}>
-        {/* Sticky header */}
-        <header style={{
-          position: "sticky", top: 0, zIndex: 30,
-          background: "#FFFFFF",
-          borderBottom: "1px solid #E5E5E5",
-          height: 52,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: isMobile ? "0 16px" : "0 24px",
-        }}>
-          <h1 style={{ fontSize: 18, fontWeight: 900, color: "#111111", margin: 0 }}>
-            {meta.title}
-          </h1>
-          <button
-            onClick={() => setWrapUpOpen(true)}
-            className="btn-primary"
-            style={{ padding: "7px 16px", fontSize: 13 }}
-          >
-            <Moon size={14} />
-            Wrap up
-          </button>
-        </header>
+        {/* Header — only on desktop, or for non-home pages on mobile */}
+        {(!isMobile || (activeSection !== "dashboard" && activeSection !== "tasks" && activeSection !== "dump")) && (
+          <header style={{
+            position: "sticky", top: 0, zIndex: 30,
+            background: "#FFFFFF",
+            borderBottom: "1px solid #E5E5E5",
+            height: 52,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: isMobile ? "0 16px" : "0 24px",
+          }}>
+            <h1 style={{ fontSize: 18, fontWeight: 900, color: "#111111", margin: 0 }}>
+              {meta.title}
+            </h1>
+            <button
+              onClick={() => setWrapUpOpen(true)}
+              className="btn-primary"
+              style={{ padding: "7px 16px", fontSize: 13 }}
+            >
+              <Moon size={14} />
+              Wrap up
+            </button>
+          </header>
+        )}
 
         {/* Page content */}
         <div
           className="flex-1 overflow-y-auto"
           style={{
-            padding: isMobile ? "16px" : "32px",
+            padding: (isMobile && (activeSection === "dashboard" || activeSection === "tasks" || activeSection === "dump")) ? "0" : (isMobile ? "16px" : "32px"),
             paddingBottom: isMobile ? "calc(76px + env(safe-area-inset-bottom, 0px))" : "32px",
           }}
         >
-          <div style={{ maxWidth: activeSection === "dashboard" ? 900 : 720, margin: "0 auto" }}>
+          <div style={{ maxWidth: (activeSection === "dashboard" || activeSection === "tasks" || activeSection === "dump") ? "100%" : 720, margin: "0 auto" }}>
 
             {activeSection === "dashboard" && (
-              <div className="relative">
-              <Dashboard
-                tasks={tasks}
-                wins={[]}
-                goals={[]}
-                agents={[]}
-                mood={null}
-                displayName={userData.display_name || undefined}
-                blockStreak={openDayStreak}
-                blockHistory={blockHistory}
-                onNavigate={(s) => setActiveSection(s as Section)}
-                onSessionComplete={handleSessionComplete}
-                onBlockComplete={handleBlockComplete}
-                focusSessions={focusSessions}
-                allCategories={allCategories}
-                onQuickDump={(text) => setPendingDump(text)}
-                onTasksChange={handleTasksChange}
-                onTaskToggle={(id) => {
-                  const updated = tasks.map((t) => t.id === id ? { ...t, done: !t.done } : t);
-                  handleTasksChange(updated);
-                }}
-                onTaskCreate={(task) => setTasks((prev) => [task, ...prev])}
-                onGoalCreate={() => {}}
-                onAgentCreate={() => {}}
-                onWinCreate={() => {}}
-                onDumpCreate={(text) => {
-                  setBrainDump((prev: any) => [
-                    { id: `dump-${Date.now()}`, text, tags: [], createdAt: new Date().toISOString(), converted: false },
-                    ...prev,
-                  ]);
-                }}
-              />
-              </div>
+              isMobile ? (
+                <HomeView
+                  tasks={tasks}
+                  onTasksChange={handleTasksChange}
+                  onNavigateToTasks={() => setActiveSection("tasks" as Section)}
+                  onNavigateToDump={() => setActiveSection("dump" as Section)}
+                  userName={user?.name || undefined}
+                />
+              ) : (
+                <div style={{ padding: "32px" }}>
+                  <Dashboard
+                    tasks={tasks}
+                    wins={[]}
+                    goals={[]}
+                    agents={[]}
+                    mood={null}
+                    displayName={userData.display_name || undefined}
+                    blockStreak={openDayStreak}
+                    blockHistory={blockHistory}
+                    onNavigate={(s) => setActiveSection(s as Section)}
+                    onSessionComplete={handleSessionComplete}
+                    onBlockComplete={handleBlockComplete}
+                    focusSessions={focusSessions}
+                    allCategories={allCategories}
+                    onQuickDump={(text) => setPendingDump(text)}
+                    onTasksChange={handleTasksChange}
+                    onTaskToggle={(id) => {
+                      const updated = tasks.map((t) => t.id === id ? { ...t, done: !t.done } : t);
+                      handleTasksChange(updated);
+                    }}
+                    onTaskCreate={(task) => setTasks((prev) => [task, ...prev])}
+                    onGoalCreate={() => {}}
+                    onAgentCreate={() => {}}
+                    onWinCreate={() => {}}
+                    onDumpCreate={(text) => {
+                      setBrainDump((prev: any) => [
+                        { id: `dump-${Date.now()}`, text, tags: [], createdAt: new Date().toISOString(), converted: false },
+                        ...prev,
+                      ]);
+                    }}
+                  />
+                </div>
+              )
             )}
 
             {activeSection === "focus" && (
@@ -324,7 +337,7 @@ export default function Home() {
             )}
 
             {activeSection === "tasks" && (
-              <div style={{ padding: isMobile ? "12px" : "24px" }}>
+              <div style={{ padding: isMobile ? "0" : "32px" }}>
                 <DailyPlanView
                   tasks={tasks}
                   onTasksChange={handleTasksChange}
