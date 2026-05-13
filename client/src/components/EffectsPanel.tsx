@@ -313,9 +313,9 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                     </p>
                   </div>
                 )}
-                <p style={{ fontSize: "0.52rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>Add your OpenAI key for unlimited AI features.</p>
+                <p style={{ fontSize: "0.52rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>Add your Gemini API key for unlimited AI. Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 requests/day free.</p>
                 <div style={{ position: "relative" }}>
-                  <input type={showKey ? "text" : "password"} value={apiKeyInput} onChange={(e) => setApiKeyInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveKey(); }} placeholder="sk-..." style={{ width: "100%", boxSizing: "border-box", padding: "8px 32px 8px 10px", fontSize: "0.60rem", fontFamily: "'Space Mono', monospace", border: "1px solid oklch(0.82 0.06 340)", borderRadius: 4, background: "oklch(0.975 0.010 355)", color: "oklch(0.28 0.040 320)", outline: "none" }} />
+                  <input type={showKey ? "text" : "password"} value={apiKeyInput} onChange={(e) => setApiKeyInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveKey(); }} placeholder="AIza..." style={{ width: "100%", boxSizing: "border-box", padding: "8px 32px 8px 10px", fontSize: "0.60rem", fontFamily: "'Space Mono', monospace", border: "1px solid oklch(0.82 0.06 340)", borderRadius: 4, background: "oklch(0.975 0.010 355)", color: "oklch(0.28 0.040 320)", outline: "none" }} />
                   <button type="button" onClick={() => setShowKey((v) => !v)} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "0.65rem", color: "oklch(0.60 0.040 330)", padding: 0 }} title={showKey ? "Hide" : "Show"}>{showKey ? "●" : "○"}</button>
                 </div>
                 <button onClick={saveKey} disabled={keyLoading || !apiKeyInput.trim()} style={{ fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", padding: "6px 12px", borderRadius: 4, border: `1px solid ${!apiKeyInput.trim() ? "oklch(0.80 0.040 330)" : "oklch(0.55 0.18 340)"}`, background: !apiKeyInput.trim() ? "transparent" : "oklch(0.55 0.18 340)", color: !apiKeyInput.trim() ? "oklch(0.65 0.040 330)" : "white", cursor: keyLoading || !apiKeyInput.trim() ? "not-allowed" : "pointer", alignSelf: "flex-start", transition: "all 0.15s" }}>
@@ -760,10 +760,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                         </div>
                       )}
                       <p style={{ fontSize: "0.44rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: 2 }}>
-                        Add your OpenAI key for unlimited AI features (brain dump sorting, daily summaries, and more)
-                      </p>
-                      <p style={{ fontSize: "0.42rem", color: "oklch(0.52 0.14 25)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: 2 }}>
-                        ⚠ Your OpenAI account must have billing set up — free accounts cannot make API calls from external apps. Add credits at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "'Space Mono', monospace", color: "inherit", textDecoration: "underline" }}>platform.openai.com/billing</a>.
+                        Add your Gemini API key for unlimited AI. Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 requests/day, no credit card needed.
                       </p>
                       <div style={{ position: "relative" }}>
                         <input
@@ -771,7 +768,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                           value={apiKeyInput}
                           onChange={(e) => setApiKeyInput(e.target.value)}
                           onKeyDown={(e) => { if (e.key === "Enter") saveKey(); }}
-                          placeholder="sk-..."
+                          placeholder="AIza..."
                           style={{
                             width: "100%",
                             boxSizing: "border-box",

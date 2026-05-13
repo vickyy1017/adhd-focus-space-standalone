@@ -4,7 +4,7 @@
    ============================================================ */
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Flame, Loader2, Mic, MicOff, Plus, Send, Settings, Sparkles, Star, Trash2, X, Zap } from "lucide-react";
+import { Flame, Loader2, Mic, MicOff, Plus, RotateCcw, Send, Sparkles, Star, Trash2, X, Zap } from "lucide-react";
 import { callAI, callAIStream } from "@/lib/ai";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useMobile } from "@/hooks/useMobile";
@@ -44,6 +44,7 @@ interface GlobalQuickAddProps {
   onAddGoal?: (text: string, context?: string) => void;
   onAddWin?: (text: string, iconIdx?: number) => void;
   onAddDump?: (text: string) => void;
+  tasks?: Task[];
 }
 
 /* ── Mobile-aware floating trigger ── */
@@ -95,7 +96,7 @@ function MobileAwareQuickAddTrigger({ open, onOpen }: { open: boolean; onOpen: (
   );
 }
 
-export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump }: GlobalQuickAddProps) {
+export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump, tasks = [] }: GlobalQuickAddProps) {
   const [open, setOpen]           = useState(false);
   const [configMode, setConfigMode] = useState(false);
   const [text, setText]           = useState("");
@@ -204,11 +205,21 @@ export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump }: Gl
     try {
       const today = new Date().toISOString().slice(0, 10);
       const todayName = new Date().toLocaleDateString("en-US", { weekday: "long" });
-      const systemPrompt = `You are an ADHD focus assistant. Help the user manage tasks, brain dumps, and focus. Today is ${today} (${todayName}).
+      const taskList = tasks.map((t: any) => `- [${t.done ? 'x' : ' '}] ${t.text} (${t.priority}${t.dueDate ? ', due ' + t.dueDate : ''})`).join('\n') || 'No tasks yet.';
+      const systemPrompt = `You are a powerful ADHD focus assistant. Today is ${today} (${todayName}).
 
-When the user wants to create a task, respond with JSON at the end: {"action":"task","text":"...","priority":"urgent|focus|normal","dueDate":"YYYY-MM-DD or null"}
-When the user wants to brain dump, respond with JSON: {"action":"dump","text":"..."}
-Otherwise just chat naturally and helpfully. Keep responses concise.`;
+User's current tasks:
+${taskList}
+
+You can:
+1. PRIORITIZE: Analyze tasks and tell the user what to focus on first, using urgency/importance reasoning
+2. PLAN: Help structure their day, break down big tasks, suggest time blocks
+3. ADD TASKS: When user wants to add a task, respond with JSON: {"action":"task","text":"...","priority":"urgent|focus|normal","dueDate":"YYYY-MM-DD or null"}
+4. BRAIN DUMP: When user wants to capture a thought/idea, respond with JSON: {"action":"dump","text":"..."}
+5. THINK TOGETHER: Help with decisions, overwhelm, procrastination, focus strategies
+6. MULTIPLE TASKS: You can create multiple tasks by including multiple JSON objects
+
+Be warm, direct, and ADHD-friendly. Avoid long lists. Give clear, actionable advice. When prioritizing, pick ONE thing to do first and explain why briefly.`;
       const messages = newHistory.map(m => ({ role: m.role, content: m.content }));
       const result = await callAI(systemPrompt, messages.map(m => `${m.role}: ${m.content}`).join("\n"));
       // Check for action JSON
@@ -358,19 +369,19 @@ Today is ${today} (${todayName}).`,
               </div>
               <div className="flex-1">
                 <p className="text-sm font-semibold" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>AI Assistant</p>
-                <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
-                  {configMode ? "Manage quick-reply chips" : "Tell me what to add — task, dump, or anything"}
-                </p>
+                <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>Tell me what to add — task, dump, or anything</p>
               </div>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => setConfigMode((v) => !v)}
-                  title="Configure chips"
-                  className="p-1 transition-colors"
-                  style={{ color: configMode ? M.coral : M.muted }}
-                >
-                  <Settings className="w-4 h-4" />
-                </button>
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                {chatHistory.length > 0 && (
+                  <button
+                    onClick={() => setChatHistory([])}
+                    title="Clear chat"
+                    className="p-1 transition-colors"
+                    style={{ color: M.muted }}
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                  </button>
+                )}
                 <button onClick={closeModal} className="p-1 transition-colors" style={{ color: M.muted }}>
                   <X className="w-4 h-4" />
                 </button>
@@ -439,9 +450,35 @@ Today is ${today} (${todayName}).`,
                 {/* Chat history */}
                 <div style={{ height: 280, overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 10, background: "oklch(0.985 0.010 355)" }}>
                   {chatHistory.length === 0 && (
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, opacity: 0.5 }}>
-                      <Sparkles size={24} style={{ color: M.coral }} />
-                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: M.muted, textAlign: "center" }}>Ask me anything — I can create tasks, log brain dumps, or just chat.</p>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, paddingTop: 16 }}>
+                      <Sparkles size={22} style={{ color: M.coral, opacity: 0.7 }} />
+                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: M.muted, textAlign: "center", lineHeight: 1.5 }}>Your ADHD focus assistant — I can plan your day, prioritize tasks, add ideas, or just think with you.</p>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
+                        {[
+                          "What should I focus on right now?",
+                          "Help me plan my day",
+                          "I have too many tasks, help me prioritize",
+                          "Add task: ",
+                          "Brain dump: ",
+                        ].map((prompt) => (
+                          <button
+                            key={prompt}
+                            onClick={() => setText(prompt)}
+                            style={{
+                              textAlign: "left", padding: "8px 12px",
+                              background: "white", border: `1px solid ${M.border}`,
+                              borderRadius: 8, cursor: "pointer",
+                              fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem",
+                              color: M.ink, lineHeight: 1.4,
+                              transition: "border-color 0.15s",
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.borderColor = M.coralBdr)}
+                            onMouseLeave={(e) => (e.currentTarget.style.borderColor = M.border)}
+                          >
+                            {prompt}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   )}
                   {chatHistory.map((msg, i) => (

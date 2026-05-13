@@ -286,62 +286,16 @@ export function EisenhowerMatrix({
   }
 
   return (
-    <div style={{ marginTop: hideHeader ? 0 : 32 }}>
-      {/* ── Section header ── */}
-      {!hideHeader && <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <div style={{
-          width: 3, height: 18,
-          background: "oklch(0.50 0.09 35)",
-          borderRadius: 2, flexShrink: 0,
-        }} />
-        <span style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 15, fontWeight: 700,
-          color: "oklch(0.28 0.018 65)",
-          fontStyle: "italic",
-        }}>
-          Priority Matrix
-        </span>
-        <span style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: 9,
-          color: "oklch(0.62 0.018 70)",
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          marginLeft: 2,
-        }}>
-          drag tasks between quadrants
-        </span>
-      </div>}
-
-      {/* ── Axis labels + grid ── */}
-      <div style={{ position: "relative", paddingLeft: 42, paddingBottom: 30, paddingRight: 8, paddingTop: 8 }}>
-
-        {/* Y-axis: Importance */}
-        <div style={{
-          position: "absolute",
-          left: 4, top: "50%",
-          width: 20,
-          transform: "translateX(-50%) translateY(-50%) rotate(-90deg)",
-          transformOrigin: "center center",
-          fontFamily: "'Space Mono', monospace",
-          fontSize: 8,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: "oklch(0.62 0.018 70)",
-          whiteSpace: "nowrap",
-          textAlign: "center",
-        }}>
-          importance ↑
-        </div>
-
+    <div style={{ marginTop: 0 }}>
+      {/* ── Grid only ── */}
+      <div style={{ position: "relative", padding: 0 }}>
         {/* Grid */}
         <div style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gridTemplateRows: "1fr 1fr",
-          gap: 8,
-          minHeight: 390,
+          gap: 6,
+          minHeight: 480,
         }}>
           {QUADRANTS.map((q) => {
             const qTasks = activeTasks
@@ -504,19 +458,6 @@ export function EisenhowerMatrix({
               </div>
             );
           })}
-        </div>
-
-        {/* X-axis label: Urgency */}
-        <div style={{
-          textAlign: "center",
-          marginTop: 10,
-          fontFamily: "'Space Mono', monospace",
-          fontSize: 8,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: "oklch(0.62 0.018 70)",
-        }}>
-          urgency →
         </div>
       </div>
     </div>

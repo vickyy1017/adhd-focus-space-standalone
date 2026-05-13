@@ -2,7 +2,7 @@ import { createServer } from "http";
 import { Pool } from "pg";
 import { SignJWT, jwtVerify } from "jose";
 import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // ─── Config ────────────────────────────────────────────────────────────────
 const JWT_SECRET = new TextEncoder().encode(
@@ -289,30 +289,25 @@ export default async function handler(req: any, res: any) {
         const usageCount = Number(row?.ai_usage_count ?? 0);
         if (usageCount >= FREE_LIMIT) {
           json(res, 402, {
-            error: `You've used your ${FREE_LIMIT} free AI requests. Add your OpenAI key in Settings (⚙ bottom-left) to continue.`,
+            error: `You've used your ${FREE_LIMIT} free AI requests. Add your Gemini API key in Settings to continue.`,
             usageCount, freeLimit: FREE_LIMIT,
           });
           return;
         }
-        const ownerKey = process.env.OWNER_OPENAI_KEY;
+        const ownerKey = process.env.OWNER_GEMINI_KEY ?? process.env.OWNER_OPENAI_KEY;
         if (!ownerKey) {
-          json(res, 402, { error: "No API key configured. Add your OpenAI key in Settings (⚙)." });
+          json(res, 402, { error: "No API key configured. Add your Gemini API key in Settings." });
           return;
         }
         apiKey = ownerKey;
         usingOwnerKey = true;
       }
 
-      const openai = new OpenAI({ apiKey });
-      const completion = await openai.chat.completions.create({
-        model,
-        messages: [
-          ...(systemPrompt ? [{ role: "system" as const, content: systemPrompt }] : []),
-          { role: "user" as const, content: userMessage },
-        ],
-        max_tokens: 1000,
-      });
-      const content = completion.choices[0]?.message?.content ?? "";
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const geminiModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+      const prompt = systemPrompt ? `${systemPrompt}\n\nUser: ${userMessage}` : userMessage;
+      const result = await geminiModel.generateContent(prompt);
+      const content = result.response.text() ?? "";
 
       if (usingOwnerKey) {
         const db2 = getDb();
@@ -328,8 +323,8 @@ export default async function handler(req: any, res: any) {
       json(res, 200, { content });
     } catch (err: any) {
       console.error("AI error:", err);
-      if (err?.status === 401) { json(res, 401, { error: "Invalid OpenAI API key." }); return; }
-      if (err?.status === 429) { json(res, 429, { error: "OpenAI rate limit. Try again soon." }); return; }
+      if (err?.status === 401 || err?.message?.includes("API_KEY_INVALID")) { json(res, 401, { error: "Invalid Gemini API key." }); return; }
+      if (err?.status === 429) { json(res, 429, { error: "Gemini rate limit. Try again soon." }); return; }
       json(res, 500, { error: "AI request failed: " + (err?.message ?? "unknown") });
     }
     return;
@@ -444,10 +439,10 @@ export default async function handler(req: any, res: any) {
       } else {
         const usageCount = Number(row?.ai_usage_count ?? 0);
         if (usageCount >= FREE_LIMIT) {
-          json(res, 402, { error: `You've used your ${FREE_LIMIT} free AI requests. Add your OpenAI key in Settings.` });
+          json(res, 402, { error: `You've used your ${FREE_LIMIT} free AI requests. Add your Gemini API key in Settings.` });
           return;
         }
-        const ownerKey = process.env.OWNER_OPENAI_KEY;
+        const ownerKey = process.env.OWNER_GEMINI_KEY ?? process.env.OWNER_OPENAI_KEY;
         if (!ownerKey) { json(res, 402, { error: "No API key configured." }); return; }
         apiKey = ownerKey;
         usingOwnerKey = true;
@@ -461,24 +456,17 @@ export default async function handler(req: any, res: any) {
       res.setHeader("Access-Control-Allow-Credentials", "true");
       res.statusCode = 200;
 
-      const openai = new OpenAI({ apiKey });
-      const stream = await openai.chat.completions.create({
-        model, stream: true,
-        messages: [
-          ...(systemPrompt ? [{ role: "system" as const, content: systemPrompt }] : []),
-          { role: "user" as const, content: userMessage },
-        ],
-        max_tokens: 1000,
-      });
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const geminiModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+      const prompt = systemPrompt ? `${systemPrompt}\n\nUser: ${userMessage}` : userMessage;
+      const streamResult = await geminiModel.generateContentStream(prompt);
 
       let fullContent = "";
-      for await (const chunk of stream) {
-        const delta = chunk.choices[0]?.delta?.content ?? "";
+      for await (const chunk of streamResult.stream) {
+        const delta = chunk.text() ?? "";
         if (delta) {
           fullContent += delta;
-          res.write(`data: ${JSON.stringify({ delta })}
-
-`);
+          res.write(`data: ${JSON.stringify({ delta })}\n\n`);
         }
       }
 
@@ -495,8 +483,8 @@ export default async function handler(req: any, res: any) {
       res.end();
     } catch (err: any) {
       if (!res.headersSent) {
-        if (err?.status === 401) { json(res, 401, { error: "Invalid OpenAI API key." }); return; }
-        if (err?.status === 429) { json(res, 429, { error: "OpenAI rate limit." }); return; }
+        if (err?.status === 401 || err?.message?.includes("API_KEY_INVALID")) { json(res, 401, { error: "Invalid Gemini API key." }); return; }
+        if (err?.status === 429) { json(res, 429, { error: "Gemini rate limit." }); return; }
         json(res, 500, { error: err?.message ?? "Stream failed" });
       } else {
         res.write(`data: ${JSON.stringify({ error: err?.message ?? "Stream error" })}
