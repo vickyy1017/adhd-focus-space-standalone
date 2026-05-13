@@ -477,17 +477,43 @@
   .animate-fade-in { animation: fadeIn 0.2s ease-out; }
 
   /* ── Legacy compat ── */
-  .m-btn-primary { @apply btn-primary; }
-  .m-btn-ghost { @apply btn-ghost; }
-  .m-chip { @apply chip; }
-  .m-chip.active { @apply chip active; }
-  .nori-card { @apply card; }
-  .retro-window { @apply card; }
-  .retro-titlebar { @apply card-header; }
+  .m-btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: #111111; color: #FFFFFF; border: none; border-radius: 9999px;
+    padding: 10px 20px; font-size: 14px; font-weight: 700; font-family: inherit;
+    transition: opacity 0.15s; white-space: nowrap; cursor: pointer;
+  }
+  .m-btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: transparent; color: #888888; border: none;
+    padding: 6px 8px; font-size: 14px; font-family: inherit; cursor: pointer;
+  }
+  .m-chip {
+    display: inline-flex; align-items: center;
+    background: #F5F5F5; border: 1.5px solid #E5E5E5; border-radius: 9999px;
+    padding: 3px 10px; font-size: 12px; font-weight: 600; color: #555555;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .m-chip.active {
+    background: #111111; border-color: #111111; color: #FFFFFF;
+  }
+  .nori-card, .retro-window, .m-card {
+    background: #FFFFFF; border: 1px solid #E5E5E5; border-radius: 12px; overflow: hidden;
+  }
+  .retro-titlebar, .card-header {
+    padding: 14px 16px; border-bottom: 1px solid #E5E5E5; background: #F9F9F9;
+    display: flex; align-items: center; justify-content: space-between;
+  }
   .retro-titlebar-buttons { display: none; }
   .retro-titlebar-btn { display: none; }
-  .editorial-label { @apply t-label; }
-  .retro-label { @apply t-label; }
+  .editorial-label, .retro-label {
+    font-size: 11px; font-weight: 700; color: #888888;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
   .font-display { font-weight: 900; }
-  .m-card { @apply card; }
+  .m-btn-link {
+    background: transparent; border: none; cursor: pointer; color: #888888;
+    font-size: 13px; font-family: inherit; padding: 2px 4px;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
 }
