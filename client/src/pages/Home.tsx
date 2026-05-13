@@ -254,99 +254,62 @@ export default function Home() {
 
       {/* Main content */}
       <main className={isMobile ? "flex-1 min-h-screen flex flex-col" : "flex-1 ml-14 min-h-screen flex flex-col"}>
-        {/* Top header bar — retro lo-fi light style */}
+        {/* Top header bar — Nori minimal style */}
         <header
-          className="sticky top-0 z-30 flex items-center gap-0"
+          className="sticky top-0 z-30 flex items-center justify-between"
           style={{
-            background: "#F9D6E8",
-            borderBottom: "3px solid #D45898",
-            boxShadow: "0 3px 0 #E8A0C8, 0 5px 12px rgba(212,88,152,0.12)",
-            minHeight: 48,
+            background: "oklch(1 0 0)",
+            borderBottom: "1px solid oklch(0.88 0.005 20)",
+            minHeight: 52,
+            padding: isMobile ? "0 16px" : "0 24px",
           }}
         >
-          {/* Left: logo + page icon + title */}
-          <div
-            className="flex items-center gap-3 flex-1 min-w-0"
-            style={{ borderRight: "1.5px solid #E8B8D0", padding: isMobile ? "10px 12px" : "12px 24px" }}
-          >
-
-
-            {/* Page section icon */}
-            <div
-              className="flex items-center justify-center w-6 h-6 shrink-0"
-                style={{ opacity: 0.75 }}
-            >
-              <Icon className="w-3.5 h-3.5" style={{ color: "#B03878" }} />
-            </div>
-            <h1
-              style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "0.8rem",
-                fontWeight: 700,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: "#6A1840",
-                margin: 0,
-                lineHeight: 1,
-              }}
-            >
+          {/* Left: page title */}
+          <div className="flex items-center gap-2">
+            <h1 style={{
+              fontFamily: "'Pretendard', system-ui, sans-serif",
+              fontSize: "1.1rem",
+              fontWeight: 900,
+              color: "oklch(0.12 0.01 20)",
+              margin: 0,
+              lineHeight: 1,
+            }}>
               {meta.title}
             </h1>
           </div>
 
-          {/* Right: stats + mood + wrap-up */}
-          <div className="flex items-center shrink-0" style={{ gap: 0, overflow: "hidden" }}>
-            {/* Quick-stats — visible on all sections */}
-            <div className="hidden sm:flex items-center" style={{ borderRight: "1.5px solid #E8B8D0", overflow: "hidden" }}>{(() => {
-                  const todayKey2 = new Date().toISOString().slice(0, 10);
-                  const stats: { label: string; value: string | number; section: Section }[] = [
-                    { label: "tasks left today", value: tasks.filter((t) => !t.done && (!t.dueDate || t.dueDate === todayKey2)).length, section: "tasks" as Section },
-                  ];
-                  return stats;
-                })().map(({ label, value, section }, i, arr) => {
-                  const sc = [{ num: "#7A3060", lbl: "#C070A0" }, { num: "oklch(0.40 0.10 168)", lbl: "oklch(0.52 0.10 168)" }][i] ?? { num: "#6A1840", lbl: "#C070A0" };
-                  return (
-                  <React.Fragment key={label}>
-                    <button
-                      onClick={() => setActiveSection(section)}
-                      className="flex items-baseline gap-1 transition-all cursor-pointer px-2 py-2"
-                      style={{ background: "transparent", border: "none" }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(212,88,152,0.10)"; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
-                    >
-                      <span style={{ fontSize: "0.68rem", fontWeight: 400, fontFamily: "'Space Mono', monospace", color: sc.num, letterSpacing: "0.02em", whiteSpace: "nowrap" }}>{value}</span>
-                      <span style={{ fontSize: "0.48rem", fontWeight: 400, fontFamily: "'Space Mono', monospace", color: sc.lbl, letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap" }}>{label}</span>
-                    </button>
-                    {i < arr.length - 1 && (
-                      <div style={{ width: 1, height: 20, background: "#E8B8D0" }} />
-                    )}
-                  </React.Fragment>
-                  );
-                })}
-            </div>
-
-
-
+          {/* Right: tasks count + wrap-up */}
+          <div className="flex items-center gap-3">
+            {/* Tasks left */}
+            <button
+              onClick={() => setActiveSection("tasks" as Section)}
+              style={{ background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
+            >
+              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.85rem", fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>
+                {tasks.filter((t) => !t.done && (!t.dueDate || t.dueDate === new Date().toISOString().slice(0, 10))).length}
+              </span>
+              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.65rem", fontWeight: 500, color: "oklch(0.52 0.01 20)" }}>left</span>
+            </button>
             {/* Wrap-up */}
             <button
-              data-tour-id="tour-wrapup"
               onClick={() => setWrapUpOpen(true)}
-              className="flex items-center gap-2 transition-all px-5 py-3"
               style={{
-                color: "#C070A0",
-                background: "transparent",
+                background: "oklch(0.12 0.01 20)",
+                color: "oklch(1 0 0)",
                 border: "none",
+                borderRadius: 9999,
+                padding: "6px 14px",
+                fontFamily: "'Pretendard', system-ui, sans-serif",
+                fontSize: "0.75rem",
+                fontWeight: 700,
                 cursor: "pointer",
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "0.65rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(212,88,152,0.10)"; (e.currentTarget as HTMLButtonElement).style.color = "#6A1840"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; (e.currentTarget as HTMLButtonElement).style.color = "#C070A0"; }}
             >
-              <Moon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Wrap up</span>
+              <Moon className="w-3 h-3" />
+              <span>Wrap up</span>
             </button>
           </div>
         </header>
@@ -558,14 +521,9 @@ export default function Home() {
               <div style={{ padding: isMobile ? "16px" : "32px", maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
 
                 {/* ── Account ── */}
-                <div style={{ background: "oklch(0.975 0.018 355 / 0.85)", border: "1.5px solid oklch(0.78 0.08 330)", borderRadius: 10, overflow: "hidden", boxShadow: "3px 3px 0 oklch(0.72 0.08 310)" }}>
-                  <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)" }}>
-                    <div style={{ display: "flex", gap: 4 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                    </div>
-                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>account.txt</span>
+                <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>account.txt</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
@@ -595,14 +553,9 @@ export default function Home() {
                 </div>
 
                 {/* ── Appearance ── */}
-                <div style={{ background: "oklch(0.975 0.018 355 / 0.85)", border: "1.5px solid oklch(0.78 0.08 330)", borderRadius: 10, overflow: "hidden", boxShadow: "3px 3px 0 oklch(0.72 0.08 310)" }}>
-                  <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)" }}>
-                    <div style={{ display: "flex", gap: 4 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                    </div>
-                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>appearance.txt</span>
+                <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>appearance.txt</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <EffectsPanel embedded settingsOnly />
@@ -610,14 +563,9 @@ export default function Home() {
                 </div>
 
                 {/* ── Gemini API Key ── */}
-                <div style={{ background: "oklch(0.975 0.018 355 / 0.85)", border: "1.5px solid oklch(0.78 0.08 330)", borderRadius: 10, overflow: "hidden", boxShadow: "3px 3px 0 oklch(0.72 0.08 310)" }}>
-                  <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)" }}>
-                    <div style={{ display: "flex", gap: 4 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-                    </div>
-                    <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>gemini_api.txt</span>
+                <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>gemini_api.txt</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <EffectsPanel embedded apiKeyOnly />

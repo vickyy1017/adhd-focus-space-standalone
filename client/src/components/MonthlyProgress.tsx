@@ -33,18 +33,18 @@ const MOOD_COLORS = ["#C8B8D8","#D4B8E0","#E8A8C8","#F0B8D8","#F8C8E8"];
 const MOOD_LABELS = ["Drained","Low","Okay","Good","Glowing"];
 
 const M = {
-  ink:     "oklch(0.22 0.040 320)",
-  muted:   "oklch(0.52 0.040 330)",
-  border:  "oklch(0.82 0.050 340)",
-  card:    "oklch(0.975 0.018 355)",
-  coral:   "oklch(0.58 0.18 340)",
-  coralBg: "oklch(0.58 0.18 340 / 0.08)",
-  sage:    "oklch(0.52 0.040 330)",
-  sageBg:  "oklch(0.55 0.14 290 / 0.08)",
-  gold:    "oklch(0.62 0.14 310)",
-  goldBg:  "oklch(0.62 0.14 310 / 0.08)",
-  pink:    "oklch(0.65 0.14 340)",
-  pinkBg:  "oklch(0.65 0.14 340 / 0.08)",
+  ink:     "oklch(0.12 0.01 20)",
+  muted:   "oklch(0.52 0.01 20)",
+  border:  "oklch(0.88 0.005 20)",
+  card:    "oklch(1 0 0)",
+  coral:   "oklch(0.82 0.08 10)",       // soft rose
+  coralBg: "oklch(0.97 0.02 10)",
+  sage:    "oklch(0.55 0.08 160)",      // sage green
+  sageBg:  "oklch(0.96 0.02 160)",
+  gold:    "oklch(0.70 0.06 10)",       // muted rose/gold
+  goldBg:  "oklch(0.97 0.02 10)",
+  pink:    "oklch(0.82 0.08 10)",       // soft rose
+  pinkBg:  "oklch(0.97 0.02 10)",
 };
 
 /* ── Helpers ── */
@@ -378,25 +378,18 @@ function DayDetail({ log, dateStr, dateKey: dk, onClose, isPast }: { log?: Daily
     <div style={{
       background: M.card,
       border: `1px solid ${M.border}`,
-      borderRadius: 10,
-      fontFamily: "'DM Sans', sans-serif",
+      borderRadius: 16,
+      fontFamily: "'Pretendard', system-ui, sans-serif",
       overflow: "hidden",
-      boxShadow: "3px 3px 0 oklch(0.72 0.08 310)",
     }}>
-      {/* Retro titlebar */}
-      <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)" }}>
-        <div style={{ display: "flex", gap: 4 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)", position: "relative" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)", position: "relative" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)", position: "relative" }} />
-        </div>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>day_summary.txt</span>
+      {/* Nori title bar */}
+      <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: `1px solid ${M.border}` }}>
+        <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: M.ink }}>Day Summary</span>
       </div>
-      {/* Header */}
-      <div style={{ padding: "14px 18px", borderBottom: `1px solid ${M.border}`, background: M.coralBg, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      {/* Date header */}
+      <div style={{ padding: "12px 16px", borderBottom: `1px solid ${M.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
-          <span style={{ fontSize: 11, color: M.muted, textTransform: "uppercase", letterSpacing: "0.08em" }}>Day Summary</span>
-          <p style={{ fontSize: 14, fontWeight: 700, color: M.ink, margin: 0, fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>{dateStr}</p>
+          <p style={{ fontSize: 14, fontWeight: 700, color: M.ink, margin: 0, fontFamily: "'Pretendard', system-ui, sans-serif" }}>{dateStr}</p>
         </div>
         <button onClick={onClose} style={{ fontSize: 18, color: M.muted, background: "none", border: "none", cursor: "pointer", lineHeight: 1, padding: "0 2px" }}>×</button>
       </div>

@@ -13,14 +13,14 @@ import { ChevronLeft, ChevronRight, List, CalendarDays } from "lucide-react";
 import { useMobile } from "@/hooks/useMobile";
 
 const M = {
-  ink:     "oklch(0.28 0.040 320)",
-  muted:   "oklch(0.52 0.040 330)",
-  border:  "oklch(0.82 0.050 340)",
-  card:    "oklch(0.975 0.018 355)",
-  coral:   "oklch(0.58 0.18 340)",
-  coralBg: "oklch(0.58 0.18 340 / 0.08)",
-  coralBdr:"oklch(0.58 0.18 340 / 0.28)",
-  bg:      "oklch(0.965 0.025 355)",
+  ink:     "oklch(0.12 0.01 20)",
+  muted:   "oklch(0.52 0.01 20)",
+  border:  "oklch(0.88 0.005 20)",
+  card:    "oklch(1 0 0)",
+  coral:   "oklch(0.82 0.08 10)",       // soft rose
+  coralBg: "oklch(0.97 0.02 10)",
+  coralBdr:"oklch(0.88 0.05 10)",
+  bg:      "oklch(0.96 0.002 20)",
 };
 
 const PRIORITY_COLOR: Record<string, string> = {

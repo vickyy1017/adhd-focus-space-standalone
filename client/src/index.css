@@ -1,12 +1,7 @@
 /* ============================================================
-   ADHD FOCUS SPACE — Retro Lo-Fi Desktop Design System v4.0
-
-   Aesthetic: Lofi Pastel Sticker — dusty cream-pink / muted lavender / soft sage / faded sky
-   - Background: warm cream-pink grid paper (less saturated, more faded)
-   - Cards: soft pastel OS window panels (dusty pink/lavender, muted borders)
-   - Typography: Space Mono for labels, Playfair for headings, DM Sans body
-   - Palette: dusty rose, muted lavender, soft sage, faded sky, warm cream
-   - Buttons: retro OS style — flat, bordered, uppercase tiny labels
+   ADHD FOCUS SPACE — Nori Design System v1.0
+   Aesthetic: Editorial Minimal — pure white, near-black, soft rose
+   Inspired by Nori Korean Learning App design language
    ============================================================ */
 
 @import "tailwindcss";
@@ -38,11 +33,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -53,139 +43,97 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ── Nori Color Tokens ── */
 :root {
-  --radius: 0.25rem; /* slightly rounded — soft retro feel */
+  --radius: 0.75rem;
 
-  /* ── Hue Shift System ──
-     --base-hue is set dynamically by HueShift.tsx via JS.
-     All theme colors derive from it. Semantic colors (error/success/warning)
-     and neutral colors (text/shadow) are FIXED and do NOT shift. */
-  --base-hue: 330; /* default: pink */
+  /* Core palette */
+  --background:           oklch(1 0 0);           /* Pure white */
+  --foreground:           oklch(0.12 0.01 20);     /* Near-black */
+  --card:                 oklch(1 0 0);            /* White cards */
+  --card-foreground:      oklch(0.12 0.01 20);
+  --popover:              oklch(1 0 0);
+  --popover-foreground:   oklch(0.12 0.01 20);
+  --primary:              oklch(0.15 0.01 20);     /* Black buttons */
+  --primary-foreground:   oklch(1 0 0);
+  --secondary:            oklch(0.96 0.002 20);    /* Muted bg */
+  --secondary-foreground: oklch(0.12 0.01 20);
+  --muted:                oklch(0.96 0.002 20);
+  --muted-foreground:     oklch(0.52 0.01 20);     /* Subdued labels */
+  --accent:               oklch(0.82 0.08 10);     /* Soft rose */
+  --accent-foreground:    oklch(0.12 0.01 20);
+  --destructive:          oklch(0.55 0.20 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border:               oklch(0.88 0.005 20);    /* Hairline borders */
+  --input:                oklch(0.88 0.005 20);
+  --ring:                 oklch(0.82 0.08 10);
+  --sidebar:              oklch(1 0 0);
+  --sidebar-foreground:   oklch(0.12 0.01 20);
+  --sidebar-primary:      oklch(0.15 0.01 20);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent:       oklch(0.96 0.002 20);
+  --sidebar-accent-foreground: oklch(0.12 0.01 20);
+  --sidebar-border:       oklch(0.88 0.005 20);
+  --sidebar-ring:         oklch(0.82 0.08 10);
 
-  /* ── Layer 1: Theme Colors (HUE-DERIVED) ── */
-  --background:          hsl(var(--base-hue), 38%, 95%);
-  --foreground:          hsl(calc(var(--base-hue) - 20), 18%, 25%);
+  /* Nori semantic tokens */
+  --nori-rose:            oklch(0.82 0.08 10);     /* Soft rose accent */
+  --nori-rose-bg:         oklch(0.97 0.02 10);     /* Rose tint bg */
+  --nori-rose-border:     oklch(0.88 0.05 10);     /* Rose border */
+  --nori-ink:             oklch(0.12 0.01 20);     /* Near-black */
+  --nori-muted:           oklch(0.52 0.01 20);     /* Muted text */
+  --nori-border:          oklch(0.88 0.005 20);    /* Hairline */
+  --nori-bg-soft:         oklch(0.96 0.002 20);    /* Soft bg */
 
-  /* Warm cream card / window panel */
-  --card:                hsl(var(--base-hue), 30%, 97%);
-  --card-foreground:     hsl(calc(var(--base-hue) - 20), 18%, 25%);
-  --popover:             hsl(var(--base-hue), 30%, 97%);
-  --popover-foreground:  hsl(calc(var(--base-hue) - 20), 18%, 25%);
-  /* Primary CTA */
-  --primary:             hsl(var(--base-hue), 55%, 58%);
-  --primary-foreground:  hsl(var(--base-hue), 20%, 98%);
-  /* Secondary */
-  --secondary:           hsl(calc(var(--base-hue) + 20), 30%, 90%);
-  --secondary-foreground: hsl(calc(var(--base-hue) + 20), 22%, 38%);
-  /* Muted */
-  --muted:               hsl(var(--base-hue), 22%, 93%);
-  --muted-foreground:    hsl(calc(var(--base-hue) - 10), 18%, 50%);
-
-  /* Accent */
-  --accent:              hsl(calc(var(--base-hue) + 20), 28%, 84%);
-  --accent-foreground:   hsl(calc(var(--base-hue) + 20), 32%, 28%);
-  /* Layer 2: Semantic colors — FIXED, never shift with hue */
-  --destructive:         hsl(4, 72%, 54%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  /* Layer 1 continued: borders */
-  --border:              hsl(var(--base-hue), 22%, 84%);
-  --input:               hsl(var(--base-hue), 22%, 84%);
-  --ring:                hsla(var(--base-hue), 55%, 58%, 0.25);
-  /* Charts — spread around the hue wheel */
-  --chart-1:             hsl(var(--base-hue), 55%, 60%);
-  --chart-2:             hsl(calc(var(--base-hue) + 60), 45%, 62%);
-  --chart-3:             hsl(calc(var(--base-hue) + 120), 40%, 62%);
-  --chart-4:             hsl(calc(var(--base-hue) + 180), 40%, 62%);
-  --chart-5:             hsl(calc(var(--base-hue) + 240), 40%, 65%);
-  /* Sidebar */
-  --sidebar:             hsl(var(--base-hue), 32%, 93%);
-  --sidebar-foreground:  hsl(calc(var(--base-hue) - 20), 18%, 25%);
-  --sidebar-primary:     hsl(var(--base-hue), 55%, 58%);
-  --sidebar-primary-foreground: hsl(var(--base-hue), 20%, 98%);
-  --sidebar-accent:      hsl(calc(var(--base-hue) + 20), 30%, 90%);
-  --sidebar-accent-foreground: hsl(calc(var(--base-hue) - 20), 18%, 25%);
-  --sidebar-border:      hsl(var(--base-hue), 22%, 82%);
-  --sidebar-ring:        hsla(var(--base-hue), 55%, 58%, 0.25);
+  /* Morandi dot colors for tags/categories */
+  --morandi-1: #c4a99a;  /* dusty rose */
+  --morandi-2: #b5b09a;  /* warm sand */
+  --morandi-3: #9aafaa;  /* sage green */
+  --morandi-4: #a3afc0;  /* slate blue */
+  --morandi-5: #b8a8c8;  /* muted lavender */
+  --morandi-6: #c0aa98;  /* terracotta */
 }
 
-/* ── Semantic color tokens (HUE-DERIVED) ── */
-:root {
-  --r-terra:         hsl(var(--base-hue), 52%, 55%);
-  --r-terra-light:   hsla(var(--base-hue), 52%, 55%, 0.10);
-  --r-terra-border:  hsla(var(--base-hue), 52%, 55%, 0.22);
-  --r-rose:          hsl(var(--base-hue), 40%, 80%);
-  --r-rose-light:    hsla(var(--base-hue), 40%, 80%, 0.12);
-  --r-rose-border:   hsla(var(--base-hue), 40%, 80%, 0.28);
-  --r-sage:          hsl(calc(var(--base-hue) + 120), 38%, 68%);
-  --r-sage-light:    hsla(calc(var(--base-hue) + 120), 38%, 68%, 0.10);
-  --r-sage-border:   hsla(calc(var(--base-hue) + 120), 38%, 68%, 0.22);
-  --r-blue:          hsl(calc(var(--base-hue) + 180), 38%, 68%);
-  --r-blue-light:    hsla(calc(var(--base-hue) + 180), 38%, 68%, 0.10);
-  --r-blue-border:   hsla(calc(var(--base-hue) + 180), 38%, 68%, 0.22);
-  --r-lavender:      hsl(calc(var(--base-hue) + 60), 35%, 70%);
-  --r-lavender-light: hsla(calc(var(--base-hue) + 60), 35%, 70%, 0.10);
-  --r-lavender-border: hsla(calc(var(--base-hue) + 60), 35%, 70%, 0.22);
-  --r-sand:          hsl(var(--base-hue), 28%, 92%);
-  --r-ink:           hsl(calc(var(--base-hue) - 20), 18%, 22%);
-  --r-muted:         hsl(calc(var(--base-hue) - 10), 16%, 50%);
-  --r-border:        hsl(var(--base-hue), 20%, 83%);
-  --r-bg:            hsl(var(--base-hue), 38%, 95%);
-  --r-card:          hsl(var(--base-hue), 30%, 97%);
-  --m-coral:         hsl(var(--base-hue), 52%, 55%);
-  --m-coral-light:   hsla(var(--base-hue), 52%, 55%, 0.10);
-  --m-coral-border:  hsla(var(--base-hue), 52%, 55%, 0.22);
-  --m-sage:          hsl(calc(var(--base-hue) + 120), 38%, 68%);
-  --m-sage-light:    hsla(calc(var(--base-hue) + 120), 38%, 68%, 0.10);
-  --m-sage-border:   hsla(calc(var(--base-hue) + 120), 38%, 68%, 0.22);
-  --m-slumber:       hsl(calc(var(--base-hue) + 60), 22%, 80%);
-  --m-slumber-light: hsla(calc(var(--base-hue) + 60), 22%, 80%, 0.14);
-  --m-pink:          hsl(var(--base-hue), 40%, 80%);
-  --m-pink-light:    hsla(var(--base-hue), 40%, 80%, 0.12);
-  --m-pink-border:   hsla(var(--base-hue), 40%, 80%, 0.28);
-  --m-lavender:      hsl(calc(var(--base-hue) + 60), 35%, 70%);
-  --m-lavender-light: hsla(calc(var(--base-hue) + 60), 35%, 70%, 0.10);
-  --m-lavender-border: hsla(calc(var(--base-hue) + 60), 35%, 70%, 0.22);
-  --m-indigo:        hsl(calc(var(--base-hue) + 60), 42%, 58%);
-  --m-indigo-light:  hsla(calc(var(--base-hue) + 60), 42%, 58%, 0.08);
-  --m-indigo-border: hsla(calc(var(--base-hue) + 60), 42%, 58%, 0.22);
-  --m-ink:           hsl(calc(var(--base-hue) - 20), 18%, 22%);
-  --m-muted:         hsl(calc(var(--base-hue) - 10), 16%, 50%);
-  --m-border:        hsl(var(--base-hue), 20%, 83%);
-  --m-bg:            hsl(var(--base-hue), 38%, 95%);
-  --m-card:          hsl(var(--base-hue), 30%, 97%);
+/* Work mode: greyscale */
+.work-mode {
+  filter: grayscale(1);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    box-sizing: border-box;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Pretendard', 'Noto Sans SC', system-ui, sans-serif;
     font-feature-settings: "kern" 1, "liga" 1;
-    /* Clean solid background */
-    background-color: hsl(var(--base-hue), 38%, 95%);
+    background-color: oklch(1 0 0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    cursor: var(--cursor-hand, pointer);
+  /* Prevent iOS input zoom */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="date"],
+  textarea,
+  select {
+    font-size: 16px;
   }
 
   input::placeholder,
   textarea::placeholder {
-    font-weight: 300;
-    font-size: 0.72rem;
-    color: oklch(0.80 0.018 340);
-    letter-spacing: 0.01em;
+    color: oklch(0.70 0.005 20);
+    font-weight: 400;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
   }
 }
 
@@ -196,605 +144,261 @@
     margin-right: auto;
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-  .flex { min-height: 0; min-width: 0; }
-
-  @media (min-width: 640px) {
-    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
-  }
-  @media (min-width: 1024px) {
-    .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; }
+    max-width: 480px;
   }
 
-  /* ── Retro OS Window Panel ──
-     Mimics the vintage desktop window aesthetic from the reference image:
-     cream/parchment fill, thin pencil-stroke border, subtle shadow */
-  .retro-window {
-    background: oklch(0.975 0.012 355);
-    border: 1.5px solid oklch(0.86 0.030 340);
-    border-radius: 4px;
-    box-shadow:
-      2px 3px 0px oklch(0.84 0.030 340 / 0.40),
-      0 1px 8px oklch(0.58 0.12 340 / 0.06);
-    position: relative;
+  /* ── Nori Card ── */
+  .nori-card {
+    background: oklch(1 0 0);
+    border: 1px solid oklch(0.88 0.005 20);
+    border-radius: 16px;
     overflow: hidden;
   }
 
-  /* Retro window title bar */
+  /* ── Nori Section Header ── */
+  .nori-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: oklch(0.52 0.01 20);
+    font-family: 'Pretendard', system-ui, sans-serif;
+  }
+
+  .nori-page-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: oklch(0.12 0.01 20);
+    font-family: 'Pretendard', system-ui, sans-serif;
+    line-height: 1.1;
+  }
+
+  /* ── Nori Buttons ── */
+  /* Primary: black filled, full rounded */
+  .m-btn-primary {
+    background: oklch(0.12 0.01 20);
+    color: oklch(1 0 0);
+    border: none;
+    border-radius: 9999px;
+    padding: 0.6rem 1.25rem;
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: opacity 0.15s;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .m-btn-primary:hover { opacity: 0.85; }
+  .m-btn-primary:active { opacity: 0.7; transform: scale(0.98); }
+
+  /* Ghost: outline, full rounded */
+  .m-btn-ghost {
+    background: transparent;
+    color: oklch(0.12 0.01 20);
+    border: 1.5px solid oklch(0.88 0.005 20);
+    border-radius: 9999px;
+    padding: 0.6rem 1.25rem;
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+  }
+  .m-btn-ghost:hover {
+    border-color: oklch(0.60 0.005 20);
+    background: oklch(0.96 0.002 20);
+  }
+
+  /* Link button */
+  .m-btn-link {
+    background: transparent;
+    color: oklch(0.52 0.01 20);
+    border: none;
+    padding: 0;
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .m-btn-link:hover { color: oklch(0.12 0.01 20); }
+
+  /* Rose accent button */
+  .m-btn-rose {
+    background: oklch(0.82 0.08 10);
+    color: oklch(0.12 0.01 20);
+    border: none;
+    border-radius: 9999px;
+    padding: 0.6rem 1.25rem;
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: opacity 0.15s;
+    cursor: pointer;
+  }
+  .m-btn-rose:hover { opacity: 0.85; }
+
+  /* ── Nori Chip ── */
+  .m-chip {
+    background: oklch(0.96 0.002 20);
+    color: oklch(0.12 0.01 20);
+    border: 1.5px solid oklch(0.88 0.005 20);
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .m-chip:hover {
+    border-color: oklch(0.60 0.005 20);
+    background: oklch(0.92 0.003 20);
+  }
+  .m-chip.active {
+    background: oklch(0.12 0.01 20);
+    color: oklch(1 0 0);
+    border-color: oklch(0.12 0.01 20);
+  }
+
+  /* ── Nori Input ── */
+  .nori-input {
+    width: 100%;
+    background: oklch(0.96 0.002 20);
+    border: 1.5px solid oklch(0.88 0.005 20);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: oklch(0.12 0.01 20);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .nori-input:focus {
+    border-color: oklch(0.12 0.01 20);
+    background: oklch(1 0 0);
+  }
+
+  /* ── Nori Divider ── */
+  .nori-divider {
+    border: none;
+    border-top: 1px solid oklch(0.88 0.005 20);
+    margin: 0;
+  }
+
+  /* ── Task row ── */
+  .nori-task-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid oklch(0.93 0.003 20);
+  }
+  .nori-task-row:last-child { border-bottom: none; }
+
+  /* ── Retro window (legacy compat — now maps to nori card) ── */
+  .retro-window {
+    background: oklch(1 0 0);
+    border: 1px solid oklch(0.88 0.005 20);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
   .retro-titlebar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 8px;
-    background: oklch(0.90 0.040 340);
-    border-bottom: 1px solid oklch(0.86 0.030 340);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.60rem;
-    letter-spacing: 0.08em;
-    color: oklch(0.35 0.040 320);
-    user-select: none;
+    padding: 12px 16px;
+    background: oklch(0.96 0.002 20);
+    border-bottom: 1px solid oklch(0.88 0.005 20);
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: oklch(0.12 0.01 20);
   }
 
-  .retro-titlebar-buttons {
+  .retro-titlebar-buttons { display: none; }
+  .retro-titlebar-btn { display: none; }
+
+  /* ── Retro task list (legacy compat) ── */
+  .retro-task-list {
     display: flex;
-    gap: 4px;
-    align-items: center;
+    flex-direction: column;
   }
 
-  .retro-titlebar-btn {
-    width: 10px;
-    height: 10px;
-    border: 1px solid oklch(0.78 0.040 340);
-    background: oklch(0.975 0.012 355);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 7px;
-    color: oklch(0.50 0.040 330);
-    cursor: default;
-    border-radius: 1px;
-  }
-
-  /* Morandi card base (backward compat) */
-  .m-card {
-    background: oklch(0.975 0.012 355);
-    border: 1.5px solid oklch(0.86 0.030 340);
-    border-radius: 4px;
-  }
-
-  /* ── Display type ── */
-  .font-display {
-    font-family: 'Playfair Display', Georgia, serif;
-  }
-
-  /* ── Retro monospace label ── */
-  .retro-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.60rem;
-    font-weight: 400;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: oklch(0.50 0.060 330);
-  }
-
-  /* Small caps editorial label (kept for compat) */
+  /* ── Editorial label (legacy compat) ── */
   .editorial-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.60rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: oklch(0.50 0.060 330);
-  }
-
-  /* ── Retro Button System ──
-     Thick-border 3D offset style — vintage OS dialog / lo-fi zine aesthetic
-     Inspired by: retro OK button, pixel game UI, job board Apply Now */
-
-  /* Primary: hot pink fill — the main CTA button */
-  .m-btn-primary {
-    background: oklch(0.58 0.12 340);
-    color: oklch(0.98 0.005 355);
-    border: 2.5px solid oklch(0.42 0.10 330);
-    border-radius: 3px;
-    padding: 0.42rem 1.1rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.10em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    /* 3D offset shadow — the key retro effect */
-    box-shadow: 3px 3px 0px oklch(0.42 0.10 330);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: box-shadow 0.08s;
-    cursor: pointer;
-  }
-  .m-btn-primary:hover {
-    background: oklch(0.54 0.14 340);
-    box-shadow: 4px 4px 0px oklch(0.38 0.10 330);
-    transform: translate(-1px, -1px);
-  }
-  .m-btn-primary:active {
-    box-shadow: 1px 1px 0px oklch(0.42 0.10 330);
-    transform: translate(2px, 2px);
+    color: oklch(0.52 0.01 20);
+    font-family: 'Pretendard', system-ui, sans-serif;
   }
 
-  /* Dark: charcoal fill */
-  .m-btn-dark {
-    background: oklch(0.30 0.020 60);
-    color: oklch(0.97 0.005 75);
-    border: 2.5px solid oklch(0.16 0.012 60);
-    border-radius: 3px;
-    padding: 0.42rem 1.1rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
+  .retro-label {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.10em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    box-shadow: 3px 3px 0px oklch(0.16 0.012 60);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: box-shadow 0.08s;
-    cursor: pointer;
-  }
-  .m-btn-dark:hover {
-    background: oklch(0.24 0.018 60);
-    box-shadow: 4px 4px 0px oklch(0.12 0.010 60);
-    transform: translate(-1px, -1px);
-  }
-  .m-btn-dark:active {
-    box-shadow: 1px 1px 0px oklch(0.16 0.012 60);
-    transform: translate(2px, 2px);
+    color: oklch(0.52 0.01 20);
+    font-family: 'Pretendard', system-ui, sans-serif;
   }
 
-  /* Ghost: soft pink fill, mauve border — secondary action */
-  .m-btn-ghost {
-    background: oklch(0.975 0.012 355);
-    border: 2.5px solid oklch(0.74 0.050 340);
-    color: oklch(0.46 0.055 330);
-    border-radius: 3px;
-    padding: 0.40rem 1.0rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    box-shadow: 3px 3px 0px oklch(0.74 0.050 340);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    transition: box-shadow 0.08s, transform 0.08s, border-color 0.08s, color 0.08s;
-    cursor: pointer;
-  }
-  .m-btn-ghost:hover {
-    border-color: oklch(0.58 0.12 340);
-    color: oklch(0.58 0.12 340);
-    box-shadow: 4px 4px 0px oklch(0.58 0.12 340 / 0.55);
-    transform: translate(-1px, -1px);
-  }
-  .m-btn-ghost:active {
-    box-shadow: 1px 1px 0px oklch(0.74 0.050 340);
-    transform: translate(2px, 2px);
+  /* ── Font display (legacy compat) ── */
+  .font-display {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-weight: 900;
   }
 
-  /* Link button — underline only */
-  .m-btn-link {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid oklch(0.58 0.018 68);
-    border-radius: 0;
-    padding: 0 0 0.1rem 0;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.60rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: oklch(0.40 0.020 62);
-    transition: border-color 0.12s, color 0.12s;
-    box-shadow: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    cursor: pointer;
-  }
-  .m-btn-link:hover {
-    border-color: oklch(0.52 0.10 32);
-    color: oklch(0.52 0.10 32);
+  /* ── Morandi card (legacy compat) ── */
+  .m-card {
+    background: oklch(1 0 0);
+    border: 1px solid oklch(0.88 0.005 20);
+    border-radius: 16px;
   }
 
-  /* Chip/tag */
-  .m-chip {
-    background: oklch(0.975 0.012 355);
-    border: 1.5px solid oklch(0.84 0.035 340);
-    border-radius: 2px;
-    padding: 0.22rem 0.60rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
-    font-weight: 400;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: oklch(0.50 0.040 330);
-    transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    box-shadow: 1px 1px 0px oklch(0.84 0.035 340 / 0.40);
+  /* ── Animations ── */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
-  .m-chip:hover, .m-chip.active {
-    background: oklch(0.58 0.12 340);
-    border-color: oklch(0.50 0.10 330);
-    color: oklch(0.98 0.005 355);
-    box-shadow: 1px 1px 0px oklch(0.50 0.10 330 / 0.40);
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
   }
-  .m-chip.active-sage {
-    background: oklch(0.74 0.07 168);
-    border-color: oklch(0.62 0.07 168);
-    color: oklch(0.98 0.005 355);
+  @keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
   }
-}
-
-/* ── Animations ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-14px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
-}
-@keyframes floatUp {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.animate-fade-up    { animation: fadeUp 0.35s ease forwards; }
-.animate-fade-in    { animation: fadeIn 0.25s ease forwards; }
-.animate-slide-left { animation: slideInLeft 0.3s ease forwards; }
-.animate-scale-in   { animation: scaleIn 0.28s ease forwards; }
-.animate-float      { animation: floatUp 3s ease-in-out infinite; }
-
-@keyframes musicBeat {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.35); opacity: 0.75; }
-}
-.animate-music-beat { animation: musicBeat 0.8s ease-in-out infinite; }
-
-/* ── Retro scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: oklch(0.94 0.018 355); }
-::-webkit-scrollbar-thumb {
-  background: oklch(0.82 0.050 340);
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover { background: oklch(0.70 0.08 340); }
-
-/* ── Pixel-art hand cursor ──
-   A classic pointing hand for all interactive elements */
-:root {
-  --cursor-hand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' shape-rendering='crispEdges'%3E%3Crect x='6' y='10' width='2' height='10' fill='%23F5EAD8'/%3E%3Crect x='8' y='8' width='2' height='12' fill='%23F5EAD8'/%3E%3Crect x='10' y='7' width='2' height='13' fill='%23F5EAD8'/%3E%3Crect x='12' y='8' width='2' height='12' fill='%23F5EAD8'/%3E%3Crect x='14' y='10' width='2' height='10' fill='%23F5EAD8'/%3E%3Crect x='6' y='20' width='10' height='2' fill='%23F5EAD8'/%3E%3Crect x='5' y='9' width='1' height='12' fill='%232A1F14'/%3E%3Crect x='6' y='8' width='2' height='1' fill='%232A1F14'/%3E%3Crect x='7' y='7' width='1' height='1' fill='%232A1F14'/%3E%3Crect x='8' y='6' width='2' height='1' fill='%232A1F14'/%3E%3Crect x='9' y='5' width='1' height='1' fill='%232A1F14'/%3E%3Crect x='10' y='5' width='2' height='1' fill='%232A1F14'/%3E%3Crect x='11' y='4' width='1' height='1' fill='%232A1F14'/%3E%3Crect x='12' y='5' width='2' height='1' fill='%232A1F14'/%3E%3Crect x='13' y='6' width='1' height='1' fill='%232A1F14'/%3E%3Crect x='14' y='7' width='2' height='1' fill='%232A1F14'/%3E%3Crect x='15' y='8' width='1' height='1' fill='%232A1F14'/%3E%3Crect x='16' y='9' width='1' height='11' fill='%232A1F14'/%3E%3Crect x='6' y='21' width='10' height='1' fill='%232A1F14'/%3E%3Crect x='5' y='21' width='1' height='1' fill='%232A1F14'/%3E%3C/svg%3E") 6 4, pointer;
-}
-
-button:not(:disabled),
-[role="button"]:not([aria-disabled="true"]),
-[type="button"]:not(:disabled),
-[type="submit"]:not(:disabled),
-a[href],
-select:not(:disabled),
-label[for],
-input[type="checkbox"]:not(:disabled),
-input[type="radio"]:not(:disabled) {
-  cursor: var(--cursor-hand) !important;
-}
-
-/* ── Retro Task List ──
-   Clean rows with color-only priority indication (no dotted lines, no icon boxes) */
-.retro-task-list {
-  display: flex;
-  flex-direction: column;
-}
-.retro-task-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px 8px 10px;
-  background: oklch(0.978 0.008 76 / 0.55);
-  border: 1.5px solid oklch(0.82 0.018 68 / 0.6);
-  border-radius: 4px;
-  position: relative;
-  transition: box-shadow 0.08s;
-  margin-bottom: 5px;
-}
-/* Dotted vertical connector line between rows */
-.retro-task-row:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  left: 18px;
-  bottom: -6px;
-  width: 1px;
-  height: 6px;
-  border-left: 1px dashed oklch(0.72 0.018 68 / 0.55);
-}
-.retro-task-row:hover {
-  box-shadow: 2px 2px 0px oklch(0.72 0.022 68);
-}
-.retro-task-row.done {
-  opacity: 0.50;
-  background: oklch(0.970 0.006 76);
-}
-/* Priority: all same neutral transparent background — no color differentiation */
-.retro-task-row.urgent {
-  background: oklch(0.978 0.008 76 / 0.55);
-}
-.retro-task-row.focus {
-  background: oklch(0.978 0.008 76 / 0.55);
-}
-.retro-task-row.normal {
-  background: oklch(0.978 0.008 76 / 0.55);
-}
-.retro-task-row.someday {
-  background: oklch(0.978 0.008 76 / 0.55);
-}
-/* Hide icon box — no longer used */
-.retro-task-icon-box { display: none; }
-
-/* ============================================================
-   WORK MODE — Monochrome professional palette
-   Applied via .work-mode class on <html> element.
-   Overrides all pink/lavender tokens to grey/black/white.
-   ============================================================ */
-
-.work-mode {
-  /* ── Shadcn/Tailwind CSS variables ── */
-  --background:          oklch(0.975 0 0);
-  --foreground:          oklch(0.15 0 0);
-
-  --card:                oklch(0.99 0 0);
-  --card-foreground:     oklch(0.15 0 0);
-  --popover:             oklch(0.99 0 0);
-  --popover-foreground:  oklch(0.15 0 0);
-
-  --primary:             oklch(0.20 0 0);
-  --primary-foreground:  oklch(0.98 0 0);
-
-  --secondary:           oklch(0.92 0 0);
-  --secondary-foreground: oklch(0.25 0 0);
-
-  --muted:               oklch(0.94 0 0);
-  --muted-foreground:    oklch(0.50 0 0);
-
-  --accent:              oklch(0.88 0 0);
-  --accent-foreground:   oklch(0.20 0 0);
-
-  --destructive:         oklch(0.45 0.18 25);
-  --destructive-foreground: oklch(0.98 0 0);
-
-  --border:              oklch(0.82 0 0);
-  --input:               oklch(0.82 0 0);
-  --ring:                oklch(0.40 0 0 / 0.30);
-
-  --chart-1:             oklch(0.30 0 0);
-  --chart-2:             oklch(0.50 0 0);
-  --chart-3:             oklch(0.65 0 0);
-  --chart-4:             oklch(0.75 0 0);
-  --chart-5:             oklch(0.85 0 0);
-
-  --sidebar:             oklch(0.96 0 0);
-  --sidebar-foreground:  oklch(0.20 0 0);
-  --sidebar-primary:     oklch(0.20 0 0);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent:      oklch(0.90 0 0);
-  --sidebar-accent-foreground: oklch(0.20 0 0);
-  --sidebar-border:      oklch(0.80 0 0);
-  --sidebar-ring:        oklch(0.40 0 0 / 0.25);
-
-  /* ── Semantic tokens ── */
-  --r-terra:         oklch(0.25 0 0);
-  --r-terra-light:   oklch(0.25 0 0 / 0.08);
-  --r-terra-border:  oklch(0.25 0 0 / 0.20);
-  --r-rose:          oklch(0.78 0 0);
-  --r-rose-light:    oklch(0.78 0 0 / 0.10);
-  --r-rose-border:   oklch(0.78 0 0 / 0.25);
-  --r-sage:          oklch(0.68 0 0);
-  --r-sage-light:    oklch(0.68 0 0 / 0.10);
-  --r-sage-border:   oklch(0.68 0 0 / 0.22);
-  --r-blue:          oklch(0.58 0 0);
-  --r-blue-light:    oklch(0.58 0 0 / 0.10);
-  --r-blue-border:   oklch(0.58 0 0 / 0.22);
-  --r-lavender:      oklch(0.72 0 0);
-  --r-lavender-light: oklch(0.72 0 0 / 0.10);
-  --r-lavender-border: oklch(0.72 0 0 / 0.22);
-  --r-sand:          oklch(0.94 0 0);
-  --r-ink:           oklch(0.15 0 0);
-  --r-muted:         oklch(0.50 0 0);
-  --r-border:        oklch(0.82 0 0);
-  --r-bg:            oklch(0.975 0 0);
-  --r-card:          oklch(0.99 0 0);
-
-  /* ── Legacy aliases ── */
-  --m-coral:         oklch(0.25 0 0);
-  --m-coral-light:   oklch(0.25 0 0 / 0.08);
-  --m-coral-border:  oklch(0.25 0 0 / 0.20);
-  --m-sage:          oklch(0.68 0 0);
-  --m-sage-light:    oklch(0.68 0 0 / 0.10);
-  --m-sage-border:   oklch(0.68 0 0 / 0.22);
-  --m-slumber:       oklch(0.85 0 0);
-  --m-slumber-light: oklch(0.85 0 0 / 0.14);
-  --m-pink:          oklch(0.78 0 0);
-  --m-pink-light:    oklch(0.78 0 0 / 0.10);
-  --m-pink-border:   oklch(0.78 0 0 / 0.25);
-  --m-lavender:      oklch(0.72 0 0);
-  --m-lavender-light: oklch(0.72 0 0 / 0.10);
-  --m-lavender-border: oklch(0.72 0 0 / 0.22);
-  --m-indigo:        oklch(0.40 0 0);
-  --m-indigo-light:  oklch(0.40 0 0 / 0.08);
-  --m-indigo-border: oklch(0.40 0 0 / 0.22);
-  --m-ink:           oklch(0.15 0 0);
-  --m-muted:         oklch(0.50 0 0);
-  --m-border:        oklch(0.82 0 0);
-  --m-bg:            oklch(0.975 0 0);
-  --m-card:          oklch(0.99 0 0);
-}
-
-/* Override body background grid — clean white grid paper */
-.work-mode body {
-  background-color: #f8f8f8 !important;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px) !important;
-  background-size: 128px 128px, 128px 128px, 32px 32px, 32px 32px !important;
-}
-
-/* Hide the coloured aura orbs in work mode */
-.work-mode [aria-hidden="true"] svg ellipse {
-  opacity: 0 !important;
-  transition: opacity 0.4s;
-}
-
-/* Retro window overrides */
-.work-mode .retro-window {
-  background: oklch(0.99 0 0);
-  border-color: oklch(0.80 0 0);
-  box-shadow: 2px 3px 0px oklch(0.75 0 0 / 0.40), 0 1px 8px oklch(0 0 0 / 0.05);
-}
-.work-mode .retro-titlebar {
-  background: oklch(0.90 0 0);
-  border-bottom-color: oklch(0.82 0 0);
-  color: oklch(0.25 0 0);
-}
-.work-mode .retro-titlebar-btn {
-  border-color: oklch(0.72 0 0);
-  background: oklch(0.97 0 0);
-  color: oklch(0.40 0 0);
-}
-
-/* Nuclear option: desaturate EVERYTHING — catches all hardcoded inline colors */
-html.work-mode {
-  filter: grayscale(1);
-  transition: filter 0.35s ease;
-}
-/* ── Global Hue Rotate — same nuclear approach as work-mode ──
-   JS sets --hue-rotate-deg on <html> via useHue().
-   hue-rotate() shifts ALL colors at once — hardcoded inline styles,
-   SVGs, images — without touching individual component colors. */
-html {
-  filter: hue-rotate(var(--hue-rotate-deg, 0deg));
-  transition: filter 0.35s ease;
-}
-html.work-mode {
-  /* Combine grayscale with any active hue rotation */
-  filter: grayscale(1) hue-rotate(var(--hue-rotate-deg, 0deg));
-}
-
-/* ── Hue-rotate cancel: applied to the Theme Hue section so preset dots & slider
-   always show their true stored colours, unaffected by the global hue-rotate. ──
-   The inverse rotation exactly cancels the parent's hue-rotate. */
-.hue-rotate-cancel {
-  filter: hue-rotate(calc(-1 * var(--hue-rotate-deg, 0deg)));
-}
-html.work-mode .hue-rotate-cancel {
-  filter: hue-rotate(calc(-1 * var(--hue-rotate-deg, 0deg))) saturate(1);
-}
-
-/* Smooth transition when toggling */
-.work-mode,
-.work-mode * {
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-/* ── Smooth hue shift animation ──────────────────────────────
-   When --base-hue changes (via JS), transition background and
-   border colors smoothly so the theme shift feels intentional. */
-html {
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease;
-}
-body {
-  transition: background-color 0.35s ease;
-}
-
-/* ── Global fix: prevent flex from stretching buttons/elements in mobile ──
-   The min-height:36px on buttons can cause circular buttons to become ovals
-   when inside flex containers. Reset for small buttons. ── */
-@media (max-width: 767px) {
-  /* Override the min-height:36px for small circular buttons */
-  button[style] {
-    min-height: unset;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-}
+  .animate-spin { animation: spin 1s linear infinite; }
+  .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+  .animate-slide-up { animation: slideUp 0.3s ease-out; }
+  .animate-fade-in { animation: fadeIn 0.2s ease-out; }
 
-/* ── Mobile Responsive Styles ────────────────────────────────
-   Applied when viewport width < 768px (mobile devices)
-   Key changes:
-   - Bottom tab bar replaces left sidebar
-   - Content area gets bottom padding for tab bar
-   - Panels slide up from bottom
-   - Reduced padding/margins for small screens
-   ─────────────────────────────────────────────────────────── */
-
-/* Safe area bottom padding utility */
-.pb-safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-/* Mobile: prevent horizontal overflow */
-@media (max-width: 767px) {
-  body {
-    overflow-x: hidden;
+  /* ── Mobile safe area ── */
+  .pb-safe {
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
   }
-
-  /* Ensure retro windows don't overflow on mobile */
-  .retro-window {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
-  /* Retro task list rows — allow text to wrap on mobile */
-  .retro-task-row {
-    flex-wrap: wrap;
-  }
-
-  /* Improve touch targets */
-  button {
-    min-height: 36px;
-  }
-
-  /* Prevent text from being too small on mobile — only text inputs, not checkboxes/radios */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  input[type="url"],
-  input[type="tel"],
-  input[type="number"],
-  input:not([type]),
-  textarea {
-    font-size: 16px !important; /* prevents iOS zoom on focus */
-  }
-}
-
-/* ── Focus page mobile adjustments ── */
-@media (max-width: 767px) {
-  /* Remove rotation transforms on mobile for focus page */
-  .focus-page-timer-container {
-    transform: none !important;
-    margin: 0 auto !important;
+  .pb-nav {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px) + 16px);
   }
 }

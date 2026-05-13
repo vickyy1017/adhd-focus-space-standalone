@@ -21,15 +21,15 @@ import { useSoundContext } from "@/contexts/SoundContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 // ── Palette (dreamy pink/lavender/mint — SukiSketch reference) ───────────────
-const BG = "#F9D6E8";       // dreamy bubblegum pink
-const PANEL = "#F2C4DC";    // soft rose panel
-const BORDER = "#C87AAA";   // muted mauve/pink border
-const DARK = "#4A2040";     // deep plum dark text
-const ACCENT = "#D45898";   // vivid hot pink accent
-const BTN_BG = "#E8B4D4";   // pale pink button bg
-const SCREEN_BG = "#D8E8F8"; // dreamy sky-blue screen bg
-const MINT = "#A8D8C8";     // mint/seafoam highlight
-const LAVENDER = "#C8B4E8"; // soft lavender accent
+const BG = "oklch(1 0 0)";              // pure white (Nori)
+const PANEL = "oklch(0.96 0.002 20)";   // soft muted bg
+const BORDER = "oklch(0.88 0.005 20)";  // hairline border
+const DARK = "oklch(0.12 0.01 20)";     // near-black
+const ACCENT = "oklch(0.82 0.08 10)";   // soft rose accent
+const BTN_BG = "oklch(0.96 0.002 20)";  // button bg
+const SCREEN_BG = "oklch(0.96 0.002 20)"; // screen bg
+const MINT = "oklch(0.55 0.08 160)";     // sage/mint
+const LAVENDER = "oklch(0.70 0.06 10)";  // muted rose
 
 // ── Inject keyframes once ────────────────────────────────────────────────────
 const STYLE_ID = "focus-timer-cyber-keyframes";

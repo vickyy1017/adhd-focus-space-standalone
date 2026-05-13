@@ -600,16 +600,15 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
         <nav
           className="fixed bottom-0 left-0 right-0 z-40 flex items-stretch"
           style={{
-            background: "oklch(0.930 0.045 355)",
-            borderTop: "1.5px solid oklch(0.80 0.060 340)",
-            boxShadow: "0 -2px 12px oklch(0.58 0.18 340 / 0.10)",
+            background: "oklch(1 0 0)",
+            borderTop: "1px solid oklch(0.88 0.005 20)",
             height: "calc(60px + env(safe-area-inset-bottom, 0px))",
             paddingBottom: "env(safe-area-inset-bottom, 0px)",
           }}
         >
           {MOBILE_NAV.map(({ id, short, Icon, title }) => {
             const active = activeSection === id;
-            const color = active ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)";
+            const iconColor = active ? "oklch(0.12 0.01 20)" : "oklch(0.60 0.005 20)";
             return (
               <button
                 key={id}
@@ -622,22 +621,23 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 2,
-                  background: active ? "oklch(0.58 0.18 340 / 0.10)" : "transparent",
+                  gap: 3,
+                  background: "transparent",
                   border: "none",
-                  borderTop: active ? "2px solid oklch(0.58 0.18 340)" : "2px solid transparent",
+                  borderTop: active ? "2px solid oklch(0.12 0.01 20)" : "2px solid transparent",
                   cursor: "pointer",
-                  transition: "background 0.15s",
+                  transition: "all 0.15s",
                   padding: "6px 2px 4px",
                 }}
               >
-                <Icon color={color} />
+                <Icon color={iconColor} />
                 <span style={{
-                  fontSize: "0.42rem",
-                  letterSpacing: "0.10em",
-                  fontFamily: "'Space Mono', monospace",
-                  color,
-                  fontWeight: active ? 700 : 400,
+                  fontSize: "0.45rem",
+                  letterSpacing: "0.08em",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
+                  color: iconColor,
+                  fontWeight: active ? 700 : 500,
+                  textTransform: "uppercase",
                 }}>
                   {short}
                 </span>
@@ -655,9 +655,8 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
     <aside
       className="fixed left-0 top-0 h-screen w-14 z-40 flex flex-col items-center py-4"
       style={{
-        background: "oklch(0.930 0.045 355)",
-        borderRight: "1.5px solid oklch(0.80 0.060 340)",
-        boxShadow: "2px 0 8px oklch(0.58 0.18 340 / 0.08)",
+        background: "oklch(1 0 0)",
+        borderRight: "1px solid oklch(0.88 0.005 20)",
       }}
     >
       {/* Live time at top */}
@@ -666,13 +665,13 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
       </div>
 
       {/* Divider */}
-      <div style={{ width: "70%", height: "1px", background: "oklch(0.80 0.060 340)", marginBottom: 6 }} />
+      <div style={{ width: "70%", height: "1px", background: "oklch(0.88 0.005 20)", marginBottom: 6 }} />
 
       {/* Nav */}
       <nav className="flex flex-col gap-0.5 flex-1 w-full px-1.5">
         {NAV.map(({ id, short, Icon, title }) => {
           const active = activeSection === id;
-          const color = active ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)";
+          const iconColor = active ? "oklch(0.12 0.01 20)" : "oklch(0.60 0.005 20)";
           return (
             <button
               key={id}
@@ -681,12 +680,12 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
               title={title}
               className="relative w-full flex flex-col items-center justify-center py-2 transition-all duration-150"
               style={{
-                background: active ? "oklch(0.58 0.18 340 / 0.12)" : "transparent",
-                borderRadius: 3,
-                border: active ? "1px solid oklch(0.58 0.18 340 / 0.25)" : "1px solid transparent",
+                background: active ? "oklch(0.96 0.002 20)" : "transparent",
+                borderRadius: 8,
+                border: "none",
               }}
               onMouseEnter={(e) => {
-                if (!active) (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.58 0.18 340 / 0.06)";
+                if (!active) (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.96 0.002 20)";
               }}
               onMouseLeave={(e) => {
                 if (!active) (e.currentTarget as HTMLButtonElement).style.background = "transparent";
@@ -695,18 +694,19 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
               {active && (
                 <div
                   className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-5"
-                  style={{ background: "oklch(0.58 0.18 340)", borderRadius: "0 2px 2px 0" }}
+                  style={{ background: "oklch(0.12 0.01 20)", borderRadius: "0 2px 2px 0" }}
                 />
               )}
-              <Icon color={color} />
+              <Icon color={iconColor} />
               <span
                 style={{
                   fontSize: 6.5,
                   marginTop: 2,
-                  letterSpacing: "0.12em",
-                  fontFamily: "'Space Mono', monospace",
-                  color,
-                  fontWeight: active ? 700 : 400,
+                  letterSpacing: "0.08em",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
+                  color: iconColor,
+                  fontWeight: active ? 700 : 500,
+                  textTransform: "uppercase",
                 }}
               >
                 {short}
@@ -717,7 +717,7 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
       </nav>
 
       {/* Divider */}
-      <div style={{ width: "70%", height: "1px", background: "oklch(0.80 0.060 340)", marginBottom: 4 }} />
+      <div style={{ width: "70%", height: "1px", background: "oklch(0.88 0.005 20)", marginBottom: 4 }} />
 
       {/* Bottom links */}
       <div className="flex flex-col w-full gap-0">
@@ -727,22 +727,22 @@ export function Sidebar({ activeSection, onSectionChange, onClearData }: Sidebar
       {/* Settings nav button */}
       {(() => {
         const active = activeSection === "settings";
-        const color = active ? "oklch(0.48 0.18 340)" : "oklch(0.52 0.060 330)";
+        const color = active ? "oklch(0.12 0.01 20)" : "oklch(0.60 0.005 20)";
         return (
           <button
             onClick={() => onSectionChange("settings")}
             title="Settings"
             className="relative w-full flex flex-col items-center justify-center py-2 transition-all duration-150"
             style={{
-              background: active ? "oklch(0.58 0.18 340 / 0.12)" : "transparent",
-              borderRadius: 3,
-              border: active ? "1px solid oklch(0.58 0.18 340 / 0.25)" : "1px solid transparent",
+              background: active ? "oklch(0.96 0.002 20)" : "transparent",
+              borderRadius: 8,
+              border: "none",
             }}
-            onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.58 0.18 340 / 0.06)"; }}
+            onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = "oklch(0.96 0.002 20)"; }}
             onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
           >
             {active && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-5" style={{ background: "oklch(0.58 0.18 340)", borderRadius: "0 2px 2px 0" }} />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-5" style={{ background: "oklch(0.12 0.01 20)", borderRadius: "0 2px 2px 0" }} />
             )}
             <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
               <circle cx="10" cy="10" r="3" stroke={color} strokeWidth="1.4"/>

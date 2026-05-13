@@ -283,21 +283,21 @@ function WinsRing({ wins }: { wins: Win[] }) {
 }
 
 const M = {
-  coral:    "#D45898",
-  coralBg:  "rgba(212,88,152,0.08)",
-  coralBdr: "rgba(212,88,152,0.28)",
-  sage:     "#6ABCA0",
-  sageBg:   "rgba(106,188,160,0.08)",
-  sageBdr:  "rgba(106,188,160,0.28)",
-  pink:     "#B898D8",
-  pinkBg:   "rgba(184,152,216,0.08)",
-  pinkBdr:  "rgba(184,152,216,0.28)",
-  slumber:  "#C070A0",
-  ink:      "#4A1030",
-  muted:    "#C070A0",
-  border:   "#E8B8D0",
-  card:     "#FDF0F6",
-  bg:       "#F9D6E8",
+  coral:    "oklch(0.82 0.08 10)",      // soft rose (Nori accent)
+  coralBg:  "oklch(0.97 0.02 10)",      // rose tint bg
+  coralBdr: "oklch(0.88 0.05 10)",      // rose border
+  sage:     "oklch(0.55 0.08 160)",     // sage green
+  sageBg:   "oklch(0.96 0.02 160)",
+  sageBdr:  "oklch(0.82 0.05 160)",
+  pink:     "oklch(0.70 0.06 10)",      // muted rose
+  pinkBg:   "oklch(0.97 0.02 10)",
+  pinkBdr:  "oklch(0.88 0.04 10)",
+  slumber:  "oklch(0.60 0.01 20)",      // muted grey
+  ink:      "oklch(0.12 0.01 20)",      // near-black
+  muted:    "oklch(0.52 0.01 20)",      // muted text
+  border:   "oklch(0.88 0.005 20)",     // hairline
+  card:     "oklch(1 0 0)",             // pure white
+  bg:       "oklch(0.96 0.002 20)",     // soft bg
 };
 
 interface DailyWrapUpProps {
@@ -428,14 +428,12 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
         onClick={(e) => e.stopPropagation()}
       >
 
-        {/* Pink dot title bar */}
-        <div className="relative z-10" style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: `1.5px solid ${M.border}`, flexShrink: 0 }}>
-          <div style={{ display: "flex", gap: 4 }}>
-            <button onClick={onClose} style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }} title="Close" />
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-          </div>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>daily_wrapup.exe</span>
+        {/* Nori title bar */}
+        <div className="relative z-10" style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${M.border}`, flexShrink: 0 }}>
+          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 15, fontWeight: 900, color: M.ink }}>Daily Wrap-Up</span>
+          <button onClick={onClose} style={{ background: "transparent", border: "none", cursor: "pointer", color: M.muted, padding: 4, display: "flex", alignItems: "center" }} title="Close">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><line x1="4" y1="4" x2="16" y2="16" stroke={M.muted} strokeWidth="1.5" strokeLinecap="round"/><line x1="16" y1="4" x2="4" y2="16" stroke={M.muted} strokeWidth="1.5" strokeLinecap="round"/></svg>
+          </button>
         </div>
 
         {/* Header */}

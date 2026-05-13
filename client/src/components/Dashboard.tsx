@@ -154,18 +154,18 @@ function getGreeting() {
 }
 
 /* ── Dreamy SukiSketch Palette (aligned with index.css CSS vars) ── */
-const TC        = "oklch(0.58 0.18 340)";   // hot pink accent
-const CREAM     = "oklch(0.970 0.022 355)"; // soft pink card bg
-const BORDER    = "oklch(0.78 0.060 340)";  // mauve border
-const INK       = "oklch(0.28 0.040 320)";  // dark plum ink
-const MUTED     = "oklch(0.52 0.040 330)";  // muted mauve text
+const TC        = "oklch(0.12 0.01 20)";    // near-black (Nori primary)
+const CREAM     = "oklch(0.96 0.002 20)";   // soft muted bg
+const BORDER    = "oklch(0.88 0.005 20)";   // hairline border
+const INK       = "oklch(0.12 0.01 20)";    // near-black text
+const MUTED     = "oklch(0.52 0.01 20)";    // muted text
 // AI panel: soft lavender
-const AI_BG     = "oklch(0.960 0.030 290)";  // soft lavender
-const AI_BORDER = "oklch(0.78 0.060 290)";   // lavender border
-const AI_MSG_BG = "oklch(0.940 0.040 355)";  // bubblegum pink for AI messages
-const AI_ACCENT = "oklch(0.58 0.18 340)";    // hot pink for AI header/icons
-const TITLEBAR  = "oklch(0.88 0.060 340)";   // pink title bar bg
-const TITLEBAR_TEXT = "oklch(0.30 0.060 320)"; // title bar text
+const AI_BG     = "oklch(0.96 0.002 20)";    // soft muted bg
+const AI_BORDER = "oklch(0.88 0.005 20)";    // hairline border
+const AI_MSG_BG = "oklch(0.96 0.002 20)";    // message bg
+const AI_ACCENT = "oklch(0.82 0.08 10)";     // soft rose accent
+const TITLEBAR  = "oklch(0.96 0.002 20)";    // Nori muted title bar
+const TITLEBAR_TEXT = "oklch(0.12 0.01 20)";  // near-black title text
 
 function CornerMark() {
   return (

@@ -35,18 +35,18 @@ interface BrainDumpProps {
 }
 
 const M = {
-  coral:    "oklch(0.58 0.18 340)",
-  coralBg:  "oklch(0.58 0.18 340 / 0.08)",
-  coralBdr: "oklch(0.58 0.18 340 / 0.28)",
-  sage:     "oklch(0.52 0.10 168)",
-  sageBg:   "oklch(0.52 0.10 168 / 0.08)",
-  sageBdr:  "oklch(0.52 0.10 168 / 0.28)",
-  ink:      "oklch(0.28 0.040 320)",
-  muted:    "oklch(0.52 0.040 330)",
-  border:   "oklch(0.82 0.050 340)",
-  card:     "oklch(0.975 0.018 355)",
-  tagBg:    "oklch(0.58 0.18 340 / 0.10)",
-  tagBdr:   "oklch(0.58 0.18 340 / 0.22)",
+  coral:    "oklch(0.82 0.08 10)",      // soft rose
+  coralBg:  "oklch(0.97 0.02 10)",      // rose tint
+  coralBdr: "oklch(0.88 0.05 10)",      // rose border
+  sage:     "oklch(0.55 0.08 160)",     // sage green
+  sageBg:   "oklch(0.96 0.02 160)",
+  sageBdr:  "oklch(0.82 0.05 160)",
+  ink:      "oklch(0.12 0.01 20)",      // near-black
+  muted:    "oklch(0.52 0.01 20)",      // muted text
+  border:   "oklch(0.88 0.005 20)",     // hairline
+  card:     "oklch(1 0 0)",             // pure white
+  tagBg:    "oklch(0.96 0.002 20)",     // tag bg
+  tagBdr:   "oklch(0.88 0.005 20)",     // tag border
 };
 
 /** Extract all #tags from a string, return lowercase without the # */
