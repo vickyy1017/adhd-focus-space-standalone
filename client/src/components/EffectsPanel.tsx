@@ -283,9 +283,9 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
             </div>
           </>}
           {(apiKeyOnly || (!settingsOnly)) && <div>
-            {/* OpenAI API Key section */}
+            {/* Gemini API Key section */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◉ OpenAI API Key</span>
+              <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◉ Gemini API Key</span>
               <span style={{ fontSize: "0.48rem", fontFamily: "'Space Mono', monospace", padding: "2px 8px", borderRadius: 10, border: `1px solid ${hasKey ? "oklch(0.55 0.14 160)" : "oklch(0.72 0.040 330)"}`, background: hasKey ? "oklch(0.55 0.14 160 / 0.10)" : "transparent", color: hasKey ? "oklch(0.40 0.14 160)" : "oklch(0.58 0.040 330)" }}>
                 {hasKey === null ? "…" : hasKey ? "✓ key saved" : "no key"}
               </span>

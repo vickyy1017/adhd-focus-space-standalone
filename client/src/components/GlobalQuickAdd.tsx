@@ -372,16 +372,14 @@ Today is ${today} (${todayName}).`,
                 <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>Tell me what to add — task, dump, or anything</p>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                {chatHistory.length > 0 && (
-                  <button
-                    onClick={() => setChatHistory([])}
-                    title="Clear chat"
-                    className="p-1 transition-colors"
-                    style={{ color: M.muted }}
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                  </button>
-                )}
+                <button
+                  onClick={() => setChatHistory([])}
+                  title="Clear chat"
+                  className="p-1 transition-colors"
+                  style={{ color: chatHistory.length > 0 ? M.coral : M.muted, opacity: chatHistory.length > 0 ? 1 : 0.4 }}
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
                 <button onClick={closeModal} className="p-1 transition-colors" style={{ color: M.muted }}>
                   <X className="w-4 h-4" />
                 </button>

@@ -289,98 +289,91 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
     if (advanceTimerRef.current) { clearTimeout(advanceTimerRef.current); advanceTimerRef.current = null; }
   }
 
-  function WeekView() {
-    const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
-    // No-date tasks (To-dos)
-    const noDateTasks = tasks.filter(t => !t.done && (!t.dueDate || t.dueDate === "null"));
-
-    // Header: week range + nav
-    const weekLabel = `${weekStart.toLocaleDateString("en-US", { month: "short" })} · Week ${Math.ceil((weekStart.getDate() + (weekStart.getDay() + 6) % 7) / 7)}`;
-
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 0, height: "100%" }}>
-        {/* Week header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 4px", flexShrink: 0 }}>
-          <button onClick={() => setWeekStart(d => addDays(d, -7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 4 }}>
-            <ChevronLeft size={18} />
-          </button>
-          <div style={{ textAlign: "center" }}>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 700, color: M.ink, margin: 0 }}>
-              {weekStart.toLocaleDateString("en-US", { month: "long" })}
-            </p>
-            <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.50rem", color: M.muted, letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Today</p>
+  // ── Helper: render a single day cell ──
+  function DayCell({ d, isToDoCol = false }: { d?: Date; isToDoCol?: boolean }) {
+    if (isToDoCol) {
+      const noDateTasks = tasks.filter(t => !t.done && (!t.dueDate || t.dueDate === "null"));
+      return (
+        <div style={{ background: "white", display: "flex", flexDirection: "column", minHeight: 120 }}>
+          {/* Pink dot title bar */}
+          <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 5, borderBottom: "1px solid oklch(0.84 0.040 340)" }}>
+            <div style={{ display: "flex", gap: 3 }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.62 0.18 340)" }} />
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.72 0.10 310)" }} />
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "oklch(0.78 0.10 290)" }} />
+            </div>
+            <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: "#8A3060", fontWeight: 700 }}>To-dos</span>
           </div>
-          <button onClick={() => setWeekStart(d => addDays(d, 7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 4 }}>
-            <ChevronRight size={18} />
-          </button>
-        </div>
-
-        {/* 2-column grid: To-dos + 6 days */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, flex: 1, minHeight: 0, background: M.border }}>
-          {/* To-dos column */}
-          <div style={{ background: "white", padding: "10px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.80rem", fontWeight: 700, color: M.ink, margin: 0 }}>To-dos</p>
-            {noDateTasks.length === 0 && (
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: M.muted, fontStyle: "italic" }}>No tasks</p>
-            )}
-            {noDateTasks.slice(0, 8).map(t => (
-              <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 6 }}>
-                <button
-                  onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: true } : x); onTasksChange(updated); }}
-                  style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${M.coral}`, background: "transparent", cursor: "pointer", flexShrink: 0, marginTop: 1, padding: 0 }}
-                />
+          <div style={{ padding: "8px 10px", display: "flex", flexDirection: "column", gap: 5, flex: 1 }}>
+            {noDateTasks.length === 0 && <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: M.muted, fontStyle: "italic" }}>No tasks</p>}
+            {noDateTasks.slice(0, 10).map(t => (
+              <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 6, padding: "2px 0", borderRadius: 4 }}>
+                <button onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: true } : x); onTasksChange(updated); }}
+                  style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${M.coral}`, background: "transparent", cursor: "pointer", flexShrink: 0, marginTop: 1, padding: 0, minWidth: 16 }} />
                 <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: M.ink, lineHeight: 1.3 }}>{t.text}</span>
               </div>
             ))}
           </div>
+        </div>
+      );
+    }
+    if (!d) return null;
+    const ymd = toYMD(d);
+    const isToday = ymd === todayYMD;
+    const dayTasks = getTasksForDay(ymd);
+    const dayNum = d.getDate();
+    const dayName = WEEKDAYS_SHORT[(d.getDay() + 6) % 7];
+    return (
+      <div style={{ background: isToday ? "oklch(0.98 0.015 355)" : "white", display: "flex", flexDirection: "column", minHeight: 120 }}>
+        {/* Pink dot title bar */}
+        <div style={{ background: isToday ? M.coral : "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 5, borderBottom: `1px solid ${isToday ? M.coralBdr : "oklch(0.84 0.040 340)"}` }}>
+          <div style={{ display: "flex", gap: 3 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: isToday ? "rgba(255,255,255,0.6)" : "oklch(0.62 0.18 340)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: isToday ? "rgba(255,255,255,0.6)" : "oklch(0.72 0.10 310)" }} />
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: isToday ? "rgba(255,255,255,0.6)" : "oklch(0.78 0.10 290)" }} />
+          </div>
+          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: isToday ? "white" : "#8A3060", fontWeight: isToday ? 700 : 400 }}>
+            {dayName} {dayNum}
+          </span>
+        </div>
+        <div style={{ padding: "8px 10px", display: "flex", flexDirection: "column", gap: 5, flex: 1 }}>
+          {dayTasks.length === 0 && <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", color: M.muted, fontStyle: "italic" }}>—</p>}
+          {dayTasks.slice(0, 8).map(t => (
+            <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 5, padding: "2px 0" }}>
+              <button onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: !x.done } : x); onTasksChange(updated); }}
+                style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid ${M.coral}`, background: t.done ? M.coral : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 2, padding: 0, minWidth: 14 }} />
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: t.done ? M.muted : M.ink, textDecoration: t.done ? "line-through" : "none", lineHeight: 1.3 }}>{t.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
-          {/* Day 1 (Sun) */}
-          {days.slice(0, 1).map(d => {
-            const ymd = toYMD(d);
-            const isToday = ymd === todayYMD;
-            const dayTasks = getTasksForDay(ymd);
-            return (
-              <div key={ymd} style={{ background: isToday ? M.coralBg : "white", padding: "10px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <div style={{ width: isToday ? 28 : "auto", height: isToday ? 28 : "auto", borderRadius: "50%", background: isToday ? M.coral : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.0rem", fontWeight: 700, color: isToday ? "white" : M.ink, margin: 0 }}>{d.getDate()}</p>
-                  </div>
-                  <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", color: isToday ? M.coral : M.muted, textTransform: "uppercase", margin: 0 }}>{WEEKDAYS_SHORT[(d.getDay() + 6) % 7]}</p>
-                </div>
-                {dayTasks.slice(0, 5).map(t => (
-                  <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 5 }}>
-                    <button onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: !x.done } : x); onTasksChange(updated); }}
-                      style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid ${M.coral}`, background: t.done ? M.coral : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 2, padding: 0 }} />
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: t.done ? M.muted : M.ink, textDecoration: t.done ? "line-through" : "none", lineHeight: 1.3 }}>{t.text}</span>
-                  </div>
-                ))}
-              </div>
-            );
-          })}
+  function WeekView() {
+    const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+    const month = weekStart.toLocaleDateString("en-US", { month: "long" });
+    const weekNum = Math.ceil((weekStart.getDate() + (weekStart.getDay() + 6) % 7) / 7);
 
-          {/* Days 2-7 (Mon-Sat) */}
-          {days.slice(1).map(d => {
-            const ymd = toYMD(d);
-            const isToday = ymd === todayYMD;
-            const dayTasks = getTasksForDay(ymd);
-            return (
-              <div key={ymd} style={{ background: isToday ? M.coralBg : "white", padding: "10px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <div style={{ width: isToday ? 28 : "auto", height: isToday ? 28 : "auto", borderRadius: "50%", background: isToday ? M.coral : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.0rem", fontWeight: 700, color: isToday ? "white" : M.ink, margin: 0 }}>{d.getDate()}</p>
-                  </div>
-                  <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", color: isToday ? M.coral : M.muted, textTransform: "uppercase", margin: 0 }}>{WEEKDAYS_SHORT[(d.getDay() + 6) % 7]}</p>
-                </div>
-                {dayTasks.slice(0, 5).map(t => (
-                  <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 5 }}>
-                    <button onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: !x.done } : x); onTasksChange(updated); }}
-                      style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid ${M.coral}`, background: t.done ? M.coral : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 2, padding: 0 }} />
-                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: t.done ? M.muted : M.ink, textDecoration: t.done ? "line-through" : "none", lineHeight: 1.3 }}>{t.text}</span>
-                  </div>
-                ))}
-              </div>
-            );
-          })}
+    return (
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        {/* Compact week header */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 8px", flexShrink: 0, borderBottom: `1px solid ${M.border}` }}>
+          <button onClick={() => setWeekStart(d => addDays(d, -7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 2 }}><ChevronLeft size={16} /></button>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.0rem", fontWeight: 700, color: M.ink }}>{month}</span>
+            <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", color: M.muted, background: M.border, borderRadius: 10, padding: "1px 6px" }}>W{weekNum}</span>
+          </div>
+          <button onClick={() => setWeekStart(d => addDays(d, 7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 2 }}><ChevronRight size={16} /></button>
+        </div>
+
+        {/* 2-col grid: To-dos + Sun in row 1, Mon-Sat in rows 2-4 */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", flex: 1, background: M.border, overflow: "auto" }}>
+          {/* Row 1: To-dos + Sunday */}
+          <DayCell isToDoCol />
+          <DayCell d={days[0]} />
+          {/* Rows 2-4: Mon-Sat */}
+          {days.slice(1).map(d => <DayCell key={toYMD(d)} d={d} />)}
         </div>
       </div>
     );

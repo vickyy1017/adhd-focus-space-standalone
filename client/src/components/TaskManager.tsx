@@ -6,7 +6,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { CalendarView } from "./CalendarView";
-import { EisenhowerMatrix, priorityToQuadrant, type QuadrantId } from "./EisenhowerMatrix";
+import { priorityToQuadrant, type QuadrantId } from "./EisenhowerMatrix";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Circle, Flame, List, CalendarDays, Plus, Star, Trash2, Zap } from "lucide-react";
@@ -573,15 +573,6 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
         })}
       </div>}
 
-      {/* ── Eisenhower Priority Matrix — below task view ── */}
-      <EisenhowerMatrix
-        tasks={tasks.filter(t => activeContext === "all" ? true : t.context === activeContext)}
-        onTasksChange={(filtered) => {
-          onTasksChange(tasks.map(t => filtered.find(f => f.id === t.id) ?? t));
-        }}
-        quadrantMap={quadrantMap}
-        onQuadrantMapChange={handleQuadrantMapChange}
-      />
 
     </div>
   );
