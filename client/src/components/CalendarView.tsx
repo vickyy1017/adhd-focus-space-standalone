@@ -587,10 +587,10 @@ function DayDetailModal({ selectedDay, onClose, getTasksForDay, dayOrder, saveDa
 
         {/* Header */}
         <div style={{ padding: "12px 16px 10px", borderBottom: "1px solid oklch(0.88 0.005 20)", background: "oklch(0.96 0.002 20)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "1rem", fontWeight: 700, color: "oklch(0.28 0.040 320)", fontStyle: "italic" }}>
+          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "1rem", fontWeight: 700, color: "oklch(0.12 0.01 20)", fontStyle: "italic" }}>
             {dayDate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
           </span>
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1rem", color: "oklch(0.52 0.040 330)" }}>×</button>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1rem", color: "oklch(0.52 0.01 20)" }}>×</button>
         </div>
 
         {/* Tag filter */}

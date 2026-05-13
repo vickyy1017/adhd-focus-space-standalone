@@ -83,7 +83,7 @@ function WinsRing({ wins }: { wins: Win[] }) {
 
   if (wins.length === 0) {
     return (
-      <p className="text-sm italic" style={{ color: "oklch(0.52 0.040 330)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
+      <p className="text-sm italic" style={{ color: "oklch(0.52 0.01 20)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
         No wins logged yet — completing tasks adds them automatically.
       </p>
     );
@@ -177,8 +177,8 @@ function WinsRing({ wins }: { wins: Win[] }) {
           })}
 
           {/* Center count */}
-          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 30, fill: "oklch(0.22 0.040 320)", fontWeight: 700 }}>{total}</text>
-          <text x={cx} y={cy + 12} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 9, fill: "oklch(0.52 0.040 330)", textTransform: "uppercase", letterSpacing: 2 }}>wins</text>
+          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 30, fill: "oklch(0.12 0.01 20)", fontWeight: 700 }}>{total}</text>
+          <text x={cx} y={cy + 12} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 9, fill: "oklch(0.52 0.01 20)", textTransform: "uppercase", letterSpacing: 2 }}>wins</text>
         </svg>
 
         {/* Category icons — positioned OUTSIDE the arc ring, fixed small size */}
@@ -249,8 +249,8 @@ function WinsRing({ wins }: { wins: Win[] }) {
                   bottom: "calc(100% + 8px)",
                   left: "50%",
                   transform: "translateX(-50%)",
-                  background: "oklch(0.970 0.022 355)",
-                  color: "oklch(0.28 0.040 320)",
+                  background: "oklch(1 0 0)",
+                  color: "oklch(0.12 0.01 20)",
                   border: "2px solid oklch(0.58 0.12 340)",
                   boxShadow: "3px 3px 0px oklch(0.30 0.030 320)",
                   borderRadius: 4,
@@ -611,7 +611,7 @@ function TaskRow({ text, color }: { text: string; color: string }) {
   return (
     <div className="flex items-center gap-2 py-1">
       <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color }} />
-      <span className="text-sm" style={{ color: "oklch(0.22 0.040 320)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>{text}</span>
+      <span className="text-sm" style={{ color: "oklch(0.12 0.01 20)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>{text}</span>
     </div>
   );
 }

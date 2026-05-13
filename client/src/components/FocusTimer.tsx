@@ -81,8 +81,8 @@ function PetAlive({ blink }: { blink: boolean }) {
           <rect x="18" y="14" width="1" height="1" fill="#fff" />
         </>
       )}
-      <rect x="10" y="18" width="3" height="2" fill="#E8A0B8" />
-      <rect x="19" y="18" width="3" height="2" fill="#E8A0B8" />
+      <rect x="10" y="18" width="3" height="2" fill="oklch(0.82 0.08 10)" />
+      <rect x="19" y="18" width="3" height="2" fill="oklch(0.82 0.08 10)" />
       <rect x="13" y="20" width="6" height="1" fill="#6B2A3A" />
       <rect x="12" y="19" width="1" height="1" fill="#6B2A3A" />
       <rect x="19" y="19" width="1" height="1" fill="#6B2A3A" />
@@ -243,7 +243,7 @@ function StripEditor({ strips, onChange }: {
     <div style={{ padding: "10px 12px 12px", background: BG }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
         <p style={{
-          fontFamily: "'JetBrains Mono', monospace",
+          fontFamily: "'Pretendard', system-ui, sans-serif",
           fontSize: 7, letterSpacing: "0.16em",
           color: BORDER, margin: 0, textTransform: "uppercase",
         }}>things to let go of</p>
@@ -252,7 +252,7 @@ function StripEditor({ strips, onChange }: {
           style={{
             fontSize: 7, letterSpacing: "0.12em",
             color: BORDER, background: "none", border: "none",
-            cursor: "pointer", fontFamily: "'JetBrains Mono', monospace",
+            cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif",
             textDecoration: "underline", padding: 0,
           }}
         >reset</button>
@@ -268,7 +268,7 @@ function StripEditor({ strips, onChange }: {
             position: "relative",
           }}>
             <span style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
               fontSize: 7, color: BORDER,
               width: 12, flexShrink: 0, textAlign: "right",
             }}>{i + 1}</span>
@@ -287,14 +287,14 @@ function StripEditor({ strips, onChange }: {
                   flex: 1, fontSize: 9, border: "none",
                   borderBottom: `1px solid ${ACCENT}`,
                   background: "transparent", outline: "none",
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
                   color: DARK, padding: "1px 0",
                 }}
               />
             ) : (
               <span style={{
                 flex: 1, fontSize: 9,
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'Pretendard', system-ui, sans-serif",
                 color: DARK, letterSpacing: "0.04em",
               }}>{text}</span>
             )}
@@ -324,7 +324,7 @@ function StripEditor({ strips, onChange }: {
               flex: 1, fontSize: 9,
               border: "none", borderBottom: `1px solid ${BORDER}`,
               background: "transparent", outline: "none",
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
               color: DARK, padding: "3px 0",
               letterSpacing: "0.04em",
             }}
@@ -345,7 +345,7 @@ function StripEditor({ strips, onChange }: {
         </div>
       )}
       {strips.length >= 12 && (
-        <p style={{ fontSize: 7, color: BORDER, fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.1em", margin: 0 }}>max 12 strips</p>
+        <p style={{ fontSize: 7, color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.1em", margin: 0 }}>max 12 strips</p>
       )}
     </div>
   );
@@ -384,12 +384,12 @@ function TearStrip({ text, state, isNext }: {
       transition: "opacity 0.35s",
     }}>
       <span style={{
-        fontFamily: "'JetBrains Mono', monospace",
+        fontFamily: "'Pretendard', system-ui, sans-serif",
         fontSize: 7, color: BORDER,
         width: 12, textAlign: "right", flexShrink: 0, userSelect: "none",
       }}>{isDone ? "✓" : isNext ? "▶" : ""}</span>
       <span style={{
-        fontFamily: "'JetBrains Mono', monospace",
+        fontFamily: "'Pretendard', system-ui, sans-serif",
         fontSize: isNext ? 9 : 8,
         color: isDone ? BORDER : isNext ? DARK : `${DARK}AA`,
         letterSpacing: "0.05em",
@@ -446,16 +446,16 @@ function CompleteWrapUp({ sessions, mode, onNewSession, duration }: {
     }}>
       <div style={{ fontSize: 36, lineHeight: 1 }}>🌟</div>
       <div>
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700, color: DARK, margin: 0, letterSpacing: "0.06em" }}>SESSION COMPLETE!</p>
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: BORDER, margin: "4px 0 0", letterSpacing: "0.06em" }}>{msg}</p>
+        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: DARK, margin: 0, letterSpacing: "0.06em" }}>SESSION COMPLETE!</p>
+        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 8, color: BORDER, margin: "4px 0 0", letterSpacing: "0.06em" }}>{msg}</p>
       </div>
       <div className="ft-score-pop" style={{
         width: 64, height: 64, border: `3px solid ${accentColor}`,
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         background: `${accentColor}18`,
       }}>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 18, fontWeight: 700, color: accentColor, lineHeight: 1 }}>{sessions}</span>
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 6, color: BORDER, letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 2 }}>SESSION{sessions !== 1 ? "S" : ""}</span>
+        <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 18, fontWeight: 700, color: accentColor, lineHeight: 1 }}>{sessions}</span>
+        <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 6, color: BORDER, letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 2 }}>SESSION{sessions !== 1 ? "S" : ""}</span>
       </div>
 
       {aiReflection && (
@@ -470,14 +470,14 @@ function CompleteWrapUp({ sessions, mode, onNewSession, duration }: {
         <button onClick={handleReflect} disabled={aiLoading} style={{
           background: "transparent", border: `1px solid ${BORDER}`, color: BORDER,
           padding: "5px 14px", fontSize: 7, cursor: aiLoading ? "not-allowed" : "pointer",
-          fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.10em",
+          fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.10em",
         }}>
           {aiLoading ? "…" : "✦ REFLECT"}
         </button>
         <button onClick={onNewSession} style={{
-          background: DARK, border: "none", color: "#FAF6F1",
+          background: DARK, border: "none", color: "oklch(1 0 0)",
           padding: "8px 22px", fontSize: 8, cursor: "pointer",
-          fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.14em",
+          fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.14em",
           boxShadow: `2px 2px 0 ${BORDER}`,
         }}>↺ NEW SESSION</button>
       </div>
@@ -506,8 +506,8 @@ function QuitWrapUp({ quitCount, stripsLeft, onNewSession }: {
     }}>
       <div style={{ fontSize: 32, lineHeight: 1 }}>💀</div>
       <div>
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 700, color: DARK, margin: 0, letterSpacing: "0.06em" }}>PET DIED</p>
-        <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: BORDER, margin: "4px 0 0", letterSpacing: "0.04em" }}>{msg}</p>
+        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 12, fontWeight: 700, color: DARK, margin: 0, letterSpacing: "0.06em" }}>PET DIED</p>
+        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 8, color: BORDER, margin: "4px 0 0", letterSpacing: "0.04em" }}>{msg}</p>
       </div>
       <div style={{ display: "flex", gap: 8, width: "100%" }}>
         {[
@@ -516,15 +516,15 @@ function QuitWrapUp({ quitCount, stripsLeft, onNewSession }: {
           { label: "STRIPS LEFT", value: stripsLeft, color: BORDER },
         ].map(({ label, value, color }) => (
           <div key={label} style={{ flex: 1, background: PANEL, border: `1px solid ${BORDER}`, padding: "9px 5px", textAlign: "center" }}>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 16, fontWeight: 700, color, margin: 0 }}>{value}</p>
-            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 6, color: BORDER, letterSpacing: "0.10em", textTransform: "uppercase", margin: "3px 0 0" }}>{label}</p>
+            <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 16, fontWeight: 700, color, margin: 0 }}>{value}</p>
+            <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 6, color: BORDER, letterSpacing: "0.10em", textTransform: "uppercase", margin: "3px 0 0" }}>{label}</p>
           </div>
         ))}
       </div>
       <button onClick={onNewSession} style={{
         background: PANEL, border: `1.5px solid ${BORDER}`, color: DARK,
         padding: "7px 20px", fontSize: 8, cursor: "pointer",
-        fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.12em",
+        fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.12em",
         boxShadow: `2px 2px 0 ${BORDER}`,
       }}>↺ TRY AGAIN</button>
     </div>
@@ -839,8 +839,8 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       title={`${lifetimeSessions} deep focus session${lifetimeSessions !== 1 ? "s" : ""} completed (lifetime total)`}
       style={{ fontSize: 9, letterSpacing: 1, cursor: "default", display: "flex", alignItems: "center", gap: 2 }}
     >
-      <span style={{ color: "#FAF6F1" }}>❤</span>
-      <span style={{ color: "#FAF6F1", fontFamily: "'JetBrains Mono', monospace", fontSize: 7, fontWeight: 700 }}>{lifetimeSessions}</span>
+      <span style={{ color: "oklch(1 0 0)" }}>❤</span>
+      <span style={{ color: "oklch(1 0 0)", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, fontWeight: 700 }}>{lifetimeSessions}</span>
     </span>
   );
 
@@ -867,7 +867,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div style={{
-      fontFamily: "'JetBrains Mono', monospace",
+      fontFamily: "'Pretendard', system-ui, sans-serif",
       background: BG,
       border: `3px solid ${DARK}`,
       boxShadow: `4px 4px 0 ${DARK}`,
@@ -890,9 +890,9 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               fontSize: 7, letterSpacing: "0.18em", textTransform: "uppercase",
               border: "none", borderRight: idx < 2 ? `1px solid ${BORDER}50` : "none",
               background: mode === m ? ACCENT : PANEL,
-              color: mode === m ? "#fff" : BORDER,
+              color: mode === m ? "oklch(1 0 0)" : "oklch(0.52 0.01 20)",
               cursor: running ? "not-allowed" : "pointer",
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
               opacity: running && mode !== m ? 0.5 : 1,
               fontWeight: mode === m ? 700 : 400,
               transition: "background 0.15s",
@@ -930,31 +930,31 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
 
       {/* Settings panel */}
       {showSettings && (
-        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: `linear-gradient(135deg, ${PANEL} 0%, #EAD4F0 100%)` }}>
-          <p style={{ fontSize: 7, letterSpacing: "0.2em", color: BORDER, textTransform: "uppercase", marginBottom: 9, fontFamily: "'JetBrains Mono', monospace" }}>Duration (min) — click to edit</p>
+        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: "oklch(0.96 0.002 20)" }}>
+          <p style={{ fontSize: 7, letterSpacing: "0.2em", color: BORDER, textTransform: "uppercase", marginBottom: 9, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Duration (min) — click to edit</p>
           <div style={{ display: "flex", gap: 12 }}>
             {(["focus", "short", "long"] as TimerMode[]).map(m => (
               <div key={m} style={{ flex: 1 }}>
-                <p style={{ fontSize: 7, letterSpacing: "0.18em", color: BORDER, textTransform: "uppercase", marginBottom: 4, fontFamily: "'JetBrains Mono', monospace" }}>{m}</p>
+                <p style={{ fontSize: 7, letterSpacing: "0.18em", color: BORDER, textTransform: "uppercase", marginBottom: 4, fontFamily: "'Pretendard', system-ui, sans-serif" }}>{m}</p>
                 {editingMode === m ? (
                   <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
                     <input ref={editRef} value={editVal} onChange={e => setEditVal(e.target.value)}
                       onKeyDown={e => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditingMode(null); }}
                       type="number" min={1} max={180}
-                      style={{ width: 38, textAlign: "center", fontSize: 11, fontWeight: 700, border: `1px solid ${ACCENT}`, background: "transparent", outline: "none", padding: "2px 3px", fontFamily: "'JetBrains Mono', monospace", color: DARK }} />
+                      style={{ width: 38, textAlign: "center", fontSize: 11, fontWeight: 700, border: `1px solid ${ACCENT}`, background: "transparent", outline: "none", padding: "2px 3px", fontFamily: "'Pretendard', system-ui, sans-serif", color: DARK }} />
                     <button onClick={commitEdit} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}><Check size={10} color={ACCENT} /></button>
                     <button onClick={() => setEditingMode(null)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}><X size={10} color={BORDER} /></button>
                   </div>
                 ) : (
                   <button onClick={() => { setEditingMode(m); setEditVal(String(durations[m])); }}
-                    style={{ fontSize: 17, fontWeight: 700, color: DARK, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "'JetBrains Mono', monospace" }}>
+                    style={{ fontSize: 17, fontWeight: 700, color: DARK, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                     {durations[m]}
                   </button>
                 )}
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 3, marginTop: 5 }}>
                   {PRESETS[m].map(p => (
                     <button key={p} onClick={() => applyDuration(m, p)} style={{
-                      fontSize: 7, padding: "2px 5px", cursor: "pointer", fontFamily: "'JetBrains Mono', monospace",
+                      fontSize: 7, padding: "2px 5px", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif",
                       border: `1px solid ${durations[m] === p ? ACCENT : BORDER}`,
                       background: durations[m] === p ? `${ACCENT}18` : "transparent",
                       color: durations[m] === p ? ACCENT : BORDER,
@@ -969,30 +969,30 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
 
       {/* Sound panel */}
       {showSound && (
-        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: `linear-gradient(135deg, ${PANEL} 0%, #EAD4F0 100%)` }}>
-          <p style={{ fontSize: 7, letterSpacing: "0.2em", color: BORDER, textTransform: "uppercase", marginBottom: 9, fontFamily: "'JetBrains Mono', monospace" }}>Sound</p>
+        <div style={{ borderBottom: `2px solid ${DARK}`, padding: "11px 12px", background: "oklch(0.96 0.002 20)" }}>
+          <p style={{ fontSize: 7, letterSpacing: "0.2em", color: BORDER, textTransform: "uppercase", marginBottom: 9, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Sound</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <button onClick={sound.toggleSfx} style={{ width: 18, height: 18, border: `1px solid ${sound.sfxEnabled ? DARK : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", background: sound.sfxEnabled ? `${DARK}18` : "transparent", cursor: "pointer", flexShrink: 0 }}>
                 {sound.sfxEnabled ? <Volume2 size={8} color={DARK} /> : <VolumeX size={8} color={BORDER} />}
               </button>
-              <span style={{ fontSize: 7, letterSpacing: "0.14em", color: BORDER, fontFamily: "'JetBrains Mono', monospace", width: 74 }}>Sound Effects</span>
+              <span style={{ fontSize: 7, letterSpacing: "0.14em", color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", width: 74 }}>Sound Effects</span>
               <input type="range" min={0} max={1} step={0.05} value={sound.sfxVolume}
                 onChange={e => sound.setSfxVolume(parseFloat(e.target.value))}
                 disabled={!sound.sfxEnabled}
-                style={{ flex: 1, accentColor: "oklch(0.55 0.14 310)", cursor: sound.sfxEnabled ? "pointer" : "default", opacity: sound.sfxEnabled ? 1 : 0.4 }} />
-              <span style={{ fontSize: 7, color: BORDER, fontFamily: "'JetBrains Mono', monospace", width: 22, textAlign: "right" }}>{Math.round(sound.sfxVolume * 100)}%</span>
+                style={{ flex: 1, accentColor: "oklch(0.12 0.01 20)", cursor: sound.sfxEnabled ? "pointer" : "default", opacity: sound.sfxEnabled ? 1 : 0.4 }} />
+              <span style={{ fontSize: 7, color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", width: 22, textAlign: "right" }}>{Math.round(sound.sfxVolume * 100)}%</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <button onClick={sound.toggleMusic} style={{ width: 18, height: 18, border: `1px solid ${sound.musicEnabled ? DARK : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", background: sound.musicEnabled ? `${DARK}18` : "transparent", cursor: "pointer", flexShrink: 0 }}>
                 {sound.musicLoading ? <span style={{ fontSize: 6, color: DARK }}>…</span> : <Coffee size={8} color={sound.musicEnabled ? DARK : BORDER} />}
               </button>
-              <span style={{ fontSize: 7, letterSpacing: "0.14em", color: BORDER, fontFamily: "'JetBrains Mono', monospace", width: 74 }}>Lo-fi Jazz</span>
+              <span style={{ fontSize: 7, letterSpacing: "0.14em", color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", width: 74 }}>Lo-fi Jazz</span>
               <input type="range" min={0} max={1} step={0.05} value={sound.musicVolume}
                 onChange={e => sound.setMusicVolume(parseFloat(e.target.value))}
                 disabled={!sound.musicEnabled}
                 style={{ flex: 1, accentColor: "oklch(0.82 0.08 10)", cursor: sound.musicEnabled ? "pointer" : "default", opacity: sound.musicEnabled ? 1 : 0.4 }} />
-              <span style={{ fontSize: 7, color: BORDER, fontFamily: "'JetBrains Mono', monospace", width: 22, textAlign: "right" }}>{Math.round(sound.musicVolume * 100)}%</span>
+              <span style={{ fontSize: 7, color: BORDER, fontFamily: "'Pretendard', system-ui, sans-serif", width: 22, textAlign: "right" }}>{Math.round(sound.musicVolume * 100)}%</span>
             </div>
 
           </div>
@@ -1012,12 +1012,12 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       {/* ── Transition countdown ── */}
       {phase === "transition" && nextMode && (
         <div style={{ background: BG, padding: "22px 16px", textAlign: "center" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 7, letterSpacing: "0.22em", color: BORDER, textTransform: "uppercase", marginBottom: 7 }}>NEXT UP</p>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, fontWeight: 700, color: ACCENT, marginBottom: 4 }}>{MODE_LABELS[nextMode]}</p>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 26, fontWeight: 700, color: DARK, marginBottom: 12 }}>{transitionCountdown}</p>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: BORDER, marginBottom: 12 }}>Starting automatically…</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.22em", color: BORDER, textTransform: "uppercase", marginBottom: 7 }}>NEXT UP</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: ACCENT, marginBottom: 4 }}>{MODE_LABELS[nextMode]}</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 26, fontWeight: 700, color: DARK, marginBottom: 12 }}>{transitionCountdown}</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 8, color: BORDER, marginBottom: 12 }}>Starting automatically…</p>
           <button onClick={handleSkipTransition} style={{
-            fontFamily: "'JetBrains Mono', monospace", fontSize: 7, letterSpacing: "0.14em",
+            fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.14em",
             background: ACCENT, color: "#fff", border: "none", padding: "6px 16px", cursor: "pointer",
             boxShadow: `2px 2px 0 ${DARK}`,
           }}>Start now →</button>
@@ -1027,9 +1027,9 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       {/* ── Block complete ── */}
       {phase === "block_complete" && (
         <div style={{ background: BG, padding: "22px 16px", textAlign: "center" }}>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 7, letterSpacing: "0.22em", color: "oklch(0.55 0.14 310)", textTransform: "uppercase", marginBottom: 7 }}>BLOCK COMPLETE</p>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, fontWeight: 700, color: DARK, marginBottom: 5 }}>4 sessions done.</p>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 8, color: BORDER, lineHeight: 1.6, marginBottom: 16 }}>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.22em", color: "oklch(0.55 0.14 310)", textTransform: "uppercase", marginBottom: 7 }}>BLOCK COMPLETE</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 700, color: DARK, marginBottom: 5 }}>4 sessions done.</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 8, color: BORDER, lineHeight: 1.6, marginBottom: 16 }}>
             You completed a full Pomodoro block.<br />Take a real break — you earned it.
           </p>
           <div style={{ display: "flex", gap: 5, justifyContent: "center", marginBottom: 16 }}>
@@ -1038,8 +1038,8 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
             ))}
           </div>
           <button onClick={handleNewSession} style={{
-            fontFamily: "'JetBrains Mono', monospace", fontSize: 7, letterSpacing: "0.14em",
-            background: DARK, color: "#FAF6F1", border: "none", padding: "7px 20px", cursor: "pointer",
+            fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.14em",
+            background: DARK, color: "oklch(1 0 0)", border: "none", padding: "7px 20px", cursor: "pointer",
             boxShadow: `2px 2px 0 ${BORDER}`,
           }}>Start new block</button>
         </div>
@@ -1052,11 +1052,11 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
           display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
         }}>
           <div style={{ fontSize: 22 }}>💀</div>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.22em", color: "#ff6b8a", textTransform: "uppercase", fontWeight: 700 }}>YOUR PET IS GONE</p>
-          <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 7, color: "#FAF6F1", opacity: 0.7, lineHeight: 1.7 }}>You ran out of hearts today.<br />Come back tomorrow — or reset to try again.</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 10, letterSpacing: "0.22em", color: "oklch(0.82 0.08 10)", textTransform: "uppercase", fontWeight: 700 }}>YOUR PET IS GONE</p>
+          <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, color: "oklch(1 0 0)", opacity: 0.7, lineHeight: 1.7 }}>You ran out of hearts today.<br />Come back tomorrow — or reset to try again.</p>
           <button onClick={resetDeaths} style={{
-            fontFamily: "'JetBrains Mono', monospace", fontSize: 7, letterSpacing: "0.14em",
-            background: "#ff6b8a", color: "#fff", border: "none", padding: "6px 16px",
+            fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7, letterSpacing: "0.14em",
+            background: "oklch(0.82 0.08 10)", color: "#fff", border: "none", padding: "6px 16px",
             cursor: "pointer", marginTop: 4, boxShadow: `2px 2px 0 #FAF6F1`,
           }}>↺ Revive pet</button>
         </div>
@@ -1067,7 +1067,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
         <div style={{ display: "flex", flexDirection: "column" }}>
           {/* Pet screen */}
           <div style={{
-            background: SCREEN_BG,
+            background: "oklch(0.96 0.002 20)",
             margin: "8px 8px 0",
             border: `2px solid ${DARK}`,
             position: "relative",
@@ -1093,7 +1093,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                 transform: "translateX(-50%)",
                 pointerEvents: "none",
                 transition: "none",
-                color: "#E8A0B8",
+                color: "oklch(0.82 0.08 10)",
               }}>♥</div>
             ))}
 
@@ -1107,7 +1107,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               position: "absolute", top: 5, left: 6,
               fontSize: 6, letterSpacing: "0.10em", color: DARK,
               textTransform: "uppercase", opacity: 0.7,
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
             }}>{petStatus()}</div>
 
             {/* MIT label top-right */}
@@ -1115,7 +1115,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               <div style={{
                 position: "absolute", top: 5, right: 6,
                 fontSize: 6, color: ACCENT, letterSpacing: "0.06em",
-                fontFamily: "'JetBrains Mono', monospace", maxWidth: 80,
+                fontFamily: "'Pretendard', system-ui, sans-serif", maxWidth: 80,
                 overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
               }}>★ {mitLabel}</div>
             )}
@@ -1125,14 +1125,14 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               display: "flex", flexDirection: "column", alignItems: "flex-end",
             }}>
               <span style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: 9, fontWeight: 700,
                 color: displayedGrowth >= 100 ? ACCENT : "oklch(0.72 0.12 350)",
                 letterSpacing: "0.04em",
                 lineHeight: 1,
               }}>{displayedGrowth}%</span>
               <span style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: 5, letterSpacing: "0.12em",
                 color: "oklch(0.72 0.10 350)", textTransform: "uppercase", marginTop: 1,
               }}>grown</span>
@@ -1149,7 +1149,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
           {/* Large timer display (Lab style) */}
           <div style={{ textAlign: "center", padding: "16px 0 14px" }}>
             <span style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
               fontSize: 38, fontWeight: 700,
               letterSpacing: "0.06em",
               color: phase === "paused" ? `${DARK}88` : DARK,
@@ -1169,10 +1169,10 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                   fontSize: 8,
                   letterSpacing: "0.12em",
                   background: durations[mode] === p ? ACCENT : BTN_BG,
-                  color: durations[mode] === p ? "#fff" : DARK,
+                  color: durations[mode] === p ? "oklch(1 0 0)" : "oklch(0.12 0.01 20)",
                   border: `1.5px solid ${BORDER}`,
                   cursor: phase === "idle" ? "pointer" : "default",
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
                   boxShadow: durations[mode] === p ? `1px 1px 0 ${DARK}` : "none",
                   opacity: phase === "idle" ? 1 : 0.35,
                   transition: "opacity 0.2s",
@@ -1186,7 +1186,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
             {careLog.length === 0 ? (
               // Idle placeholder
               <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <div style={{ fontSize: 6, letterSpacing: "0.14em", color: BORDER, textTransform: "uppercase", fontFamily: "'JetBrains Mono', monospace" }}>care log</div>
+                <div style={{ fontSize: 6, letterSpacing: "0.14em", color: BORDER, textTransform: "uppercase", fontFamily: "'Pretendard', system-ui, sans-serif" }}>care log</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   {[
                     { emoji: "🌸", text: "taking care of your pet..." },
@@ -1195,7 +1195,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                   ].map((line, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: 5, opacity: i === 0 ? 0.55 : i === 1 ? 0.40 : 0.25 }}>
                       <span style={{ fontSize: 9 }}>{line.emoji}</span>
-                      <span style={{ fontSize: 7, color: DARK, letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace", fontStyle: "italic" }}>{line.text}</span>
+                      <span style={{ fontSize: 7, color: DARK, letterSpacing: "0.06em", fontFamily: "'Pretendard', system-ui, sans-serif", fontStyle: "italic" }}>{line.text}</span>
                     </div>
                   ))}
                 </div>
@@ -1203,12 +1203,12 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
             ) : (
               // Active care log entries
               <>
-                <div style={{ fontSize: 6, letterSpacing: "0.14em", color: BORDER, marginBottom: 3, textTransform: "uppercase", fontFamily: "'JetBrains Mono', monospace" }}>care log</div>
+                <div style={{ fontSize: 6, letterSpacing: "0.14em", color: BORDER, marginBottom: 3, textTransform: "uppercase", fontFamily: "'Pretendard', system-ui, sans-serif" }}>care log</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 2, overflow: "hidden", maxHeight: 52 }}>
                   {careLog.map((entry, i) => (
                     <div key={entry.id} style={{ display: "flex", alignItems: "center", gap: 5, opacity: i === 0 ? 1 : i === 1 ? 0.75 : 0.4 }}>
                       <span style={{ fontSize: 9 }}>{entry.emoji}</span>
-                      <span style={{ fontSize: 7, color: DARK, letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace" }}>{entry.text}</span>
+                      <span style={{ fontSize: 7, color: DARK, letterSpacing: "0.06em", fontFamily: "'Pretendard', system-ui, sans-serif" }}>{entry.text}</span>
                     </div>
                   ))}
                 </div>
@@ -1228,7 +1228,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                 display: "flex", alignItems: "center", gap: 4,
                 padding: "4px 9px", background: "transparent",
                 border: `1.5px solid ${BORDER}`, color: BORDER,
-                cursor: "pointer", fontFamily: "'JetBrains Mono', monospace",
+                cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: 7, letterSpacing: "0.12em",
                 boxShadow: `2px 2px 0 ${BORDER}`,
               }}>
@@ -1245,7 +1245,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                   background: running ? BTN_BG : ACCENT,
                   border: `1.5px solid ${running ? BORDER : DARK}`,
                   color: running ? DARK : "#fff",
-                  fontFamily: "'JetBrains Mono', monospace", fontSize: 7,
+                  fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 7,
                   letterSpacing: "0.14em", cursor: "pointer",
                   boxShadow: running ? `2px 2px 0 ${BORDER}` : `2px 2px 0 ${DARK}`,
                   fontWeight: 700, transition: "all 0.12s", flexShrink: 0,
@@ -1254,7 +1254,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                 </button>
                 <span style={{
                   display: "inline-flex", alignItems: "center", gap: 3,
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
                   fontSize: 6,
                   letterSpacing: "0.08em",
                   color: BORDER,
@@ -1265,7 +1265,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                 }}>
                   press
                   <span style={{
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'Pretendard', system-ui, sans-serif",
                     fontSize: 11,
                     lineHeight: 1,
                     color: BORDER,
@@ -1285,7 +1285,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
                   transition: "background 0.3s",
                 }} />
               ))}
-              <span style={{ fontSize: 7, letterSpacing: "0.10em", color: BORDER, marginLeft: 3, fontFamily: "'JetBrains Mono', monospace" }}>{sessions}/4</span>
+              <span style={{ fontSize: 7, letterSpacing: "0.10em", color: BORDER, marginLeft: 3, fontFamily: "'Pretendard', system-ui, sans-serif" }}>{sessions}/4</span>
             </div>
           </div>
 

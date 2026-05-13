@@ -396,7 +396,7 @@ Today is ${today} (${todayName}).`,
                     placeholder="New quick-reply chip…"
                     autoComplete="off"
                     className="flex-1 text-sm px-3 py-2 bg-transparent focus:outline-none"
-                    style={{ border: `1px solid ${M.border}`, color: M.ink, fontFamily: "'DM Sans', sans-serif" }}
+                    style={{ border: `1px solid ${M.border}`, color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}
                     onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = M.coralBdr; }}
                     onBlur={(e)  => { (e.target as HTMLInputElement).style.borderColor = M.border; }}
                   />
@@ -414,7 +414,7 @@ Today is ${today} (${todayName}).`,
                 {/* Chip list */}
                 <div className="flex flex-col gap-1.5 max-h-52 overflow-y-auto">
                   {chips.length === 0 && (
-                    <p className="text-xs text-center py-4" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>No chips yet. Add one above.</p>
+                    <p className="text-xs text-center py-4" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>No chips yet. Add one above.</p>
                   )}
                   {chips.map((chip) => (
                     <div
@@ -422,7 +422,7 @@ Today is ${today} (${todayName}).`,
                       className="flex items-center justify-between gap-2 px-3 py-2"
                       style={{ border: `1px solid ${M.border}`, background: "oklch(0.99 0.010 355)" }}
                     >
-                      <span className="text-xs flex-1 truncate" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>{chip}</span>
+                      <span className="text-xs flex-1 truncate" style={{ color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>{chip}</span>
                       <button
                         onClick={() => handleDeleteChip(chip)}
                         className="p-0.5 transition-colors shrink-0"
@@ -435,7 +435,7 @@ Today is ${today} (${todayName}).`,
                   ))}
                 </div>
 
-                <p className="text-xs mt-3" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
+                <p className="text-xs mt-3" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                   Chips are saved to your account and backed up automatically.
                 </p>
               </div>
@@ -447,7 +447,7 @@ Today is ${today} (${todayName}).`,
                   {chatHistory.length === 0 && (
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, paddingTop: 16 }}>
                       <Sparkles size={22} style={{ color: M.coral, opacity: 0.7 }} />
-                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: M.muted, textAlign: "center", lineHeight: 1.5 }}>Your ADHD focus assistant — I can plan your day, prioritize tasks, add ideas, or just think with you.</p>
+                      <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.82rem", color: M.muted, textAlign: "center", lineHeight: 1.5 }}>Your ADHD focus assistant — I can plan your day, prioritize tasks, add ideas, or just think with you.</p>
                       <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
                         {[
                           "What should I focus on right now?",
@@ -463,7 +463,7 @@ Today is ${today} (${todayName}).`,
                               textAlign: "left", padding: "8px 12px",
                               background: "white", border: `1px solid ${M.border}`,
                               borderRadius: 8, cursor: "pointer",
-                              fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem",
+                              fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.82rem",
                               color: M.ink, lineHeight: 1.4,
                               transition: "border-color 0.15s",
                             }}
@@ -484,7 +484,7 @@ Today is ${today} (${todayName}).`,
                         borderRadius: msg.role === "user" ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
                         background: msg.role === "user" ? M.coral : "white",
                         color: msg.role === "user" ? "white" : M.ink,
-                        fontFamily: "'DM Sans', sans-serif",
+                        fontFamily: "'Pretendard', system-ui, sans-serif",
                         fontSize: "0.875rem",
                         lineHeight: 1.5,
                         border: msg.role === "assistant" ? `1px solid ${M.border}` : "none",
@@ -535,7 +535,7 @@ Today is ${today} (${todayName}).`,
                     }}
                     placeholder={isRecording ? "🎤 Listening..." : "Message AI assistant..."}
                     autoComplete="off" autoCorrect="off"
-                    style={{ flex: 1, fontSize: "0.9rem", background: "transparent", border: "none", outline: "none", color: M.ink, fontFamily: "'DM Sans', sans-serif" }}
+                    style={{ flex: 1, fontSize: "0.9rem", background: "transparent", border: "none", outline: "none", color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}
                   />
 
                   {/* Send button */}

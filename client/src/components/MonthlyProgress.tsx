@@ -86,7 +86,7 @@ function DayCellHoverContent({ log, day, month, year }: { log?: DailyLog; day: n
   const dateStr = new Date(year, month, day).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   const hasAny = log && (log.wrapUpDone || log.dumpCount > 0 || log.winsCount > 0 || log.tasksCompleted > 0 || (log.focusSessions ?? 0) > 0 || (log.routinesDone ?? 0) > 0);
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", minWidth: 180 }}>
+    <div style={{ fontFamily: "'Pretendard', system-ui, sans-serif", minWidth: 180 }}>
       <div style={{ fontSize: 12, fontWeight: 600, color: M.ink, marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${M.border}` }}>
         {dateStr}
       </div>
@@ -124,8 +124,8 @@ function DayCellHoverContent({ log, day, month, year }: { log?: DailyLog; day: n
           {(log?.focusSessions ?? 0) > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-                <circle cx="12" cy="12" r="9" stroke="oklch(0.58 0.18 340)" strokeWidth="1.5" />
-                <polyline points="12,7 12,12 15,15" stroke="oklch(0.58 0.18 340)" strokeWidth="1.5" strokeLinecap="round" />
+                <circle cx="12" cy="12" r="9" stroke="oklch(0.82 0.08 10)" strokeWidth="1.5" />
+                <polyline points="12,7 12,12 15,15" stroke="oklch(0.82 0.08 10)" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
               <span style={{ fontSize: 11, color: M.ink }}>{log!.focusSessions} focus {log!.focusSessions === 1 ? "session" : "sessions"}</span>
             </div>
@@ -133,7 +133,7 @@ function DayCellHoverContent({ log, day, month, year }: { log?: DailyLog; day: n
           {(log?.blocksCompleted ?? 0) > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-                <path d="M12 2c0 0-1 3-1 5 0 1.5 1 3 1 3s-3-1-3-4c0 0-3 3-3 7a6 6 0 0 0 12 0c0-5-4-8-6-11z" fill="oklch(0.58 0.18 340)" opacity="0.85" />
+                <path d="M12 2c0 0-1 3-1 5 0 1.5 1 3 1 3s-3-1-3-4c0 0-3 3-3 7a6 6 0 0 0 12 0c0-5-4-8-6-11z" fill="oklch(0.82 0.08 10)" opacity="0.85" />
               </svg>
               <span style={{ fontSize: 11, color: M.ink }}>{log!.blocksCompleted} deep focus {log!.blocksCompleted === 1 ? "block" : "blocks"} 🔥</span>
             </div>
@@ -208,7 +208,7 @@ function DayCell({
         fontSize: 11,
         fontWeight: isToday ? 700 : 400,
         color: isToday ? M.coral : hasActivity ? M.ink : M.muted,
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: "'Pretendard', system-ui, sans-serif",
         lineHeight: 1,
       }}>
         {day}
@@ -273,7 +273,7 @@ const WIN_CAT_COLORS = [
   "oklch(0.62 0.14 310)",  // social
   "oklch(0.55 0.10 300)", // creative
   "oklch(0.55 0.07 185)", // mindful
-  "oklch(0.58 0.18 340)",  // fitness
+  "oklch(0.82 0.08 10)",  // fitness
   "oklch(0.55 0.12 270)", // nutrition
 ];
 const WIN_CAT_LABELS = ["Health","Study","Work","Social","Creative","Mindful","Fitness","Nutrition"];
@@ -292,9 +292,9 @@ function EditableDiary({ dateKey, initialNote }: { dateKey: string; initialNote?
   };
   return (
     <div style={{ marginTop: 8 }}>
-      <p style={{ fontSize: 10, fontFamily: "'Space Mono', monospace", letterSpacing: "0.06em", color: M.muted, textTransform: "uppercase", marginBottom: 4 }}>📝 My Diary</p>
+      <p style={{ fontSize: 10, fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em", color: M.muted, textTransform: "uppercase", marginBottom: 4 }}>📝 My Diary</p>
       <textarea value={text} onChange={(e) => save(e.target.value)} placeholder="Write your thoughts for this day…" rows={3}
-        style={{ width: "100%", boxSizing: "border-box", fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: M.ink, lineHeight: 1.6, padding: "8px 10px", border: "1px dashed oklch(0.82 0.050 340)", borderRadius: 6, background: "oklch(0.97 0.012 355)", resize: "vertical", outline: "none" }} />
+        style={{ width: "100%", boxSizing: "border-box", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, color: M.ink, lineHeight: 1.6, padding: "10px 12px", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 12, background: "oklch(0.96 0.002 20)", resize: "vertical", outline: "none" }} />
     </div>
   );
 }
@@ -402,7 +402,7 @@ function DayDetail({ log, dateStr, dateKey: dk, onClose, isPast }: { log?: Daily
             <span style={{ fontSize: 11, fontWeight: 700, color: M.ink }}>{log.score}/100</span>
           </div>
           <div style={{ height: 5, borderRadius: 3, background: M.border, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${log.score}%`, background: M.coral, borderRadius: 3, transition: "width 0.5s" }} />
+                <div style={{ height: "100%", width: `${log.score}%`, background: "oklch(0.12 0.01 20)", borderRadius: 3, transition: "width 0.5s" }} />
           </div>
         </div>
       )}
@@ -584,11 +584,11 @@ export function MonthlyProgress({ wins, tasks, blockHistory = {}, blockStreak = 
   const isCurrentMonth = viewYear === today.getFullYear() && viewMonth === today.getMonth();
 
   return (
-    <div style={{ maxWidth: 680, margin: "0 auto", padding: "24px 16px", fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ maxWidth: 680, margin: "0 auto", padding: "24px 16px", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
 
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: M.ink, margin: 0 }}>
+        <h1 style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 26, fontWeight: 700, color: M.ink, margin: 0 }}>
           Monthly Progress
         </h1>
         <p style={{ fontSize: 13, color: M.muted, marginTop: 4 }}>
@@ -634,7 +634,7 @@ export function MonthlyProgress({ wins, tasks, blockHistory = {}, blockStreak = 
           <button onClick={prevMonth} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, padding: 4, borderRadius: 6 }}>
             <ChevronLeft size={18} />
           </button>
-          <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 600, color: M.ink }}>
+          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 17, fontWeight: 600, color: M.ink }}>
             {MONTHS[viewMonth]} {viewYear}
           </span>
           <button
@@ -764,22 +764,19 @@ Average mood: ${avgMood ?? "not tracked"}/5`
   };
 
   const M2 = {
-    coral: "oklch(0.58 0.18 340)", coralBg: "oklch(0.58 0.18 340 / 0.08)",
-    coralBdr: "oklch(0.58 0.18 340 / 0.25)", ink: "oklch(0.22 0.040 320)",
-    muted: "oklch(0.52 0.040 330)", border: "oklch(0.88 0.025 340)", card: "oklch(0.975 0.018 355)",
+    coral: "oklch(0.82 0.08 10)", coralBg: "oklch(0.97 0.02 10)",
+    coralBdr: "oklch(0.88 0.005 20)", ink: "oklch(0.12 0.01 20)",
+    muted: "oklch(0.52 0.01 20)", border: "oklch(0.88 0.025 340)", card: "oklch(1 0 0)",
   };
 
   return (
     <div style={{ marginTop: 16, background: M2.card, border: `1px solid ${M2.border}`, borderRadius: 16, overflow: "hidden",  }}>
       <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>AI Monthly Review</span></div>
       <div style={{ padding: 16 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-          <Sparkles size={15} style={{ color: M2.coral }} />
-          <span style={{ fontSize: 13, fontWeight: 600, color: M2.ink, fontFamily: "'DM Sans', sans-serif" }}>AI Monthly Review</span>
-        </div>
-        {!review ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {!review ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <p style={{ fontSize: 12, color: M2.muted, margin: 0, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
+            <p style={{ fontSize: 13, color: M2.muted, margin: 0, fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5 }}>
               Get a personalised narrative review of your month — patterns, insights, and one thing to try next month.
             </p>
             <button
@@ -787,11 +784,11 @@ Average mood: ${avgMood ?? "not tracked"}/5`
               disabled={generating}
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                background: generating ? M2.border : M2.coralBg,
-                border: `1px solid ${M2.coralBdr}`, color: M2.coral,
-                borderRadius: 6, padding: "8px 14px", fontSize: 11,
+                background: generating ? "oklch(0.96 0.002 20)" : "oklch(0.12 0.01 20)",
+                border: "none", color: generating ? "oklch(0.52 0.01 20)" : "oklch(1 0 0)",
+                borderRadius: 9999, padding: "8px 16px", fontSize: 13,
                 cursor: generating ? "not-allowed" : "pointer",
-                fontFamily: "'DM Sans', sans-serif", fontWeight: 500, alignSelf: "flex-start",
+                fontFamily: "'Pretendard', system-ui, sans-serif", fontWeight: 700, alignSelf: "flex-start",
               }}
             >
               {generating ? <><Loader2 size={12} style={{ animation: "spin 1s linear infinite" }} /> Generating…</> : <><Sparkles size={12} /> Generate review</>}
@@ -799,14 +796,15 @@ Average mood: ${avgMood ?? "not tracked"}/5`
           </div>
         ) : (
           <div>
-            <div style={{ padding: "12px 14px", background: M2.coralBg, border: `1px solid ${M2.coralBdr}`, borderRadius: 8, fontSize: 13, color: M2.ink, lineHeight: 1.7, fontFamily: "'DM Sans', sans-serif", whiteSpace: "pre-wrap" }}>
+            <div style={{ padding: "12px 14px", background: "oklch(0.96 0.002 20)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 12, fontSize: 13, color: M2.ink, lineHeight: 1.7, fontFamily: "'Pretendard', system-ui, sans-serif", whiteSpace: "pre-wrap" }}>
               {review}
             </div>
-            <button onClick={() => setReview(null)} style={{ marginTop: 8, fontSize: 11, color: M2.muted, background: "none", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>
+            <button onClick={() => setReview(null)} style={{ marginTop: 8, fontSize: 11, color: M2.muted, background: "none", border: "none", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
               Regenerate
             </button>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

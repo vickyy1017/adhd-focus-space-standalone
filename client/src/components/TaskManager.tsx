@@ -61,16 +61,16 @@ const PRIORITY_CONFIG: Record<TaskPriority, {
 };
 
 const M = {
-  ink:    "oklch(0.28 0.040 320)",
-  muted:  "oklch(0.52 0.040 330)",
-  border: "oklch(0.82 0.050 340)",
-  card:   "oklch(0.975 0.018 355)",
+  ink:    "oklch(0.12 0.01 20)",
+  muted:  "oklch(0.52 0.01 20)",
+  border: "oklch(0.88 0.005 20)",
+  card:   "oklch(1 0 0)",
   bg:     "oklch(0.960 0.030 355)",
-  coral:  "oklch(0.58 0.18 340)",
+  coral:  "oklch(0.82 0.08 10)",
 };
 
 const LABEL_STYLE: React.CSSProperties = {
-  fontFamily: "'DM Sans', sans-serif",
+  fontFamily: "'Pretendard', system-ui, sans-serif",
   fontSize: "0.65rem",
   fontWeight: 500,
   letterSpacing: "0.10em",
@@ -256,7 +256,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
             style={{
               background: M.card,
               border: `1px solid ${liveTag ? M.coral : M.border}`,
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
               transition: "border-color 0.2s",
               fontSize: "0.8rem",
               fontWeight: 300,
@@ -278,12 +278,12 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
 
         {/* Live hashtag preview */}
         {liveTag && (
-          <div className="flex items-center gap-1.5" style={{ fontSize: "0.7rem", color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
+          <div className="flex items-center gap-1.5" style={{ fontSize: "0.7rem", color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
             <span style={{ color: M.coral }}>◆</span>
             Will be added to category{" "}
             <span
               className="px-2 py-0.5 font-medium"
-              style={{ background: M.coral + "15", color: M.coral, border: `1px solid ${M.coral}30`, fontFamily: "'DM Sans', sans-serif", fontSize: "0.68rem", letterSpacing: "0.06em" }}
+              style={{ background: M.coral + "15", color: M.coral, border: `1px solid ${M.coral}30`, fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.68rem", letterSpacing: "0.06em" }}
             >
               #{liveTag}
             </span>
@@ -304,7 +304,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
                   background:  isActive ? bg : "transparent",
                   color:       isActive ? color : M.muted,
                   border:      `1px solid ${isActive ? border : M.border}`,
-                  fontFamily:  "'DM Sans', sans-serif",
+                  fontFamily:  "'Pretendard', system-ui, sans-serif",
                   fontSize:    "0.62rem",
                   fontWeight:  isActive ? 600 : 400,
                   letterSpacing: "0.12em",
@@ -327,7 +327,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
                 background: newTaskGoalId ? "oklch(0.52 0.14 290 / 0.10)" : "transparent",
                 color: newTaskGoalId ? "oklch(0.40 0.14 290)" : M.muted,
                 border: `1px solid ${newTaskGoalId ? "oklch(0.52 0.14 290 / 0.40)" : M.border}`,
-                fontFamily: "'DM Sans', sans-serif",
+                fontFamily: "'Pretendard', system-ui, sans-serif",
                 fontSize: "0.62rem",
                 fontWeight: newTaskGoalId ? 600 : 400,
                 letterSpacing: "0.10em",
@@ -357,7 +357,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
               background: newTaskDueDate ? "oklch(0.52 0.10 32 / 0.08)" : "transparent",
               color: newTaskDueDate ? "oklch(0.40 0.10 32)" : M.muted,
               border: `1px solid ${newTaskDueDate ? "oklch(0.52 0.10 32 / 0.40)" : M.border}`,
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Pretendard', system-ui, sans-serif",
               fontSize: "0.62rem",
               borderRadius: 0,
               padding: "3px 8px",
@@ -386,7 +386,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
               style={{
                 color:        isAct ? M.coral : M.muted,
                 borderBottom: isAct ? `2px solid ${M.coral}` : "2px solid transparent",
-                fontFamily:   "'DM Sans', sans-serif",
+                fontFamily:   "'Pretendard', system-ui, sans-serif",
                 fontWeight:   isAct ? 600 : 400,
                 fontSize:     "0.68rem",
                 letterSpacing: "0.10em",
@@ -440,7 +440,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
               <line x1="14" y1="20" x2="26" y2="20" stroke={M.muted} strokeWidth="1" />
               <line x1="20" y1="14" x2="20" y2="26" stroke={M.muted} strokeWidth="1" />
             </svg>
-            <p className="text-sm" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
+            <p className="text-sm" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
               {filter === "active" ? "All clear." : "Nothing here."}
             </p>
           </div>
@@ -486,7 +486,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
                   className={cn(task.done && "line-through")}
                   style={{
                     color:      task.done ? M.muted : M.ink,
-                    fontFamily: "'DM Sans', sans-serif",
+                    fontFamily: "'Pretendard', system-ui, sans-serif",
                     fontSize:   "0.82rem",
                     fontWeight: task.done ? 300 : 500,
                     letterSpacing: "0.01em",
@@ -512,7 +512,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
                     : { bg: "oklch(0.97 0.04 290)", color: "oklch(0.42 0.10 290)", border: "oklch(0.80 0.08 290)" };
                   return (
                     <span style={{
-                      fontSize: "0.58rem", fontFamily: "'Space Mono', monospace",
+                      fontSize: "0.58rem", fontFamily: "'Pretendard', system-ui, sans-serif",
                       letterSpacing: "0.06em", padding: "1px 5px", borderRadius: 2,
                       background: badgeColor.bg, color: badgeColor.color,
                       border: `1px solid ${badgeColor.border}`,
@@ -529,7 +529,7 @@ export function TaskManager({ tasks, onTasksChange, defaultContext = "all", allC
                       display: "block",
                       fontSize: "0.62rem",
                       color: task.done ? M.muted : "oklch(0.40 0.09 145)",
-                      fontFamily: "'DM Sans', sans-serif",
+                      fontFamily: "'Pretendard', system-ui, sans-serif",
                       letterSpacing: "0.06em",
                       marginTop: 1,
                     }}>

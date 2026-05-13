@@ -68,16 +68,20 @@ function HighlightedText({ text, activeTag }: { text: string; activeTag: string 
           return (
             <span
               key={i}
-              className="inline-flex items-center gap-0.5 mx-0.5 px-1.5 py-0.5 text-xs font-medium"
               style={{
-                background: isActive ? M.coral : M.tagBg,
-                border: `1px solid ${isActive ? M.coral : M.tagBdr}`,
-                color: isActive ? "oklch(0.97 0.010 355)" : M.coral,
+                display: "inline-block",
+                background: isActive ? "oklch(0.12 0.01 20)" : "oklch(0.96 0.002 20)",
+                border: `1px solid ${isActive ? "oklch(0.12 0.01 20)" : "oklch(0.88 0.005 20)"}`,
+                borderRadius: 9999,
+                color: isActive ? "oklch(1 0 0)" : "oklch(0.52 0.01 20)",
                 fontFamily: "'Pretendard', system-ui, sans-serif",
-                letterSpacing: "0.04em",
+                fontSize: "0.72rem",
+                fontWeight: 600,
+                padding: "1px 8px",
+                margin: "0 2px",
+                verticalAlign: "middle",
               }}
             >
-              <Hash className="w-2.5 h-2.5" />
               {part.slice(1)}
             </span>
           );
@@ -307,10 +311,8 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
             {liveTagsInInput.map((t) => (
               <span
                 key={t}
-                className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-xs font-medium"
-                style={{ background: M.tagBg, border: `1px solid ${M.tagBdr}`, color: M.coral, fontFamily: "'Pretendard', system-ui, sans-serif" }}
+                style={{ display: "inline-block", background: "oklch(0.96 0.002 20)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 9999, color: "oklch(0.52 0.01 20)", fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", fontWeight: 600, padding: "1px 8px" }}
               >
-                <Hash className="w-2.5 h-2.5" />
                 {t}
               </span>
             ))}
@@ -417,7 +419,7 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
               }}>
                 <span style={{ fontSize: "0.85rem", flexShrink: 0 }}>{item.emoji}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", color: "oklch(0.28 0.040 320)", lineHeight: 1.35, margin: 0 }}>
+                  <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.72rem", color: "oklch(0.12 0.01 20)", lineHeight: 1.35, margin: 0 }}>
                     {item.rewritten || item.original}
                   </p>
                   <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.08em", color: "oklch(0.60 0.08 340)", textTransform: "uppercase" as const }}>
@@ -564,9 +566,8 @@ export function BrainDump({ onConvertToTask, onCreateAgent, onAddGoal, onDump, i
                       key={tag}
                       onClick={() => setActiveTag(activeTag === tag ? null : tag)}
                       className={cn("m-chip", activeTag === tag && "active")}
-                      style={{ fontSize: "0.58rem" }}
+                      style={{ fontSize: "0.72rem" }}
                     >
-                      <Hash className="w-2 h-2" />
                       {tag}
                     </button>
                   ))}

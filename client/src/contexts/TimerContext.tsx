@@ -51,9 +51,9 @@ export const MODE_LABELS: Record<TimerMode, string> = {
   long: "Long Break",
 };
 export const MODE_COLORS: Record<TimerMode, string> = {
-  focus: "#C8603A",
-  short: "#7A8C6E",
-  long: "#7A8C9E",
+  focus: "oklch(0.12 0.01 20)",   // near-black
+  short: "oklch(0.55 0.08 160)",   // sage green
+  long: "oklch(0.52 0.06 220)",    // slate blue
 };
 
 export const DEFAULT_STRIPS = [

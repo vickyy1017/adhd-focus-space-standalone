@@ -513,20 +513,16 @@ ${routineContext}`;
           <div style={{ background: "oklch(0.96 0.002 20)", padding: "10px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)", flexShrink: 0 }}>
             <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Next Up</span>
           </div>
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden", padding: "14px 16px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8, flexShrink: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              <Zap size={12} style={{ color: TC }} />
-              <p className="editorial-label">Next Up</p>
-            </div>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden", padding: "10px 16px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: 8, flexShrink: 0 }}>
             {showAI ? (
               <button className="m-btn-link" onClick={() => onNavigate("tasks")}>All tasks</button>
             ) : (
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 {(["today", "all"] as const).map(f => (
                   <button key={f} onClick={() => setNextUpFilter(f)}
-                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.52rem", letterSpacing: "0.06em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 3, border: `1px solid ${nextUpFilter === f ? TC : BORDER}`, background: nextUpFilter === f ? TC + "18" : "transparent", color: nextUpFilter === f ? TC : MUTED, cursor: "pointer" }}>
-                    {f === "today" ? "Today" : "All Tasks"}
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: nextUpFilter === f ? 700 : 500, padding: "2px 10px", borderRadius: 9999, border: `1px solid ${nextUpFilter === f ? "oklch(0.12 0.01 20)" : BORDER}`, background: nextUpFilter === f ? "oklch(0.12 0.01 20)" : "transparent", color: nextUpFilter === f ? "oklch(1 0 0)" : MUTED, cursor: "pointer" }}>
+                    {f === "today" ? "Today" : "All"}
                   </button>
                 ))}
               </div>

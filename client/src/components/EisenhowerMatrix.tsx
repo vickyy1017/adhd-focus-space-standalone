@@ -390,7 +390,7 @@ export function EisenhowerMatrix({
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontFamily: "'Space Mono', monospace",
+                      fontFamily: "'Pretendard', system-ui, sans-serif",
                       fontSize: 9,
                       color: "oklch(0.72 0.014 75)",
                       letterSpacing: "0.04em",
@@ -521,7 +521,7 @@ function TaskChip({
       </div>
 
       <span style={{
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: "'Pretendard', system-ui, sans-serif",
         fontSize: 11,
         color: "oklch(0.30 0.018 65)",
         lineHeight: 1.35,

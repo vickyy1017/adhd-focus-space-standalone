@@ -237,7 +237,7 @@ export default function Home() {
   if (authLoading) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "oklch(0.96 0.025 355)" }}>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.65rem", color: "oklch(0.62 0.060 330)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+        <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.65rem", color: "oklch(0.62 0.060 330)", letterSpacing: "0.14em", textTransform: "uppercase" }}>
           Loading…
         </span>
       </div>
@@ -255,14 +255,14 @@ export default function Home() {
 
       {/* Main content */}
       <main className={isMobile ? "flex-1 min-h-screen flex flex-col" : "flex-1 ml-14 min-h-screen flex flex-col"}>
-        {/* Top header bar — Nori minimal style */}
-        <header
+        {/* Top header bar — Nori minimal style (hidden on mobile, tab bar shows page name) */}
+        {!isMobile && <header
           className="sticky top-0 z-30 flex items-center justify-between"
           style={{
             background: "oklch(1 0 0)",
             borderBottom: "1px solid oklch(0.88 0.005 20)",
             minHeight: 52,
-            padding: isMobile ? "0 16px" : "0 24px",
+            padding: "0 24px",
           }}
         >
           {/* Left: page title */}
@@ -313,7 +313,7 @@ export default function Home() {
               <span>Wrap up</span>
             </button>
           </div>
-        </header>
+        </header>}
 
         {/* Page content */}
         <div
@@ -379,7 +379,7 @@ export default function Home() {
                   {/* Stars */}
                   <div style={{ position: "absolute", top: -14, left: 8, fontSize: 11, color: "oklch(0.62 0.18 355)" }}>✦</div>
                   <div style={{ position: "absolute", top: -6, left: 28, fontSize: 8, color: "oklch(0.62 0.18 355)" }}>✦</div>
-                  <div style={{ position: "absolute", bottom: -8, left: 4, fontSize: 14, color: "oklch(0.58 0.18 340)" }}>★</div>
+                  <div style={{ position: "absolute", bottom: -8, left: 4, fontSize: 14, color: "oklch(0.82 0.08 10)" }}>★</div>
                   {/* Bubble */}
                   <div style={{
                     background: "oklch(0.985 0.010 355)",
@@ -391,7 +391,7 @@ export default function Home() {
                     boxShadow: "2px 2px 0 oklch(0.72 0.14 340 / 0.30)",
                   }}>
                     <p style={{
-                      fontFamily: "'Space Mono', monospace",
+                      fontFamily: "'Pretendard', system-ui, sans-serif",
                       fontSize: 10,
                       lineHeight: 1.55,
                       color: "oklch(0.38 0.18 340)",
@@ -460,7 +460,7 @@ export default function Home() {
                           <div key={i} className="flex items-start gap-3">
                             <div
                               className="w-1 h-1 mt-1.5 shrink-0"
-                              style={{ background: "oklch(0.58 0.18 340)", transform: "rotate(45deg)" }}
+                              style={{ background: "oklch(0.82 0.08 10)", transform: "rotate(45deg)" }}
                             />
                             <p className="text-xs" style={{ color: "oklch(0.45 0.04 330)" }}>{tip}</p>
                           </div>
@@ -527,10 +527,10 @@ export default function Home() {
                   <div style={{ padding: "16px" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                       <div>
-                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 600, color: "oklch(0.28 0.040 320)", marginBottom: 2 }}>
+                        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.95rem", fontWeight: 600, color: "oklch(0.12 0.01 20)", marginBottom: 2 }}>
                           {user?.name || "User"}
                         </p>
-                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: "oklch(0.52 0.040 330)" }}>{user?.id ?? ""}</p>
+                        <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.78rem", color: "oklch(0.52 0.01 20)" }}>{user?.id ?? ""}</p>
                       </div>
                       <button
                         onClick={async () => {
@@ -538,7 +538,7 @@ export default function Home() {
                           window.location.reload();
                         }}
                         style={{
-                          fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.10em",
+                          fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.55rem", letterSpacing: "0.10em",
                           padding: "6px 14px", borderRadius: 6, cursor: "pointer",
                           border: "1px solid oklch(0.72 0.10 25)",
                           background: "transparent", color: "oklch(0.52 0.14 25)",
