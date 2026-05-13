@@ -465,7 +465,7 @@ ${routineContext}`;
     <div data-tour-id="tour-dashboard" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {/* ── HERO: just the quick capture input, no window frame ── */}
       <div style={{ padding: isMobile ? "8px 0" : "8px 0" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(0.975 0.018 355 / 0.85)", padding: "10px 16px", borderRadius: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, border: `1px solid ${BORDER}`, background: "oklch(1 0 0)", padding: "10px 16px", borderRadius: 10 }}>
           <Zap size={14} style={{ color: TC, flexShrink: 0 }} />
           <input
             ref={dumpInputRef}
@@ -488,7 +488,7 @@ ${routineContext}`;
             autoComplete="new-password"
             style={{ flex: 1, fontSize: 14, background: "transparent", border: "none", outline: "none", color: INK }}
           />
-          <span style={{ fontSize: 11, color: MUTED, opacity: 0.65, fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>↵</span>
+          <span style={{ fontSize: 11, color: MUTED, opacity: 0.65, fontFamily: "'Pretendard', system-ui, sans-serif", flexShrink: 0 }}>↵</span>
         </div>
       </div>
 
@@ -508,15 +508,10 @@ ${routineContext}`;
 
         {/* Col 2: Next Up task list — taller when AI is hidden */}
         {(true || showAI) && (
-        <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: isMobile ? "360px" : "410px", borderRadius: 10, border: "1.5px solid oklch(0.78 0.08 330)", background: "oklch(0.975 0.018 355 / 0.95)", boxShadow: "3px 3px 0 oklch(0.72 0.08 310)" }}>
-          {/* Pink dot title bar */}
-          <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)", flexShrink: 0 }}>
-            <div style={{ display: "flex", gap: 4 }}>
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-            </div>
-            <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>next_up.txt</span>
+        <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", alignSelf: "start", height: isMobile ? "360px" : "410px", borderRadius: 16, border: "1px solid oklch(0.88 0.005 20)", background: "oklch(1 0 0)" }}>
+          {/* Nori title bar */}
+          <div style={{ background: "oklch(0.96 0.002 20)", padding: "10px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)", flexShrink: 0 }}>
+            <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Next Up</span>
           </div>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden", padding: "14px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8, flexShrink: 0 }}>
@@ -530,7 +525,7 @@ ${routineContext}`;
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 {(["today", "all"] as const).map(f => (
                   <button key={f} onClick={() => setNextUpFilter(f)}
-                    style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.06em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 3, border: `1px solid ${nextUpFilter === f ? TC : BORDER}`, background: nextUpFilter === f ? TC + "18" : "transparent", color: nextUpFilter === f ? TC : MUTED, cursor: "pointer" }}>
+                    style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.52rem", letterSpacing: "0.06em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 3, border: `1px solid ${nextUpFilter === f ? TC : BORDER}`, background: nextUpFilter === f ? TC + "18" : "transparent", color: nextUpFilter === f ? TC : MUTED, cursor: "pointer" }}>
                     {f === "today" ? "Today" : "All Tasks"}
                   </button>
                 ))}
@@ -613,7 +608,7 @@ ${routineContext}`;
                         fontSize: 11, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                         color: isCompleting ? MUTED : INK,
                         textDecoration: isCompleting ? "line-through" : "none",
-                        fontFamily: "'DM Sans', sans-serif",
+                        fontFamily: "'Pretendard', system-ui, sans-serif",
                         fontWeight: 500,
                       }}>
                         {cleanText}
@@ -627,7 +622,7 @@ ${routineContext}`;
                         const isToday = t.dueDate === todayYMD;
                         const label = isToday ? "Today" : d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
                         return (
-                          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", letterSpacing: "0.04em", color: isOverdue ? "#c0306a" : isToday ? "#7a50a0" : MUTED, flexShrink: 0, padding: "1px 4px", borderRadius: 2, background: isOverdue ? "rgba(192,48,106,0.10)" : isToday ? "rgba(122,80,160,0.10)" : "transparent" }}>
+                          <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.48rem", letterSpacing: "0.04em", color: isOverdue ? "#c0306a" : isToday ? "#7a50a0" : MUTED, flexShrink: 0, padding: "1px 4px", borderRadius: 2, background: isOverdue ? "rgba(192,48,106,0.10)" : isToday ? "rgba(122,80,160,0.10)" : "transparent" }}>
                             {label}
                           </span>
                         );
@@ -636,7 +631,7 @@ ${routineContext}`;
                       {/* Priority stamp tag */}
                       {!isCompleting && (
                         <span style={{
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: "'Pretendard', system-ui, sans-serif",
                           fontSize: "0.52rem",
                           fontWeight: 700,
                           letterSpacing: "0.07em",

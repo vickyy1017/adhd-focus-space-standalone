@@ -180,7 +180,7 @@ function DayCell({
         position: "relative",
         width: "100%",
         aspectRatio: "1",
-        borderRadius: 10,
+        borderRadius: 16,
         border: isSelected
           ? `2px solid ${M.coral}`
           : isToday
@@ -608,7 +608,7 @@ export function MonthlyProgress({ wins, tasks, blockHistory = {}, blockStreak = 
           <div key={s.label} style={{
             background: M.card,
             border: `1px solid ${M.border}`,
-            borderRadius: 10,
+            borderRadius: 16,
             padding: "10px 8px",
             textAlign: "center",
           }}>
@@ -623,20 +623,12 @@ export function MonthlyProgress({ wins, tasks, blockHistory = {}, blockStreak = 
       <div style={{
         background: M.card,
         border: `1px solid ${M.border}`,
-        borderRadius: 10,
+        borderRadius: 16,
         marginBottom: 16,
         overflow: "hidden",
-        boxShadow: "3px 3px 0 oklch(0.72 0.08 310)",
       }}>
         {/* Retro titlebar */}
-        <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)" }}>
-          <div style={{ display: "flex", gap: 4 }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)", position: "relative" }} />
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)", position: "relative" }} />
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)", position: "relative" }} />
-          </div>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>calendar.exe</span>
-        </div>
+        <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Monthly Calendar</span></div>
         <div style={{ padding: "16px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <button onClick={prevMonth} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, padding: 4, borderRadius: 6 }}>
@@ -778,15 +770,8 @@ Average mood: ${avgMood ?? "not tracked"}/5`
   };
 
   return (
-    <div style={{ marginTop: 16, background: M2.card, border: `1px solid ${M2.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "3px 3px 0 oklch(0.72 0.08 310)" }}>
-      <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1.5px solid oklch(0.78 0.08 330)" }}>
-        <div style={{ display: "flex", gap: 4 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)" }} />
-        </div>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060", marginLeft: 4 }}>ai_review.exe</span>
-      </div>
+    <div style={{ marginTop: 16, background: M2.card, border: `1px solid ${M2.border}`, borderRadius: 16, overflow: "hidden",  }}>
+      <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", borderBottom: "1px solid oklch(0.88 0.005 20)" }}><span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>AI Monthly Review</span></div>
       <div style={{ padding: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
           <Sparkles size={15} style={{ color: M2.coral }} />

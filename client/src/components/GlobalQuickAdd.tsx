@@ -71,27 +71,25 @@ function MobileAwareQuickAddTrigger({ open, onOpen }: { open: boolean; onOpen: (
     >
       <button
         onClick={onOpen}
-        title="Quick add task (⌘K or +)"
+        title="AI Assistant (+)"
         style={{
-          width: 48,
-          height: 48,
+          width: 52,
+          height: 52,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "oklch(0.975 0.018 355)",
-          border: `2px solid ${M.ink}`,
-          boxShadow: `3px 3px 0 ${M.ink}`,
-          fontFamily: "'Space Mono', monospace",
+          background: "oklch(0.12 0.01 20)",
+          border: "none",
+          borderRadius: "50%",
           cursor: "pointer",
-          transition: "transform 0.2s, box-shadow 0.2s",
-          borderRadius: 0,
+          boxShadow: "0 4px 16px oklch(0.12 0.01 20 / 0.25)",
+          transition: "transform 0.15s, opacity 0.15s",
         }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
       >
-        <Plus style={{ width: 20, height: 20, color: M.coral }} />
+        <Plus style={{ width: 22, height: 22, color: "oklch(1 0 0)" }} />
       </button>
-      <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.50rem", letterSpacing: "0.08em", color: M.muted, textAlign: "center", lineHeight: 1.3, userSelect: "none", pointerEvents: "none" }}>
-        press +
-      </span>
     </div>
   );
 }
@@ -358,29 +356,28 @@ Today is ${today} (${todayName}).`,
         >
           <div
             data-tour-id="tour-quickadd-modal"
-            className="w-full max-w-lg overflow-hidden shadow-2xl"
-            style={{ background: M.card, border: `1px solid ${M.border}` }}
+            className="w-full max-w-lg overflow-hidden"
+            style={{ background: M.card, border: `1px solid ${M.border}`, borderRadius: 20, boxShadow: "0 8px 40px oklch(0.12 0.01 20 / 0.15)" }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center gap-3 px-5 pt-5 pb-3">
-              <div className="w-8 h-8 flex items-center justify-center shrink-0" style={{ background: M.coralBg, border: `1px solid ${M.coralBdr}` }}>
-                <Sparkles className="w-4 h-4" style={{ color: M.coral }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px", borderBottom: `1px solid ${M.border}` }}>
+              <div style={{ width: 36, height: 36, borderRadius: "50%", background: "oklch(0.12 0.01 20)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Sparkles className="w-4 h-4" style={{ color: "oklch(1 0 0)" }} />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>AI Assistant</p>
-                <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>Tell me what to add — task, dump, or anything</p>
+                <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.95rem", fontWeight: 900, color: M.ink, margin: 0 }}>AI Assistant</p>
+                <p style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.75rem", color: M.muted, margin: 0 }}>Ask me anything about your tasks</p>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 <button
                   onClick={() => setChatHistory([])}
                   title="Clear chat"
-                  className="p-1 transition-colors"
-                  style={{ color: chatHistory.length > 0 ? M.coral : M.muted, opacity: chatHistory.length > 0 ? 1 : 0.4 }}
+                  style={{ background: "transparent", border: "none", cursor: "pointer", color: chatHistory.length > 0 ? M.ink : M.muted, opacity: chatHistory.length > 0 ? 1 : 0.35, padding: 4, display: "flex", alignItems: "center" }}
                 >
                   <RotateCcw className="w-4 h-4" />
                 </button>
-                <button onClick={closeModal} className="p-1 transition-colors" style={{ color: M.muted }}>
+                <button onClick={closeModal} style={{ background: "transparent", border: "none", cursor: "pointer", color: M.muted, padding: 4, display: "flex", alignItems: "center" }}>
                   <X className="w-4 h-4" />
                 </button>
               </div>

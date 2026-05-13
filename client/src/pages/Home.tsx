@@ -12,6 +12,7 @@ import { useMobile } from "@/hooks/useMobile";
 import { Dashboard } from "@/components/Dashboard";
 import { FocusTimer } from "@/components/FocusTimer";
 import { TaskManager, type Task } from "@/components/TaskManager";
+import { DailyPlanView } from "@/components/DailyPlanView";
 import { BrainDump } from "@/components/BrainDump";
 import { RetroPageWrapper } from "@/components/RetroPageWrapper";
 import { GlobalQuickAdd } from "@/components/GlobalQuickAdd";
@@ -472,14 +473,12 @@ export default function Home() {
             )}
 
             {activeSection === "tasks" && (
-              <RetroPageWrapper title="tasks.txt" sticker="star">
-                <div className="flex flex-col relative overflow-hidden" style={{ padding: isMobile ? "12px" : "32px", minHeight: isMobile ? "auto" : 600 }}>
-                <TasksDecor />
-                <div className="relative z-10">
-                  <TaskManager tasks={tasks} onTasksChange={handleTasksChange} allCategories={allCategories} onDeleteCategory={handleDeleteCategory} goals={[]} />
-                </div>
-                </div>
-              </RetroPageWrapper>
+              <div style={{ padding: isMobile ? "12px" : "24px" }}>
+                <DailyPlanView
+                  tasks={tasks}
+                  onTasksChange={handleTasksChange}
+                />
+              </div>
             )}
 
 

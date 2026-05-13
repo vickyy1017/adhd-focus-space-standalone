@@ -35,12 +35,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "urgent",
     urgent: true,
     important: true,
-    color:      "oklch(0.50 0.09 35)",
-    bg:         "oklch(0.975 0.010 38)",
-    border:     "oklch(0.50 0.09 35 / 0.55)",
-    shadow:     "oklch(0.50 0.09 35 / 0.18)",
+    color:      "oklch(0.12 0.01 20)",   // near-black
+    bg:         "oklch(1 0 0)",           // white
+    border:     "oklch(0.88 0.005 20)",   // hairline
+    shadow:     "oklch(0.88 0.005 20)",
     numeral:    "I",
-    ruledColor: "oklch(0.50 0.09 35 / 0.07)",
+    ruledColor: "oklch(0.93 0.003 20)",   // very subtle ruled lines
   },
   {
     id: "q2",
@@ -50,12 +50,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "focus",
     urgent: false,
     important: true,
-    color:      "oklch(0.44 0.10 295)",
-    bg:         "oklch(0.975 0.012 295)",
-    border:     "oklch(0.44 0.10 295 / 0.50)",
-    shadow:     "oklch(0.44 0.10 295 / 0.16)",
+    color:      "oklch(0.12 0.01 20)",
+    bg:         "oklch(1 0 0)",
+    border:     "oklch(0.88 0.005 20)",
+    shadow:     "oklch(0.88 0.005 20)",
     numeral:    "II",
-    ruledColor: "oklch(0.44 0.10 295 / 0.07)",
+    ruledColor: "oklch(0.93 0.003 20)",
   },
   {
     id: "q3",
@@ -65,12 +65,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "normal",
     urgent: true,
     important: false,
-    color:      "oklch(0.52 0.06 55)",
-    bg:         "oklch(0.975 0.010 65)",
-    border:     "oklch(0.52 0.06 55 / 0.45)",
-    shadow:     "oklch(0.52 0.06 55 / 0.14)",
+    color:      "oklch(0.52 0.01 20)",   // muted
+    bg:         "oklch(0.98 0.001 20)",   // very light grey
+    border:     "oklch(0.88 0.005 20)",
+    shadow:     "oklch(0.88 0.005 20)",
     numeral:    "III",
-    ruledColor: "oklch(0.52 0.06 55 / 0.07)",
+    ruledColor: "oklch(0.93 0.003 20)",
   },
   {
     id: "q4",
@@ -80,12 +80,12 @@ const QUADRANTS: QuadrantDef[] = [
     priority: "normal",
     urgent: false,
     important: false,
-    color:      "oklch(0.52 0.018 70)",
-    bg:         "oklch(0.972 0.008 75)",
-    border:     "oklch(0.68 0.018 72 / 0.45)",
-    shadow:     "oklch(0.68 0.018 72 / 0.14)",
+    color:      "oklch(0.52 0.01 20)",
+    bg:         "oklch(0.98 0.001 20)",
+    border:     "oklch(0.88 0.005 20)",
+    shadow:     "oklch(0.88 0.005 20)",
     numeral:    "IV",
-    ruledColor: "oklch(0.68 0.018 72 / 0.07)",
+    ruledColor: "oklch(0.93 0.003 20)",
   },
 ];
 
@@ -312,12 +312,9 @@ export function EisenhowerMatrix({
                 onDrop={(e) => handleDrop(e, q.id)}
                 style={{
                   background: q.bg,
-                  /* Thick retro border + 3-D offset shadow */
-                  border: `2px ${isOver ? "dashed" : "solid"} ${q.border}`,
-                  borderRadius: 3,
-                  boxShadow: isOver
-                    ? `3px 3px 0 ${q.border}`
-                    : `4px 4px 0 ${q.shadow}`,
+                  border: isOver ? `2px dashed oklch(0.12 0.01 20)` : `1px solid ${q.border}`,
+                  borderRadius: 16,
+                  boxShadow: isOver ? "0 0 0 3px oklch(0.12 0.01 20 / 0.1)" : "none",
                   display: "flex",
                   flexDirection: "column",
                   overflow: "hidden",
@@ -342,70 +339,38 @@ export function EisenhowerMatrix({
                   zIndex: 0,
                 }} />
 
-                {/* Quadrant header */}
+                {/* Quadrant header — Nori style */}
                 <div style={{
-                  padding: "7px 10px 6px",
-                  borderBottom: `1.5px solid ${q.border}`,
+                  padding: "10px 12px 8px",
+                  borderBottom: `1px solid ${q.border}`,
                   display: "flex",
                   alignItems: "center",
-                  gap: 7,
+                  justifyContent: "space-between",
                   flexShrink: 0,
                   position: "relative",
                   zIndex: 1,
-                  background: `${q.bg}cc`,
+                  background: "oklch(0.96 0.002 20)",
                 }}>
-                  {/* Roman numeral — Playfair italic */}
-                  <span style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    fontStyle: "italic",
-                    color: q.color,
-                    opacity: 0.75,
-                    minWidth: 20,
-                  }}>
-                    {q.numeral}
-                  </span>
-
-                  <div style={{ flex: 1 }}>
+                  <div>
                     <div style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: 11,
-                      fontWeight: 700,
+                      fontFamily: "'Pretendard', system-ui, sans-serif",
+                      fontSize: 13,
+                      fontWeight: 900,
                       color: q.color,
-                      letterSpacing: "0.02em",
                     }}>
                       {q.label}
                     </div>
                     <div style={{
-                      fontFamily: "'Space Mono', monospace",
-                      fontSize: 8,
-                      color: q.color,
-                      opacity: 0.60,
-                      letterSpacing: "0.06em",
+                      fontFamily: "'Pretendard', system-ui, sans-serif",
+                      fontSize: 9,
+                      color: "oklch(0.60 0.005 20)",
                       textTransform: "uppercase",
+                      letterSpacing: "0.08em",
                       marginTop: 1,
                     }}>
                       {q.sub}
                     </div>
                   </div>
-
-                  {/* Action stamp */}
-                  <span style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: 7,
-                    fontWeight: 700,
-                    letterSpacing: "0.10em",
-                    textTransform: "uppercase",
-                    color: q.color,
-                    border: `1.5px solid ${q.border}`,
-                    borderRadius: 2,
-                    padding: "2px 6px",
-                    background: `${q.color}10`,
-                    flexShrink: 0,
-                  }}>
-                    {q.action}
-                  </span>
                 </div>
 
                 {/* Task cards */}

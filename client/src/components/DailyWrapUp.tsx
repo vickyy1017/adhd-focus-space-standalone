@@ -21,7 +21,7 @@ const WIN_CAT_COLORS = [
   "oklch(0.62 0.14 310)",   // social
   "oklch(0.55 0.10 300)",  // creative
   "oklch(0.55 0.07 250)",  // mindful
-  "oklch(0.58 0.18 340)",   // fitness
+  "oklch(0.82 0.08 10)",   // fitness
   "oklch(0.55 0.12 270)",  // nutrition
 ];
 const WIN_CAT_LABELS = ["Health","Study","Work","Social","Creative","Mindful","Fitness","Nutrition"];
@@ -83,7 +83,7 @@ function WinsRing({ wins }: { wins: Win[] }) {
 
   if (wins.length === 0) {
     return (
-      <p className="text-sm italic" style={{ color: "oklch(0.52 0.040 330)", fontFamily: "'DM Sans', sans-serif" }}>
+      <p className="text-sm italic" style={{ color: "oklch(0.52 0.040 330)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
         No wins logged yet — completing tasks adds them automatically.
       </p>
     );
@@ -177,8 +177,8 @@ function WinsRing({ wins }: { wins: Win[] }) {
           })}
 
           {/* Center count */}
-          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, fill: "oklch(0.22 0.040 320)", fontWeight: 700 }}>{total}</text>
-          <text x={cx} y={cy + 12} textAnchor="middle" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, fill: "oklch(0.52 0.040 330)", textTransform: "uppercase", letterSpacing: 2 }}>wins</text>
+          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 30, fill: "oklch(0.22 0.040 320)", fontWeight: 700 }}>{total}</text>
+          <text x={cx} y={cy + 12} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 9, fill: "oklch(0.52 0.040 330)", textTransform: "uppercase", letterSpacing: 2 }}>wins</text>
         </svg>
 
         {/* Category icons — positioned OUTSIDE the arc ring, fixed small size */}
@@ -236,7 +236,7 @@ function WinsRing({ wins }: { wins: Win[] }) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontFamily: "'DM Sans', sans-serif",
+                    fontFamily: "'Pretendard', system-ui, sans-serif",
                     border: "1.5px solid white",
                   }}>{seg.wins.length}</div>
                 )}
@@ -257,7 +257,7 @@ function WinsRing({ wins }: { wins: Win[] }) {
                   padding: "7px 12px",
                   whiteSpace: "nowrap",
                   fontSize: 11,
-                  fontFamily: "'Space Mono', monospace",
+                  fontFamily: "'Pretendard', system-ui, sans-serif",
                   pointerEvents: "none",
                   zIndex: 30,
                   maxWidth: 200,
@@ -440,17 +440,17 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
         <div className="relative z-10 p-5" style={{ borderBottom: `1px solid ${M.border}`, background: M.coralBg }}>
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{todayStr}</p>
-              <h2 className="text-xl font-bold italic mt-0.5" style={{ fontFamily: "'Playfair Display', serif", color: M.ink }}>
+              <p className="text-xs" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{todayStr}</p>
+              <h2 className="text-xl font-bold italic mt-0.5" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", color: M.ink }}>
                 Daily Wrap-Up
               </h2>
-              <p className="text-sm mt-1" style={{ color: M.coral, fontFamily: "'DM Sans', sans-serif" }}>{scoreLabel}</p>
+              <p className="text-sm mt-1" style={{ color: M.coral, fontFamily: "'Pretendard', system-ui, sans-serif" }}>{scoreLabel}</p>
             </div>
           </div>
 
           {/* Score bar */}
           <div className="mt-3">
-            <div className="flex justify-between text-xs mb-1" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
+            <div className="flex justify-between text-xs mb-1" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
               <span>Today's score</span>
               <span className="font-medium" style={{ color: M.ink }}>{score} / 100</span>
             </div>
@@ -471,18 +471,18 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
           {/* Tasks */}
           <Section icon={<CheckCircle2 className="w-4 h-4" />} title={`Tasks completed (${doneTasks.length})`} color={M.sage}>
             {doneTasks.length === 0 ? (
-              <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>No tasks completed yet — tomorrow's a new start.</p>
+              <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>No tasks completed yet — tomorrow's a new start.</p>
             ) : (
               <div className="space-y-2">
                 {workDone.length > 0 && (
                   <div>
-                    <p className="text-xs font-medium mb-1" style={{ color: M.sage, fontFamily: "'DM Sans', sans-serif" }}>Work</p>
+                    <p className="text-xs font-medium mb-1" style={{ color: M.sage, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Work</p>
                     {workDone.map((t) => <TaskRow key={t.id} text={t.text} color={M.sage} />)}
                   </div>
                 )}
                 {personalDone.length > 0 && (
                   <div>
-                    <p className="text-xs font-medium mb-1" style={{ color: M.pink, fontFamily: "'DM Sans', sans-serif" }}>Personal</p>
+                    <p className="text-xs font-medium mb-1" style={{ color: M.pink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>Personal</p>
                     {personalDone.map((t) => <TaskRow key={t.id} text={t.text} color={M.pink} />)}
                   </div>
                 )}
@@ -501,7 +501,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
             <Section icon={<span className="text-base">⏳</span>} title={`Still pending (${activeTasks.length})`} color={M.slumber}>
               <div className="space-y-1.5">
                 {activeTasks.slice(0, 6).map((t) => <TaskRow key={t.id} text={t.text} color={M.slumber} />)}
-                {activeTasks.length > 6 && <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>…and {activeTasks.length - 6} more</p>}
+                {activeTasks.length > 6 && <p className="text-xs" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>…and {activeTasks.length - 6} more</p>}
               </div>
             </Section>
           )}
@@ -510,8 +510,8 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
           <div className="relative z-10 pt-2 pb-4" style={{ borderTop: `1px solid ${M.border}`, marginTop: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
               <span style={{ fontSize: "1rem" }}>📝</span>
-              <span style={{ fontSize: "1rem", fontWeight: 700, color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>My Diary</span>
-              <span style={{ fontSize: "0.72rem", color: M.muted, fontFamily: "'DM Sans', sans-serif", fontStyle: "italic" }}>saved to monthly</span>
+              <span style={{ fontSize: "1rem", fontWeight: 700, color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>My Diary</span>
+              <span style={{ fontSize: "0.72rem", color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif", fontStyle: "italic" }}>saved to monthly</span>
             </div>
             <textarea
               value={journalNote}
@@ -520,7 +520,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
               rows={4}
               style={{
                 width: "100%", boxSizing: "border-box",
-                fontFamily: "'DM Sans', sans-serif", fontSize: "0.875rem",
+                fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.875rem",
                 color: M.ink, lineHeight: 1.7, padding: "10px 12px",
                 border: `1px dashed ${M.border}`, borderRadius: 6,
                 background: "oklch(0.990 0.006 355 / 0.60)",
@@ -533,11 +533,11 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
           <div className="relative z-10 pt-2 pb-4" style={{ borderTop: `1px solid ${M.border}`, marginTop: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <Sparkles size={16} style={{ color: M.coral }} />
-            <span style={{ fontSize: "1rem", fontWeight: 700, color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>AI Day Summary</span>
+            <span style={{ fontSize: "1rem", fontWeight: 700, color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>AI Day Summary</span>
           </div>
           {!aiSummary && !aiLoading && (
             <>
-              <p style={{ fontSize: "0.875rem", color: M.muted, fontFamily: "'DM Sans', sans-serif", fontStyle: "italic", lineHeight: 1.6, marginBottom: 12 }}>
+              <p style={{ fontSize: "0.875rem", color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif", fontStyle: "italic", lineHeight: 1.6, marginBottom: 12 }}>
                 Let AI reflect on your day — a personal note based on what you actually did.
               </p>
               <button
@@ -546,7 +546,7 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
                   display: "inline-flex", alignItems: "center", gap: 6,
                   background: M.coralBg, border: `1px solid ${M.coralBdr}`,
                   color: M.coral, borderRadius: 8, padding: "8px 16px",
-                  fontSize: "0.875rem", fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.875rem", fontFamily: "'Pretendard', system-ui, sans-serif",
                   fontWeight: 500, cursor: "pointer",
                 }}
               >
@@ -558,19 +558,19 @@ export function DailyWrapUp({ tasks, wins = [], agents = [], quitCount = 0, onCl
           {aiLoading && (
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <Loader2 size={14} className="animate-spin" style={{ color: M.coral }} />
-              <span style={{ fontSize: "0.875rem", color: M.muted, fontFamily: "'DM Sans', sans-serif", fontStyle: "italic" }}>Generating…</span>
+              <span style={{ fontSize: "0.875rem", color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif", fontStyle: "italic" }}>Generating…</span>
             </div>
           )}
           {aiSummary && !aiLoading && (
             <div>
-              <p style={{ fontSize: "0.875rem", color: M.ink, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.7, marginBottom: 8 }}>{aiSummary}</p>
+              <p style={{ fontSize: "0.875rem", color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.7, marginBottom: 8 }}>{aiSummary}</p>
               <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <button onClick={() => setAiSummary(null)} style={{ fontSize: "0.75rem", color: M.muted, background: "none", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>
+                <button onClick={() => setAiSummary(null)} style={{ fontSize: "0.75rem", color: M.muted, background: "none", border: "none", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                   Regenerate
                 </button>
                 <button
                   onClick={() => { navigator.clipboard.writeText(aiSummary ?? ""); toast.success("Summary copied!"); }}
-                  style={{ fontSize: "0.75rem", color: M.coral, background: "none", border: `1px solid ${M.coralBdr}`, borderRadius: 4, padding: "2px 10px", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", display: "flex", alignItems: "center", gap: 4 }}
+                  style={{ fontSize: "0.75rem", color: M.coral, background: "none", border: `1px solid ${M.coralBdr}`, borderRadius: 4, padding: "2px 10px", cursor: "pointer", fontFamily: "'Pretendard', system-ui, sans-serif", display: "flex", alignItems: "center", gap: 4 }}
                 >
                   📋 Copy
                 </button>
@@ -600,7 +600,7 @@ function Section({ icon, title, color, children }: { icon: React.ReactNode; titl
     <div>
       <div className="flex items-center gap-2 mb-2" style={{ color }}>
         {icon}
-        <p className="text-sm font-semibold" style={{ fontFamily: "'DM Sans', sans-serif" }}>{title}</p>
+        <p className="text-sm font-semibold" style={{ fontFamily: "'Pretendard', system-ui, sans-serif" }}>{title}</p>
       </div>
       {children}
     </div>
@@ -611,7 +611,7 @@ function TaskRow({ text, color }: { text: string; color: string }) {
   return (
     <div className="flex items-center gap-2 py-1">
       <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color }} />
-      <span className="text-sm" style={{ color: "oklch(0.22 0.040 320)", fontFamily: "'DM Sans', sans-serif" }}>{text}</span>
+      <span className="text-sm" style={{ color: "oklch(0.22 0.040 320)", fontFamily: "'Pretendard', system-ui, sans-serif" }}>{text}</span>
     </div>
   );
 }
@@ -645,12 +645,12 @@ function MatrixRing({ tasks }: { tasks: Task[] }) {
     if (counts[q] !== undefined) counts[q]++;
   });
 
-  const ringColor = "oklch(0.58 0.18 340)";
+  const ringColor = "oklch(0.82 0.08 10)";
 
   if (totalDone === 0) {
     return (
       <Section icon={<span style={{ fontSize: 14 }}>📊</span>} title="Priority Matrix" color={ringColor}>
-        <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>No tasks completed yet.</p>
+        <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>No tasks completed yet.</p>
       </Section>
     );
   }
@@ -690,16 +690,16 @@ function MatrixRing({ tasks }: { tasks: Task[] }) {
             />
           ))}
           {/* Center text */}
-          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 22, fontWeight: 700, fill: M.ink }}>{totalDone}</text>
-          <text x={cx} y={cy + 10} textAnchor="middle" style={{ fontFamily: "'Space Mono', monospace", fontSize: 8, fill: M.muted, letterSpacing: 1, textTransform: "uppercase" }}>done</text>
+          <text x={cx} y={cy - 8} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 22, fontWeight: 700, fill: M.ink }}>{totalDone}</text>
+          <text x={cx} y={cy + 10} textAnchor="middle" style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 8, fill: M.muted, letterSpacing: 1, textTransform: "uppercase" }}>done</text>
         </svg>
         {/* Legend */}
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {QUADRANT_META.map(q => (
             <div key={q.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: q.color, flexShrink: 0 }} />
-              <span style={{ fontSize: "0.75rem", color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>{q.label}</span>
-              <span style={{ fontSize: "0.75rem", color: M.muted, fontFamily: "'Space Mono', monospace", marginLeft: "auto" }}>{counts[q.id]}</span>
+              <span style={{ fontSize: "0.75rem", color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>{q.label}</span>
+              <span style={{ fontSize: "0.75rem", color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif", marginLeft: "auto" }}>{counts[q.id]}</span>
             </div>
           ))}
         </div>
@@ -740,7 +740,7 @@ function FocusTrackerSection() {
   })();
 
   const count = Math.max(sessions.length, logCount);
-  const timerColor = "oklch(0.58 0.18 340)"; // coral / timer color
+  const timerColor = "oklch(0.82 0.08 10)"; // coral / timer color
 
   return (
     <Section
@@ -749,7 +749,7 @@ function FocusTrackerSection() {
       color={timerColor}
     >
       {count === 0 ? (
-        <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
+        <p className="text-sm italic" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
           No focus sessions completed today.
         </p>
       ) : sessions.length > 0 ? (
@@ -761,8 +761,8 @@ function FocusTrackerSection() {
                 key={s.sessionNumber}
                 className="flex items-center gap-3 py-1.5 px-2.5"
                 style={{
-                  background: "oklch(0.58 0.18 340 / 0.06)",
-                  border: "1px solid oklch(0.58 0.18 340 / 0.18)",
+                  background: "oklch(0.96 0.002 20)",
+                  border: "1px solid oklch(0.88 0.005 20)",
                   borderRadius: 6,
                 }}
               >
@@ -777,10 +777,10 @@ function FocusTrackerSection() {
                 >
                   #{s.sessionNumber}
                 </span>
-                <span className="text-sm flex-1" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>
+                <span className="text-sm flex-1" style={{ color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                   {s.duration} min focus session
                 </span>
-                <span className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
+                <span className="text-xs" style={{ color: M.muted, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                   {time}
                 </span>
               </div>
@@ -795,8 +795,8 @@ function FocusTrackerSection() {
               key={i}
               className="flex items-center gap-3 py-1.5 px-2.5"
               style={{
-                background: "oklch(0.58 0.18 340 / 0.06)",
-                border: "1px solid oklch(0.58 0.18 340 / 0.18)",
+                background: "oklch(0.96 0.002 20)",
+                border: "1px solid oklch(0.88 0.005 20)",
                 borderRadius: 6,
               }}
             >
@@ -811,7 +811,7 @@ function FocusTrackerSection() {
               >
                 #{i + 1}
               </span>
-              <span className="text-sm flex-1" style={{ color: M.ink, fontFamily: "'DM Sans', sans-serif" }}>
+              <span className="text-sm flex-1" style={{ color: M.ink, fontFamily: "'Pretendard', system-ui, sans-serif" }}>
                 Focus session complete
               </span>
             </div>

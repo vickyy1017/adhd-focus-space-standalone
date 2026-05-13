@@ -233,7 +233,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
   // Embedded mode: render content directly (no popup, no tab bar)
   if (embedded) {
     return (
-      <div style={{ fontFamily: "'Space Mono', monospace", display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ fontFamily: "'Pretendard', system-ui, sans-serif", display: "flex", flexDirection: "column", gap: 14 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {(settingsOnly || (!apiKeyOnly)) && <>
             {/* Text Size */}
@@ -247,7 +247,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                   const active = Math.abs(fontScale - scale) < 0.01;
                   return (
                     <button key={label} title={title} onClick={() => setFontScale(scale)}
-                      style={{ flex: 1, padding: "6px 0", fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", letterSpacing: "0.06em", borderRadius: 4, border: `1px solid ${active ? "oklch(0.55 0.18 340)" : "oklch(0.80 0.06 340)"}`, background: active ? "oklch(0.55 0.18 340)" : "transparent", color: active ? "white" : "oklch(0.55 0.08 340)", cursor: "pointer", fontWeight: active ? 700 : 400 }}>
+                      style={{ flex: 1, padding: "6px 0", fontSize: "0.55rem", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em", borderRadius: 4, border: `1px solid ${active ? "oklch(0.55 0.18 340)" : "oklch(0.80 0.06 340)"}`, background: active ? "oklch(0.55 0.18 340)" : "transparent", color: active ? "white" : "oklch(0.55 0.08 340)", cursor: "pointer", fontWeight: active ? 700 : 400 }}>
                       {label}
                     </button>
                   );
@@ -259,7 +259,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
                 <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◆ Theme Hue</span>
-                <button onClick={resetHue} style={{ fontSize: "0.44rem", fontFamily: "'Space Mono', monospace", padding: "2px 6px", borderRadius: 4, border: "1px solid oklch(0.72 0.040 330)", background: "transparent", color: "oklch(0.60 0.040 330)", cursor: "pointer" }}>RESET</button>
+                <button onClick={resetHue} style={{ fontSize: "0.44rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "2px 6px", borderRadius: 4, border: "1px solid oklch(0.72 0.040 330)", background: "transparent", color: "oklch(0.60 0.040 330)", cursor: "pointer" }}>RESET</button>
               </div>
               <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
                 {presets.map((p) => (
@@ -286,33 +286,33 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
             {/* Gemini API Key section */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
               <span style={{ fontSize: "0.60rem", color: "oklch(0.45 0.12 340)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◉ Gemini API Key</span>
-              <span style={{ fontSize: "0.48rem", fontFamily: "'Space Mono', monospace", padding: "2px 8px", borderRadius: 10, border: `1px solid ${hasKey ? "oklch(0.55 0.14 160)" : "oklch(0.72 0.040 330)"}`, background: hasKey ? "oklch(0.55 0.14 160 / 0.10)" : "transparent", color: hasKey ? "oklch(0.40 0.14 160)" : "oklch(0.58 0.040 330)" }}>
+              <span style={{ fontSize: "0.48rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "2px 8px", borderRadius: 10, border: `1px solid ${hasKey ? "oklch(0.55 0.14 160)" : "oklch(0.72 0.040 330)"}`, background: hasKey ? "oklch(0.55 0.14 160 / 0.10)" : "transparent", color: hasKey ? "oklch(0.40 0.14 160)" : "oklch(0.58 0.040 330)" }}>
                 {hasKey === null ? "…" : hasKey ? "✓ key saved" : "no key"}
               </span>
             </div>
             {hasKey ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <div style={{ background: "oklch(0.96 0.020 160 / 0.15)", border: "1px solid oklch(0.55 0.14 160 / 0.25)", borderRadius: 6, padding: "8px 10px" }}>
-                  <p style={{ fontSize: "0.55rem", color: "oklch(0.40 0.14 160)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, margin: 0 }}>✓ Using your own Gemini key — 1,500 requests/day, dedicated quota.</p>
+                  <p style={{ fontSize: "0.55rem", color: "oklch(0.40 0.14 160)", fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5, margin: 0 }}>✓ Using your own Gemini key — 1,500 requests/day, dedicated quota.</p>
                 </div>
-                <button onClick={removeKey} disabled={keyLoading} style={{ fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", padding: "4px 10px", borderRadius: 4, border: "1px solid oklch(0.72 0.10 25)", background: "transparent", color: "oklch(0.52 0.14 25)", cursor: keyLoading ? "not-allowed" : "pointer", alignSelf: "flex-start" }}>
+                <button onClick={removeKey} disabled={keyLoading} style={{ fontSize: "0.55rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "4px 10px", borderRadius: 4, border: "1px solid oklch(0.72 0.10 25)", background: "transparent", color: "oklch(0.52 0.14 25)", cursor: keyLoading ? "not-allowed" : "pointer", alignSelf: "flex-start" }}>
                   {keyLoading ? "Removing…" : "Remove key"}
                 </button>
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {/* Shared AI status */}
-                <div style={{ background: "oklch(0.96 0.020 340 / 0.15)", border: "1px solid oklch(0.78 0.08 330)", borderRadius: 6, padding: "8px 10px", display: "flex", alignItems: "flex-start", gap: 8 }}>
+                <div style={{ background: "oklch(0.96 0.020 340 / 0.15)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 6, padding: "8px 10px", display: "flex", alignItems: "flex-start", gap: 8 }}>
                   <span style={{ fontSize: "0.75rem", flexShrink: 0 }}>🔑</span>
-                  <p style={{ fontSize: "0.52rem", color: "oklch(0.45 0.08 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, margin: 0 }}>Currently using shared AI (1,500 requests/day, shared with all users)</p>
+                  <p style={{ fontSize: "0.52rem", color: "oklch(0.45 0.08 330)", fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5, margin: 0 }}>Currently using shared AI (1,500 requests/day, shared with all users)</p>
                 </div>
-                <p style={{ fontSize: "0.52rem", color: "oklch(0.45 0.12 340)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, fontWeight: 600 }}>Add your own Gemini key for dedicated quota — unaffected by other users.</p>
-                <p style={{ fontSize: "0.50rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 req/day, no credit card needed.</p>
+                <p style={{ fontSize: "0.52rem", color: "oklch(0.45 0.12 340)", fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5, fontWeight: 600 }}>Add your own Gemini key for dedicated quota — unaffected by other users.</p>
+                <p style={{ fontSize: "0.50rem", color: "oklch(0.58 0.040 330)", fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5 }}>Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 req/day, no credit card needed.</p>
                 <div style={{ position: "relative" }}>
-                  <input type={showKey ? "text" : "password"} value={apiKeyInput} onChange={(e) => setApiKeyInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveKey(); }} placeholder="AIza..." style={{ width: "100%", boxSizing: "border-box", padding: "8px 32px 8px 10px", fontSize: "0.60rem", fontFamily: "'Space Mono', monospace", border: "1px solid oklch(0.82 0.06 340)", borderRadius: 4, background: "oklch(0.975 0.010 355)", color: "oklch(0.28 0.040 320)", outline: "none" }} />
+                  <input type={showKey ? "text" : "password"} value={apiKeyInput} onChange={(e) => setApiKeyInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveKey(); }} placeholder="AIza..." style={{ width: "100%", boxSizing: "border-box", padding: "8px 32px 8px 10px", fontSize: "0.60rem", fontFamily: "'Pretendard', system-ui, sans-serif", border: "1px solid oklch(0.82 0.06 340)", borderRadius: 4, background: "oklch(0.975 0.010 355)", color: "oklch(0.28 0.040 320)", outline: "none" }} />
                   <button type="button" onClick={() => setShowKey((v) => !v)} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "0.65rem", color: "oklch(0.60 0.040 330)", padding: 0 }} title={showKey ? "Hide" : "Show"}>{showKey ? "●" : "○"}</button>
                 </div>
-                <button onClick={saveKey} disabled={keyLoading || !apiKeyInput.trim()} style={{ fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", padding: "6px 12px", borderRadius: 4, border: `1px solid ${!apiKeyInput.trim() ? "oklch(0.80 0.040 330)" : "oklch(0.55 0.18 340)"}`, background: !apiKeyInput.trim() ? "transparent" : "oklch(0.55 0.18 340)", color: !apiKeyInput.trim() ? "oklch(0.65 0.040 330)" : "white", cursor: keyLoading || !apiKeyInput.trim() ? "not-allowed" : "pointer", alignSelf: "flex-start", transition: "all 0.15s" }}>
+                <button onClick={saveKey} disabled={keyLoading || !apiKeyInput.trim()} style={{ fontSize: "0.55rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "6px 12px", borderRadius: 4, border: `1px solid ${!apiKeyInput.trim() ? "oklch(0.80 0.040 330)" : "oklch(0.55 0.18 340)"}`, background: !apiKeyInput.trim() ? "transparent" : "oklch(0.55 0.18 340)", color: !apiKeyInput.trim() ? "oklch(0.65 0.040 330)" : "white", cursor: keyLoading || !apiKeyInput.trim() ? "not-allowed" : "pointer", alignSelf: "flex-start", transition: "all 0.15s" }}>
                   {keyLoading ? "Saving…" : "Save Key"}
                 </button>
               </div>
@@ -338,7 +338,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
           justifyContent: "center",
           padding: "6px 0 5px",
           gap: 2,
-          background: open ? "oklch(0.58 0.18 340 / 0.10)" : "none",
+          background: open ? "oklch(0.96 0.002 20)" : "none",
           border: "none",
           cursor: "pointer",
           transition: "background 0.15s",
@@ -353,7 +353,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
         </svg>
         <span style={{
           fontSize: "0.40rem",
-          fontFamily: "'Space Mono', monospace",
+          fontFamily: "'Pretendard', system-ui, sans-serif",
           letterSpacing: "0.10em",
           textTransform: "uppercase",
           color: iconColor,
@@ -371,12 +371,12 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
           bottom: "max(8px, env(safe-area-inset-bottom, 0px))",
           width: "min(260px, calc(100vw - 16px))",
           zIndex: 10000,
-          fontFamily: "'Space Mono', monospace",
+          fontFamily: "'Pretendard', system-ui, sans-serif",
           filter: "drop-shadow(3px 3px 0 oklch(0.55 0.12 340 / 0.35))",
         }}>
           {/* Title bar */}
           <div style={{
-            background: "#F9D6E8",
+            background: "oklch(0.96 0.002 20)",
             borderRadius: "6px 6px 0 0",
             border: "1.5px solid oklch(0.82 0.08 340)",
             borderBottom: "1px solid oklch(0.82 0.08 340)",
@@ -406,7 +406,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                 style={{
                   flex: 1, padding: "5px 0",
                   fontSize: "0.44rem", letterSpacing: "0.12em", textTransform: "uppercase",
-                  fontFamily: "'Space Mono', monospace", border: "none",
+                  fontFamily: "'Pretendard', system-ui, sans-serif", border: "none",
                   borderBottom: activeTab === tab ? "2px solid oklch(0.55 0.18 340)" : "2px solid transparent",
                   borderRight: tab === "effects" ? "1px solid oklch(0.88 0.06 340)" : "none",
                   background: activeTab === tab ? "oklch(0.98 0.015 340)" : "transparent",
@@ -455,7 +455,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                             flex: 1,
                             padding: "4px 0",
                             fontSize: "0.50rem",
-                            fontFamily: "'Space Mono', monospace",
+                            fontFamily: "'Pretendard', system-ui, sans-serif",
                             letterSpacing: "0.06em",
                             borderRadius: 4,
                             border: `1px solid ${active ? "oklch(0.55 0.18 340)" : "oklch(0.80 0.06 340)"}`,
@@ -495,7 +495,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                       }}
                       style={{
                         fontSize: "0.40rem",
-                        fontFamily: "'Space Mono', monospace",
+                        fontFamily: "'Pretendard', system-ui, sans-serif",
                         letterSpacing: "0.08em",
                         padding: "2px 6px",
                         borderRadius: 10,
@@ -553,7 +553,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                         }}
                         style={{
                           fontSize: "0.42rem",
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: "'Pretendard', system-ui, sans-serif",
                           letterSpacing: "0.08em",
                           padding: "2px 8px",
                           borderRadius: 10,
@@ -580,7 +580,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                         fontSize: "0.48rem",
                         color: `hsl(${hue},60%,45%)`,
                         letterSpacing: "0.06em",
-                        fontFamily: "'Space Mono', monospace",
+                        fontFamily: "'Pretendard', system-ui, sans-serif",
                       }}>{hue}°</span>
                     </div>
                     <input
@@ -659,7 +659,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                     {/* Status indicator */}
                     <span style={{
                       fontSize: "0.42rem",
-                      fontFamily: "'Space Mono', monospace",
+                      fontFamily: "'Pretendard', system-ui, sans-serif",
                       letterSpacing: "0.06em",
                       padding: "2px 6px",
                       borderRadius: 10,
@@ -679,23 +679,23 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                         const today = Number(localStorage.getItem(`adhd-api-calls-${new Date().toDateString()}`) ?? 0);
                         if (total === 0) return null;
                         return (
-                          <div style={{ background: "oklch(0.96 0.015 340)", border: "1px solid oklch(0.84 0.040 340)", borderRadius: 4, padding: "6px 8px", display: "flex", gap: 12 }}>
+                          <div style={{ background: "oklch(0.96 0.015 340)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 4, padding: "6px 8px", display: "flex", gap: 12 }}>
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.70rem", fontWeight: 700, color: "oklch(0.45 0.12 340)" }}>{today}</span>
-                              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.40rem", color: "oklch(0.60 0.040 330)", letterSpacing: "0.08em", textTransform: "uppercase" }}>today</span>
+                              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: 700, color: "oklch(0.45 0.12 340)" }}>{today}</span>
+                              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.40rem", color: "oklch(0.60 0.040 330)", letterSpacing: "0.08em", textTransform: "uppercase" }}>today</span>
                             </div>
-                            <div style={{ width: 1, background: "oklch(0.84 0.040 340)" }} />
+                            <div style={{ width: 1, background: "oklch(0.88 0.005 20)" }} />
                             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.70rem", fontWeight: 700, color: "oklch(0.45 0.12 340)" }}>{total}</span>
-                              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.40rem", color: "oklch(0.60 0.040 330)", letterSpacing: "0.08em", textTransform: "uppercase" }}>total</span>
+                              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.70rem", fontWeight: 700, color: "oklch(0.45 0.12 340)" }}>{total}</span>
+                              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.40rem", color: "oklch(0.60 0.040 330)", letterSpacing: "0.08em", textTransform: "uppercase" }}>total</span>
                             </div>
                             <div style={{ marginLeft: "auto", alignSelf: "center" }}>
-                              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.38rem", color: "oklch(0.65 0.040 330)", letterSpacing: "0.06em", textTransform: "uppercase" }}>API calls</span>
+                              <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: "0.38rem", color: "oklch(0.65 0.040 330)", letterSpacing: "0.06em", textTransform: "uppercase" }}>API calls</span>
                             </div>
                           </div>
                         );
                       })()}
-                      <p style={{ fontSize: "0.48rem", color: "oklch(0.55 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
+                      <p style={{ fontSize: "0.48rem", color: "oklch(0.55 0.040 330)", fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5 }}>
                         AI features enabled. Your key is stored encrypted.
                       </p>
                       <button
@@ -703,7 +703,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                         disabled={keyLoading}
                         style={{
                           fontSize: "0.48rem",
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: "'Pretendard', system-ui, sans-serif",
                           letterSpacing: "0.08em",
                           padding: "3px 8px",
                           borderRadius: 4,
@@ -723,10 +723,10 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                       {usageCount !== null && (
                         <div style={{ marginBottom: 4 }}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 3 }}>
-                            <span style={{ fontSize: "0.44rem", fontFamily: "'Space Mono', monospace", color: "oklch(0.45 0.040 330)", letterSpacing: "0.06em" }}>
+                            <span style={{ fontSize: "0.44rem", fontFamily: "'Pretendard', system-ui, sans-serif", color: "oklch(0.45 0.040 330)", letterSpacing: "0.06em" }}>
                               FREE AI REQUESTS
                             </span>
-                            <span style={{ fontSize: "0.48rem", fontFamily: "'Space Mono', monospace",
+                            <span style={{ fontSize: "0.48rem", fontFamily: "'Pretendard', system-ui, sans-serif",
                               color: usageCount >= freeLimit ? "oklch(0.52 0.14 25)" : "oklch(0.45 0.040 330)" }}>
                               {usageCount}/{freeLimit} used
                             </span>
@@ -746,14 +746,14 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                             }} />
                           </div>
                           <p style={{ fontSize: "0.42rem", color: usageCount >= freeLimit ? "oklch(0.52 0.14 25)" : "oklch(0.58 0.040 330)",
-                            fontFamily: "'DM Sans', sans-serif", lineHeight: 1.4, marginTop: 3 }}>
+                            fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.4, marginTop: 3 }}>
                             {usageCount >= freeLimit
                               ? "Free requests used up — add your key below to continue."
                               : `${freeLimit - usageCount} free request${freeLimit - usageCount === 1 ? "" : "s"} left. Add your key for unlimited access.`}
                           </p>
                         </div>
                       )}
-                      <p style={{ fontSize: "0.44rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: 2 }}>
+                      <p style={{ fontSize: "0.44rem", color: "oklch(0.58 0.040 330)", fontFamily: "'Pretendard', system-ui, sans-serif", lineHeight: 1.5, marginBottom: 2 }}>
                         Add your Gemini API key for unlimited AI. Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 requests/day, no credit card needed.
                       </p>
                       <div style={{ position: "relative" }}>
@@ -768,7 +768,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                             boxSizing: "border-box",
                             padding: "5px 28px 5px 8px",
                             fontSize: "0.55rem",
-                            fontFamily: "'Space Mono', monospace",
+                            fontFamily: "'Pretendard', system-ui, sans-serif",
                             border: "1px solid oklch(0.82 0.06 340)",
                             borderRadius: 4,
                             background: "oklch(0.975 0.010 355)",
@@ -802,7 +802,7 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
                         disabled={keyLoading || !apiKeyInput.trim()}
                         style={{
                           fontSize: "0.48rem",
-                          fontFamily: "'Space Mono', monospace",
+                          fontFamily: "'Pretendard', system-ui, sans-serif",
                           letterSpacing: "0.08em",
                           padding: "4px 10px",
                           borderRadius: 4,

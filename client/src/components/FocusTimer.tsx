@@ -305,7 +305,7 @@ function StripEditor({ strips, onChange }: {
                 <Pencil size={9} color={BORDER} />
               </button>
               <button onClick={() => removeStrip(i)} style={{ background: "none", border: "none", cursor: "pointer", padding: 2 }}>
-                <Trash2 size={9} color="oklch(0.58 0.18 340)" />
+                <Trash2 size={9} color="oklch(0.82 0.08 10)" />
               </button>
             </div>
           </div>
@@ -460,7 +460,7 @@ function CompleteWrapUp({ sessions, mode, onNewSession, duration }: {
 
       {aiReflection && (
         <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: DARK,
+          fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 11, color: DARK,
           maxWidth: 200, lineHeight: 1.5, textAlign: "center",
           background: `${accentColor}10`, border: `1px solid ${accentColor}40`,
           padding: "6px 12px",
@@ -512,7 +512,7 @@ function QuitWrapUp({ quitCount, stripsLeft, onNewSession }: {
       <div style={{ display: "flex", gap: 8, width: "100%" }}>
         {[
           { label: "QUIT" + (quitCount !== 1 ? "S" : "") + " TODAY", value: quitCount, color: BORDER },
-          { label: "SCORE PENALTY", value: `-${penalty}`, color: "oklch(0.58 0.18 340)" },
+          { label: "SCORE PENALTY", value: `-${penalty}`, color: "oklch(0.82 0.08 10)" },
           { label: "STRIPS LEFT", value: stripsLeft, color: BORDER },
         ].map(({ label, value, color }) => (
           <div key={label} style={{ flex: 1, background: PANEL, border: `1px solid ${BORDER}`, padding: "9px 5px", textAlign: "center" }}>
@@ -875,18 +875,10 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
       ...(fillHeight ? { display: "flex", flexDirection: "column", height: "100%" } : {}),
     }}>
 
-      {/* ── macOS title bar ── */}
-      {/* Pink dot title bar */}
-      <div style={{ background: "#F9D6E8", padding: "5px 10px", display: "flex", alignItems: "center", gap: 6, borderBottom: `2px solid ${DARK}`, flexShrink: 0 }}>
-        <div style={{ display: "flex", gap: 4 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.62 0.18 340)", boxShadow: "0 1px 0 oklch(0.40 0.18 340), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.72 0.10 310)", boxShadow: "0 1px 0 oklch(0.50 0.10 310), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "oklch(0.78 0.10 290)", boxShadow: "0 1px 0 oklch(0.55 0.10 290), inset 0 1px 1px rgba(255,255,255,0.55)" }} />
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 4 }}>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10, color: "#8A3060" }}>focus_timer.exe</span>
-          <div style={{ display: "flex", gap: 3 }}>{renderHearts()}</div>
-        </div>
+      {/* ── Nori title bar ── */}
+      <div style={{ background: "oklch(0.96 0.002 20)", padding: "10px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
+        <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: DARK }}>Focus Timer</span>
+        <div style={{ display: "flex", gap: 3 }}>{renderHearts()}</div>
       </div>
       {/* ── Top bar: mode tabs + sound/settings + death counter ── */}
       <div style={{ display: "flex", alignItems: "stretch", borderBottom: `2px solid ${DARK}`, background: PANEL }}>
@@ -999,7 +991,7 @@ export function FocusTimer({ onSessionComplete, onBlockComplete, onQuit, fillHei
               <input type="range" min={0} max={1} step={0.05} value={sound.musicVolume}
                 onChange={e => sound.setMusicVolume(parseFloat(e.target.value))}
                 disabled={!sound.musicEnabled}
-                style={{ flex: 1, accentColor: "oklch(0.58 0.18 340)", cursor: sound.musicEnabled ? "pointer" : "default", opacity: sound.musicEnabled ? 1 : 0.4 }} />
+                style={{ flex: 1, accentColor: "oklch(0.82 0.08 10)", cursor: sound.musicEnabled ? "pointer" : "default", opacity: sound.musicEnabled ? 1 : 0.4 }} />
               <span style={{ fontSize: 7, color: BORDER, fontFamily: "'JetBrains Mono', monospace", width: 22, textAlign: "right" }}>{Math.round(sound.musicVolume * 100)}%</span>
             </div>
 
