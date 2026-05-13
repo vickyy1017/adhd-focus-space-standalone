@@ -238,48 +238,21 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
           {(settingsOnly || (!apiKeyOnly)) && <>
             {/* Text Size */}
             <div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ fontSize: "0.60rem", color: "oklch(0.52 0.01 20)", letterSpacing: "0.12em", textTransform: "uppercase" }}>▤ Text Size</span>
-                <span style={{ fontSize: "0.50rem", color: "oklch(0.58 0.10 340)" }}>{FONT_SIZES.find(f => f.scale === fontScale)?.title ?? "Custom"}</span>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>Text Size</span>
+                <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 12, color: "oklch(0.52 0.01 20)" }}>{FONT_SIZES.find(f => f.scale === fontScale)?.title ?? "Custom"}</span>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
                 {FONT_SIZES.map(({ label, title, scale }) => {
                   const active = Math.abs(fontScale - scale) < 0.01;
                   return (
                     <button key={label} title={title} onClick={() => setFontScale(scale)}
-                      style={{ flex: 1, padding: "6px 0", fontSize: "0.55rem", fontFamily: "'Pretendard', system-ui, sans-serif", letterSpacing: "0.06em", borderRadius: 4, border: `1px solid ${active ? "oklch(0.55 0.18 340)" : "oklch(0.80 0.06 340)"}`, background: active ? "oklch(0.55 0.18 340)" : "transparent", color: active ? "white" : "oklch(0.55 0.08 340)", cursor: "pointer", fontWeight: active ? 700 : 400 }}>
+                      style={{ flex: 1, padding: "8px 0", fontSize: 13, fontFamily: "'Pretendard', system-ui, sans-serif", borderRadius: 9999, border: `1.5px solid ${active ? "oklch(0.12 0.01 20)" : "oklch(0.88 0.005 20)"}`, background: active ? "oklch(0.12 0.01 20)" : "transparent", color: active ? "oklch(1 0 0)" : "oklch(0.52 0.01 20)", cursor: "pointer", fontWeight: active ? 700 : 500 }}>
                       {label}
                     </button>
                   );
                 })}
               </div>
-            </div>
-            <div style={{ height: 1, background: "oklch(0.88 0.06 340)" }} />
-            {/* Theme Hue */}
-            <div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ fontSize: "0.60rem", color: "oklch(0.52 0.01 20)", letterSpacing: "0.12em", textTransform: "uppercase" }}>◆ Theme Hue</span>
-                <button onClick={resetHue} style={{ fontSize: "0.44rem", fontFamily: "'Pretendard', system-ui, sans-serif", padding: "2px 6px", borderRadius: 4, border: "1px solid oklch(0.72 0.040 330)", background: "transparent", color: "oklch(0.60 0.040 330)", cursor: "pointer" }}>RESET</button>
-              </div>
-              <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
-                {presets.map((p) => (
-                  <button key={p.hue} onClick={() => setPresetHue(p.hue)} title={p.name}
-                    style={{ width: 28, height: 28, borderRadius: "50%", border: `2px solid ${Math.abs(hue - p.hue) < 5 ? "oklch(0.45 0.14 340)" : "transparent"}`, background: `hsl(${p.hue}, 55%, 65%)`, cursor: "pointer", minWidth: 28, minHeight: 28, boxSizing: "content-box", padding: 0 }} />
-                ))}
-              </div>
-              <HSlider value={(hue / 360) * 100} onChange={(v) => setHue(Math.round((v / 100) * 360))} accentColor={`hsl(${hue}, 70%, 55%)`} />
-            </div>
-            <div style={{ height: 1, background: "oklch(0.88 0.06 340)" }} />
-            {/* Work Mode */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <span style={{ fontSize: "0.60rem", color: "oklch(0.52 0.01 20)", letterSpacing: "0.12em", textTransform: "uppercase" }}>▤ Work Mode</span>
-                <p style={{ fontSize: "0.48rem", color: "oklch(0.60 0.040 330)", marginTop: 2 }}>strips all colour → greyscale</p>
-              </div>
-              <button onClick={toggleWorkMode}
-                style={{ width: 36, height: 20, borderRadius: 10, border: `1px solid ${workMode ? "oklch(0.55 0.18 340)" : "oklch(0.72 0.040 330)"}`, background: workMode ? "oklch(0.55 0.18 340)" : "oklch(0.88 0.020 330)", cursor: "pointer", position: "relative", transition: "all 0.2s" }}>
-                <div style={{ position: "absolute", top: 2, left: workMode ? 18 : 2, width: 14, height: 14, borderRadius: "50%", background: "white", transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
-              </button>
             </div>
           </>}
           {(apiKeyOnly || (!settingsOnly)) && <div>

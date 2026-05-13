@@ -26,12 +26,6 @@ import { useTimer } from "@/contexts/TimerContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { LoginScreen } from "@/components/LoginScreen";
 import { nanoid } from "nanoid";
-import {
-  DashboardDecor,
-  FocusDecor,
-  TasksDecor,
-  BrainDumpDecor,
-} from "@/components/PageDecor";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Bot, Brain, Clock, LayoutDashboard, Moon, Sparkles, Star } from "lucide-react";
@@ -327,7 +321,6 @@ export default function Home() {
 
             {activeSection === "dashboard" && (
               <div className="relative">
-                <DashboardDecor />
               <Dashboard
                 tasks={tasks}
                 wins={[]}
@@ -363,112 +356,8 @@ export default function Home() {
             )}
 
             {activeSection === "focus" && (
-              <div className="relative" style={{ padding: isMobile ? "12px 0" : "32px 16px", minHeight: isMobile ? "auto" : 700, overflow: "visible" }}>
-                <FocusDecor />
-
-                {/* ── Speech bubble — top-left decorative (desktop only) ── */}
-                {!isMobile && <div style={{
-                  position: "absolute",
-                  top: 18,
-                  left: 12,
-                  zIndex: 10,
-                  transform: "rotate(-2deg)",
-                  pointerEvents: "none",
-                  userSelect: "none",
-                }}>
-                  {/* Stars */}
-                  <div style={{ position: "absolute", top: -14, left: 8, fontSize: 11, color: "oklch(0.62 0.18 355)" }}>✦</div>
-                  <div style={{ position: "absolute", top: -6, left: 28, fontSize: 8, color: "oklch(0.62 0.18 355)" }}>✦</div>
-                  <div style={{ position: "absolute", bottom: -8, left: 4, fontSize: 14, color: "oklch(0.82 0.08 10)" }}>★</div>
-                  {/* Bubble */}
-                  <div style={{
-                    background: "oklch(0.985 0.010 355)",
-                    border: "1.5px solid oklch(0.72 0.14 340)",
-                    borderRadius: 8,
-                    padding: "10px 14px",
-                    maxWidth: 148,
-                    position: "relative",
-                    boxShadow: "2px 2px 0 oklch(0.72 0.14 340 / 0.30)",
-                  }}>
-                    <p style={{
-                      fontFamily: "'Pretendard', system-ui, sans-serif",
-                      fontSize: 10,
-                      lineHeight: 1.55,
-                      color: "oklch(0.38 0.18 340)",
-                      letterSpacing: "0.03em",
-                      textTransform: "uppercase",
-                      margin: 0,
-                    }}>let it go,<br />so you can<br />grow.</p>
-                    {/* Tail pointing right-down */}
-                    <div style={{
-                      position: "absolute",
-                      bottom: -10,
-                      right: 18,
-                      width: 0,
-                      height: 0,
-                      borderLeft: "8px solid transparent",
-                      borderRight: "0px solid transparent",
-                      borderTop: "10px solid oklch(0.72 0.14 340)",
-                    }} />
-                    <div style={{
-                      position: "absolute",
-                      bottom: -8,
-                      right: 19,
-                      width: 0,
-                      height: 0,
-                      borderLeft: "7px solid transparent",
-                      borderRight: "0px solid transparent",
-                      borderTop: "9px solid oklch(0.985 0.010 355)",
-                    }} />
-                  </div>
-                </div>}
-
-                {/* ── Main focus_timer.exe window — slight tilt left (desktop only) ── */}
-                <div style={{
-                  position: "relative",
-                  zIndex: 2,
-                  transform: isMobile ? "none" : "rotate(-1deg)",
-                  transformOrigin: "top center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  maxWidth: isMobile ? "100%" : 660,
-                }}>
-                  <FocusTimer onSessionComplete={handleSessionComplete} onBlockComplete={handleBlockComplete} onQuit={() => setTimerQuitCount(q => q + 1)} />
-                </div>
-
-                {/* ── session_tips.txt window — bottom-right corner (desktop), normal flow (mobile) ── */}
-                {!isMobile && <div style={{
-                  position: "relative",
-                  zIndex: 1,
-                  width: 210,
-                  marginTop: -36,
-                  marginLeft: "auto",
-                  marginRight: -48,
-                  transform: "rotate(2deg)",
-                  transformOrigin: "top right",
-                  boxShadow: "4px 4px 0 rgba(180,60,120,0.15)",
-                }}>
-                  <RetroPageWrapper title="session_tips.txt" sticker="leaf">
-                    <div style={{ padding: "10px 14px 12px" }}>
-                      <p className="editorial-label mb-3">Session tips</p>
-                      <div className="space-y-2">
-                        {[
-                          "Phone face-down or in another room",
-                          "Close all unneeded browser tabs",
-                          "Use Brain Dump for distracting thoughts",
-                        ].map((tip, i) => (
-                          <div key={i} className="flex items-start gap-3">
-                            <div
-                              className="w-1 h-1 mt-1.5 shrink-0"
-                              style={{ background: "oklch(0.82 0.08 10)", transform: "rotate(45deg)" }}
-                            />
-                            <p className="text-xs" style={{ color: "oklch(0.45 0.04 330)" }}>{tip}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </RetroPageWrapper>
-                </div>}
+              <div style={{ padding: isMobile ? "12px" : "32px", maxWidth: 680, margin: "0 auto" }}>
+                <FocusTimer onSessionComplete={handleSessionComplete} onBlockComplete={handleBlockComplete} onQuit={() => setTimerQuitCount(q => q + 1)} />
               </div>
             )}
 
@@ -484,21 +373,16 @@ export default function Home() {
 
 
             {activeSection === "dump" && (
-              <RetroPageWrapper title="dump.txt" sticker="star">
-              <div className="flex flex-col relative overflow-hidden" style={{ padding: isMobile ? "12px" : "32px", minHeight: isMobile ? "auto" : 600 }}>
-                <BrainDumpDecor />
-                <div className="relative z-10">
-                  <BrainDump
-                    onConvertToTask={handleConvertToTask}
-                    onDump={() => recordDumpEntry()}
-                    initialText={pendingDump ?? undefined}
-                    onInitialTextConsumed={() => setPendingDump(null)}
-                    externalEntries={userData.brain_dump as any}
-                    onExternalEntriesChange={(entries) => setBrainDump(entries as any)}
-                  />
-                </div>
+              <div style={{ padding: isMobile ? "12px" : "32px", maxWidth: 720, margin: "0 auto" }}>
+                <BrainDump
+                  onConvertToTask={handleConvertToTask}
+                  onDump={() => recordDumpEntry()}
+                  initialText={pendingDump ?? undefined}
+                  onInitialTextConsumed={() => setPendingDump(null)}
+                  externalEntries={userData.brain_dump as any}
+                  onExternalEntriesChange={(entries) => setBrainDump(entries as any)}
+                />
               </div>
-              </RetroPageWrapper>
             )}
 
             {activeSection === "monthly" && (
@@ -522,7 +406,7 @@ export default function Home() {
                 {/* ── Account ── */}
                 <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
                   <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
-                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>account.txt</span>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Account</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
@@ -554,7 +438,7 @@ export default function Home() {
                 {/* ── Appearance ── */}
                 <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
                   <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
-                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>appearance.txt</span>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Appearance</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <EffectsPanel embedded settingsOnly />
@@ -564,7 +448,7 @@ export default function Home() {
                 {/* ── Gemini API Key ── */}
                 <div style={{ background: "oklch(1 0 0)", border: "1px solid oklch(0.88 0.005 20)", borderRadius: 16, overflow: "hidden" }}>
                   <div style={{ background: "oklch(0.96 0.002 20)", padding: "12px 16px", display: "flex", alignItems: "center", gap: 6, borderBottom: "1px solid oklch(0.88 0.005 20)" }}>
-                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 13, fontWeight: 700, color: "oklch(0.12 0.01 20)" }}>gemini_api.txt</span>
+                    <span style={{ fontFamily: "'Pretendard', system-ui, sans-serif", fontSize: 14, fontWeight: 900, color: "oklch(0.12 0.01 20)" }}>Gemini API Key</span>
                   </div>
                   <div style={{ padding: "16px" }}>
                     <EffectsPanel embedded apiKeyOnly />

@@ -179,18 +179,69 @@ export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump, task
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = "en-US";
+    let transcriptResult = "";
     recognition.onresult = (e: any) => {
-      const transcript = e.results[0][0].transcript;
-      setText((prev) => prev ? prev + " " + transcript : transcript);
+      transcriptResult = e.results[0][0].transcript;
+      setText(transcriptResult);
     };
     recognition.onerror = () => { setIsRecording(false); };
-    recognition.onend = () => { setIsRecording(false); };
+    recognition.onend = () => {
+      setIsRecording(false);
+      // Auto-send after voice recognition ends
+      if (transcriptResult.trim()) {
+        // Use a small delay to let state update
+        setTimeout(() => {
+          if (transcriptResult.trim()) {
+            handleChatSendWithText(transcriptResult.trim());
+          }
+        }, 100);
+      }
+    };
     recognitionRef.current = recognition;
     recognition.start();
     setIsRecording(true);
   }, [isRecording]);
 
   // ── Chat-based AI send ────────────────────────────────────────────────────────
+  const handleChatSendWithText = async (inputText: string) => {
+    if (!inputText.trim() || aiGenerating) return;
+    const userMsg = inputText.trim();
+    setText("");
+    const newHistory = [...chatHistory, { role: "user" as const, content: userMsg }];
+    setChatHistory(newHistory);
+    setAiGenerating(true);
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const todayName = new Date().toLocaleDateString("en-US", { weekday: "long" });
+      const taskList = tasks.map((t: any) => `- [${t.done ? 'x' : ' '}] ${t.text} (${t.priority}${t.dueDate ? ', due ' + t.dueDate : ''})`).join('\n') || 'No tasks yet.';
+      const systemPrompt = `You are a powerful ADHD focus assistant. Today is ${today} (${todayName}).\n\nUser's current tasks:\n${taskList}\n\nYou can:\n1. PRIORITIZE: Analyze tasks and tell the user what to focus on first\n2. PLAN: Help structure their day\n3. ADD TASKS: respond with JSON: {"action":"task","text":"...","priority":"urgent|focus|normal","dueDate":"YYYY-MM-DD or null"}\n4. BRAIN DUMP: respond with JSON: {"action":"dump","text":"..."}\n\nBe warm, direct, and ADHD-friendly.`;
+      const result = await callAI(systemPrompt, newHistory.map(m => `${m.role}: ${m.content}`).join("\n"));
+      const jsonMatch = result.match(/\{[\s\S]*"action"[\s\S]*\}/);
+      let displayResult = result;
+      if (jsonMatch) {
+        try {
+          const action = JSON.parse(jsonMatch[0]);
+          displayResult = result.replace(jsonMatch[0], "").trim();
+          if (action.action === "task") {
+            onAddTask({ id: nanoid(), text: action.text, priority: action.priority ?? "focus", context: "personal", done: false, createdAt: new Date(), dueDate: action.dueDate ?? today });
+            displayResult = displayResult || `✓ Task created: "${action.text}"`;
+          } else if (action.action === "dump" && onAddDump) {
+            onAddDump(action.text);
+            displayResult = displayResult || `💭 Added to Brain Dump: "${action.text}"`;
+          }
+        } catch { }
+      }
+      setChatHistory(prev => [...prev, { role: "assistant", content: displayResult || result }]);
+      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "AI unavailable";
+      setChatHistory(prev => [...prev, { role: "assistant", content: `Sorry, ${msg}` }]);
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
   const handleChatSend = async () => {
     if (!text.trim() || aiGenerating) return;
     const userMsg = text.trim();
