@@ -292,28 +292,22 @@ export function EffectsPanel({ embedded = false, settingsOnly = false, apiKeyOnl
             </div>
             {hasKey ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <p style={{ fontSize: "0.55rem", color: "oklch(0.55 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>AI features enabled. Your key is stored encrypted.</p>
+                <div style={{ background: "oklch(0.96 0.020 160 / 0.15)", border: "1px solid oklch(0.55 0.14 160 / 0.25)", borderRadius: 6, padding: "8px 10px" }}>
+                  <p style={{ fontSize: "0.55rem", color: "oklch(0.40 0.14 160)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, margin: 0 }}>✓ Using your own Gemini key — 1,500 requests/day, dedicated quota.</p>
+                </div>
                 <button onClick={removeKey} disabled={keyLoading} style={{ fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", padding: "4px 10px", borderRadius: 4, border: "1px solid oklch(0.72 0.10 25)", background: "transparent", color: "oklch(0.52 0.14 25)", cursor: keyLoading ? "not-allowed" : "pointer", alignSelf: "flex-start" }}>
                   {keyLoading ? "Removing…" : "Remove key"}
                 </button>
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {usageCount !== null && (
-                  <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                      <span style={{ fontSize: "0.50rem", fontFamily: "'Space Mono', monospace", color: "oklch(0.45 0.040 330)" }}>FREE AI REQUESTS</span>
-                      <span style={{ fontSize: "0.50rem", fontFamily: "'Space Mono', monospace", color: usageCount >= freeLimit ? "oklch(0.52 0.14 25)" : "oklch(0.45 0.040 330)" }}>{usageCount}/{freeLimit} used</span>
-                    </div>
-                    <div style={{ height: 4, background: "oklch(0.88 0.025 340)", borderRadius: 2, overflow: "hidden" }}>
-                      <div style={{ height: "100%", width: `${Math.min(100, (usageCount / freeLimit) * 100)}%`, background: usageCount >= freeLimit ? "oklch(0.52 0.14 25)" : "oklch(0.58 0.14 168)", borderRadius: 2 }} />
-                    </div>
-                    <p style={{ fontSize: "0.48rem", color: usageCount >= freeLimit ? "oklch(0.52 0.14 25)" : "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", marginTop: 4 }}>
-                      {usageCount >= freeLimit ? "Free requests used up — add your key below." : `${freeLimit - usageCount} free request${freeLimit - usageCount === 1 ? "" : "s"} left.`}
-                    </p>
-                  </div>
-                )}
-                <p style={{ fontSize: "0.52rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>Add your Gemini API key for unlimited AI. Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 requests/day free.</p>
+                {/* Shared AI status */}
+                <div style={{ background: "oklch(0.96 0.020 340 / 0.15)", border: "1px solid oklch(0.78 0.08 330)", borderRadius: 6, padding: "8px 10px", display: "flex", alignItems: "flex-start", gap: 8 }}>
+                  <span style={{ fontSize: "0.75rem", flexShrink: 0 }}>🔑</span>
+                  <p style={{ fontSize: "0.52rem", color: "oklch(0.45 0.08 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, margin: 0 }}>Currently using shared AI (1,500 requests/day, shared with all users)</p>
+                </div>
+                <p style={{ fontSize: "0.52rem", color: "oklch(0.45 0.12 340)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, fontWeight: 600 }}>Add your own Gemini key for dedicated quota — unaffected by other users.</p>
+                <p style={{ fontSize: "0.50rem", color: "oklch(0.58 0.040 330)", fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>Get it free at <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style={{ color: "oklch(0.55 0.18 340)", textDecoration: "underline" }}>aistudio.google.com</a> — 1,500 req/day, no credit card needed.</p>
                 <div style={{ position: "relative" }}>
                   <input type={showKey ? "text" : "password"} value={apiKeyInput} onChange={(e) => setApiKeyInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") saveKey(); }} placeholder="AIza..." style={{ width: "100%", boxSizing: "border-box", padding: "8px 32px 8px 10px", fontSize: "0.60rem", fontFamily: "'Space Mono', monospace", border: "1px solid oklch(0.82 0.06 340)", borderRadius: 4, background: "oklch(0.975 0.010 355)", color: "oklch(0.28 0.040 320)", outline: "none" }} />
                   <button type="button" onClick={() => setShowKey((v) => !v)} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: "0.65rem", color: "oklch(0.60 0.040 330)", padding: 0 }} title={showKey ? "Hide" : "Show"}>{showKey ? "●" : "○"}</button>

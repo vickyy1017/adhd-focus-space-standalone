@@ -10,7 +10,7 @@ const JWT_SECRET = new TextEncoder().encode(
 );
 const ENC_KEY_HEX = process.env.ENCRYPTION_KEY;
 const ENC_KEY = ENC_KEY_HEX ? Buffer.from(ENC_KEY_HEX, "hex") : randomBytes(32);
-const FREE_LIMIT = 6;
+const FREE_LIMIT = 999999; // No limit — owner provides shared key
 
 // ─── Database ───────────────────────────────────────────────────────────────
 function getDb() {
