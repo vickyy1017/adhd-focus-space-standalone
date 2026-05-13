@@ -133,13 +133,29 @@ const NAV: Array<{
 }> = [
   { id: "dashboard", short: "HOME",   Icon: IconHome,   title: "Dashboard"   },
   { id: "tasks",     short: "TASKS",  Icon: IconTasks,  title: "My Tasks"     },
+  { id: "matrix",    short: "MATRIX", Icon: (p: { color: string }) => (
+    <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+      <rect x="1" y="1" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <rect x="10" y="1" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <rect x="1" y="10" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <rect x="10" y="10" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+    </svg>
+  ), title: "Priority Matrix" },
   { id: "dump",      short: "DUMP",   Icon: IconDump,   title: "Brain Dump"   },
 ];
 
-/* Mobile bottom tab bar — HOME / TASKS / DUMP / MONTHLY / SET */
+/* Mobile bottom tab bar — HOME / TASKS / MATRIX / DUMP / MONTHLY / SET */
 const MOBILE_NAV = [
   { id: "dashboard", short: "HOME",   Icon: IconHome,   title: "Dashboard"   },
   { id: "tasks",     short: "TASKS",  Icon: IconTasks,  title: "My Tasks"     },
+  { id: "matrix",    short: "MATRIX", Icon: (p: { color: string }) => (
+    <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
+      <rect x="1" y="1" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <rect x="10" y="1" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <rect x="1" y="10" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+      <rect x="10" y="10" width="7" height="7" rx="1.5" stroke={p.color} strokeWidth="1.4"/>
+    </svg>
+  ), title: "Priority Matrix" },
   { id: "dump",      short: "DUMP",   Icon: IconDump,   title: "Brain Dump"   },
   { id: "monthly",   short: "MONTHLY", Icon: (p: { color: string }) => (
     <svg width="17" height="17" viewBox="0 0 18 18" fill="none">

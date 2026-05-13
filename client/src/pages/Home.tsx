@@ -38,10 +38,11 @@ import { PixelDump } from "@/components/PixelIcons";
 
 import Monthly from "@/pages/Monthly";
 import { EffectsPanel } from "@/components/EffectsPanel";
+import { EisenhowerMatrix, type QuadrantId } from "@/components/EisenhowerMatrix";
 
 
 
-type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly" | "settings";
+type Section = "dashboard" | "focus" | "tasks" | "dump" | "monthly" | "settings" | "matrix";
 
 const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> = {
   dashboard:  { title: "Dashboard",    icon: LayoutDashboard },
@@ -50,6 +51,7 @@ const SECTION_META: Record<Section, { title: string; icon: React.ElementType }> 
   dump:       { title: "Brain Dump",   icon: Brain           },
   monthly:    { title: "Monthly Progress", icon: Star        },
   settings:   { title: "Settings",     icon: Star            },
+  matrix:     { title: "Priority Matrix", icon: Star         },
 };
 
 
@@ -67,7 +69,7 @@ export default function Home() {
   // URL-hash based section state — persists across refresh
   const [activeSection, setActiveSectionState] = useState<Section>(() => {
     const hash = window.location.hash.slice(1) as Section;
-    const VALID = ["dashboard","focus","tasks","dump","monthly","settings"] as const;
+    const VALID = ["dashboard","focus","tasks","dump","monthly","settings","matrix"] as const;
     return (VALID as readonly string[]).includes(hash) ? hash as Section : "dashboard";
   });
   const setActiveSection = (s: Section) => {
@@ -539,6 +541,17 @@ export default function Home() {
 
             {activeSection === "monthly" && (
               <Monthly embedded onNavigate={(s) => setActiveSection(s as Section)} />
+            )}
+
+            {activeSection === "matrix" && (
+              <div style={{ padding: isMobile ? "12px" : "24px" }}>
+                <EisenhowerMatrix
+                  tasks={tasks}
+                  onTasksChange={handleTasksChange}
+                  quadrantMap={userData.quadrant_map as Record<string, QuadrantId> ?? {}}
+                  onQuadrantMapChange={(map) => setQuadrantMap(map)}
+                />
+              </div>
             )}
 
             {activeSection === "settings" && (

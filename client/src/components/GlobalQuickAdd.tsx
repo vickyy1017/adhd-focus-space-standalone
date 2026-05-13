@@ -3,8 +3,8 @@
    Configurable quick-reply chips, persisted to DB via tRPC
    ============================================================ */
 
-import { useEffect, useRef, useState } from "react";
-import { Flame, Loader2, Plus, Settings, Sparkles, Star, Trash2, X, Zap } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { Flame, Loader2, Mic, MicOff, Plus, Send, Settings, Sparkles, Star, Trash2, X, Zap } from "lucide-react";
 import { callAI, callAIStream } from "@/lib/ai";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useMobile } from "@/hooks/useMobile";
@@ -102,6 +102,15 @@ export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump }: Gl
   const [aiMode, setAiMode] = useState(true); // default to AI mode
   const [aiGenerating, setAiGenerating] = useState(false);
 
+  // Chat history
+  type ChatMsg = { role: "user" | "assistant"; content: string };
+  const [chatHistory, setChatHistory] = useState<ChatMsg[]>([]);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // Voice recording
+  const [isRecording, setIsRecording] = useState(false);
+  const recognitionRef = useRef<any>(null);
+
   const [dueDate, setDueDate] = useState<string>(() => new Date().toISOString().slice(0, 10));
   const [priority, setPriority]   = useState<Priority>("focus");
   const [newChip, setNewChip]     = useState("");
@@ -158,6 +167,76 @@ export function GlobalQuickAdd({ onAddTask, onAddGoal, onAddWin, onAddDump }: Gl
   }, [open, configMode]);
 
   // ── Submit task ───────────────────────────────────────────────────────────
+  // ── Voice recording ─────────────────────────────────────────────────────────
+  const toggleVoice = useCallback(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) { toast.error("Voice input not supported in this browser."); return; }
+    if (isRecording) {
+      recognitionRef.current?.stop();
+      setIsRecording(false);
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+    recognition.onresult = (e: any) => {
+      const transcript = e.results[0][0].transcript;
+      setText((prev) => prev ? prev + " " + transcript : transcript);
+    };
+    recognition.onerror = () => { setIsRecording(false); };
+    recognition.onend = () => { setIsRecording(false); };
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsRecording(true);
+  }, [isRecording]);
+
+  // ── Chat-based AI send ────────────────────────────────────────────────────────
+  const handleChatSend = async () => {
+    if (!text.trim() || aiGenerating) return;
+    const userMsg = text.trim();
+    setText("");
+    const newHistory = [...chatHistory, { role: "user" as const, content: userMsg }];
+    setChatHistory(newHistory);
+    setAiGenerating(true);
+    // Scroll to bottom
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const todayName = new Date().toLocaleDateString("en-US", { weekday: "long" });
+      const systemPrompt = `You are an ADHD focus assistant. Help the user manage tasks, brain dumps, and focus. Today is ${today} (${todayName}).
+
+When the user wants to create a task, respond with JSON at the end: {"action":"task","text":"...","priority":"urgent|focus|normal","dueDate":"YYYY-MM-DD or null"}
+When the user wants to brain dump, respond with JSON: {"action":"dump","text":"..."}
+Otherwise just chat naturally and helpfully. Keep responses concise.`;
+      const messages = newHistory.map(m => ({ role: m.role, content: m.content }));
+      const result = await callAI(systemPrompt, messages.map(m => `${m.role}: ${m.content}`).join("\n"));
+      // Check for action JSON
+      const jsonMatch = result.match(/\{[\s\S]*"action"[\s\S]*\}/);
+      let displayResult = result;
+      if (jsonMatch) {
+        try {
+          const action = JSON.parse(jsonMatch[0]);
+          displayResult = result.replace(jsonMatch[0], "").trim();
+          if (action.action === "task") {
+            onAddTask({ id: nanoid(), text: action.text, priority: action.priority ?? "focus", context: "personal", done: false, createdAt: new Date(), dueDate: action.dueDate ?? today });
+            displayResult = (displayResult || `✓ Task created: "${action.text}"`);
+          } else if (action.action === "dump" && onAddDump) {
+            onAddDump(action.text);
+            displayResult = (displayResult || `💭 Added to Brain Dump: "${action.text}"`);
+          }
+        } catch { /* keep original result */ }
+      }
+      setChatHistory(prev => [...prev, { role: "assistant", content: displayResult || result }]);
+      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "AI unavailable";
+      setChatHistory(prev => [...prev, { role: "assistant", content: `Sorry, ${msg}` }]);
+    } finally {
+      setAiGenerating(false);
+    }
+  };
+
   const handleAiCreate = async () => {
     if (!text.trim()) return;
     setAiGenerating(true);
@@ -355,91 +434,92 @@ Today is ${today} (${todayName}).`,
                 </p>
               </div>
             ) : (
-              /* ── Capture mode ── */
-              <div className="px-5 pb-5">
-                {/* Mode toggle */}
-                <div className="flex items-center gap-2 mb-2">
-                  <button onClick={() => setAiMode(false)} style={{ fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", letterSpacing: "0.08em", padding: "2px 8px", borderRadius: 10, border: `1px solid ${!aiMode ? M.coral : M.border}`, background: !aiMode ? M.coralBg : "transparent", color: !aiMode ? M.coral : M.muted, cursor: "pointer" }}>
-                    Manual
-                  </button>
-                  <button onClick={() => setAiMode(true)} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.55rem", fontFamily: "'Space Mono', monospace", letterSpacing: "0.08em", padding: "2px 8px", borderRadius: 10, border: `1px solid ${aiMode ? M.coral : M.border}`, background: aiMode ? M.coralBg : "transparent", color: aiMode ? M.coral : M.muted, cursor: "pointer" }}>
-                    <Sparkles size={9} /><span>AI</span>
-                  </button>
-                </div>
-
-                <input
-                  ref={inputRef}
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") { e.preventDefault(); aiMode ? handleAiCreate() : submit(); }
-                    if (e.key === "Escape") closeModal();
-                  }}
-                  placeholder={aiMode ? "e.g. review emails urgent link to work goal due Friday" : "e.g. Reply message from Alice…"}
-                  autoComplete="new-password" autoCorrect="off" autoCapitalize="off" spellCheck={false}
-                  className="w-full text-base px-4 py-3 bg-transparent focus:outline-none"
-                  style={{ border: `1px solid ${aiMode ? M.coralBdr : M.border}`, color: M.ink, fontFamily: "'DM Sans', sans-serif" }}
-                  onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = M.coralBdr; }}
-                  onBlur={(e)  => { (e.target as HTMLInputElement).style.borderColor = aiMode ? M.coralBdr : M.border; }}
-                />
-
-                {aiMode ? (
-                  <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", color: M.muted, margin: "5px 0 0", lineHeight: 1.5, opacity: 0.8 }}>
-                    Create a task, win, or brain dump — AI understands it all naturally.
-                  </p>
-                ) : (
-                  <>
-                  {/* Compact controls row: icon-only priority + date */}
-                  <div className="flex items-center gap-1.5 mt-2">
-                    {/* Icon-only priority buttons */}
-                    {(["urgent", "focus", "normal"] as Priority[]).map((p) => {
-                      const { Icon, color, bg, border } = PRIORITY_CFG[p];
-                      const isActive = priority === p;
-                      return (
-                        <button key={p} onClick={() => setPriority(p)} title={p}
-                          style={{ width: 26, height: 26, display: "flex", alignItems: "center", justifyContent: "center", background: isActive ? bg : "transparent", color: isActive ? color : M.muted, border: `1px solid ${isActive ? border : M.border}`, borderRadius: 4, cursor: "pointer", flexShrink: 0 }}>
-                          <Icon style={{ width: 12, height: 12 }} />
-                        </button>
-                      );
-                    })}
-                    {/* Divider */}
-                    <div style={{ width: 1, height: 18, background: M.border, flexShrink: 0 }} />
-                    {/* Date picker */}
-                    <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} min={new Date().toISOString().slice(0,10)}
-                      style={{ fontSize: "0.60rem", fontFamily: "'DM Sans', sans-serif", padding: "3px 5px", border: `1px solid ${dueDate ? M.coralBdr : M.border}`, background: "transparent", color: dueDate ? M.coral : M.muted, borderRadius: 3, outline: "none", cursor: "pointer", flexShrink: 0, maxWidth: 110 }} />
-                  </div>
-
-                {/* Quick chips */}
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {chips.map((chip) => (
-                    <button key={chip} onClick={() => { setText(chip); inputRef.current?.focus(); }} className="m-chip">
-                      {chip}
-                    </button>
+              /* ── Chat Box Mode ── */
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                {/* Chat history */}
+                <div style={{ height: 280, overflowY: "auto", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 10, background: "oklch(0.985 0.010 355)" }}>
+                  {chatHistory.length === 0 && (
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, opacity: 0.5 }}>
+                      <Sparkles size={24} style={{ color: M.coral }} />
+                      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: M.muted, textAlign: "center" }}>Ask me anything — I can create tasks, log brain dumps, or just chat.</p>
+                    </div>
+                  )}
+                  {chatHistory.map((msg, i) => (
+                    <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+                      <div style={{
+                        maxWidth: "80%",
+                        padding: "8px 12px",
+                        borderRadius: msg.role === "user" ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
+                        background: msg.role === "user" ? M.coral : "white",
+                        color: msg.role === "user" ? "white" : M.ink,
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "0.875rem",
+                        lineHeight: 1.5,
+                        border: msg.role === "assistant" ? `1px solid ${M.border}` : "none",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                        whiteSpace: "pre-wrap",
+                      }}>
+                        {msg.content}
+                      </div>
+                    </div>
                   ))}
+                  {aiGenerating && (
+                    <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                      <div style={{ padding: "8px 12px", borderRadius: "12px 12px 12px 2px", background: "white", border: `1px solid ${M.border}`, display: "flex", gap: 4, alignItems: "center" }}>
+                        <div style={{ width: 6, height: 6, borderRadius: "50%", background: M.coral, animation: "pulse 1s infinite" }} />
+                        <div style={{ width: 6, height: 6, borderRadius: "50%", background: M.coral, animation: "pulse 1s infinite 0.2s" }} />
+                        <div style={{ width: 6, height: 6, borderRadius: "50%", background: M.coral, animation: "pulse 1s infinite 0.4s" }} />
+                      </div>
+                    </div>
+                  )}
+                  <div ref={chatEndRef} />
                 </div>
 
-                  {/* Submit row */}
-                  <div className="flex items-center justify-between mt-4">
-                    <p className="text-xs" style={{ color: M.muted, fontFamily: "'DM Sans', sans-serif" }}>
-                      tip: type <span style={{ color: M.coral }}>#tag</span> to categorise
-                    </p>
-                    <button onClick={submit} disabled={!text.trim()} className="m-btn-primary disabled:opacity-40 disabled:cursor-not-allowed">
-                      <Plus className="w-3.5 h-3.5" />Add task<kbd className="text-xs opacity-60 ml-1">↵</kbd>
-                    </button>
-                  </div>
-                  </>
-                )}
+                {/* Input row */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderTop: `1px solid ${M.border}`, background: "white" }}>
+                  {/* Voice button */}
+                  <button
+                    onClick={toggleVoice}
+                    title={isRecording ? "Stop recording" : "Voice input"}
+                    style={{
+                      width: 36, height: 36, borderRadius: "50%", border: "none", cursor: "pointer", flexShrink: 0,
+                      background: isRecording ? M.coral : M.coralBg,
+                      color: isRecording ? "white" : M.coral,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      animation: isRecording ? "pulse 1s infinite" : "none",
+                    }}
+                  >
+                    {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+                  </button>
 
-                {/* AI mode submit */}
-                {aiMode && (
-                  <div className="flex justify-end mt-3">
-                    <button onClick={handleAiCreate} disabled={aiGenerating || !text.trim()} className="m-btn-primary disabled:opacity-40 disabled:cursor-not-allowed" style={{ gap: 6 }}>
-                      {aiGenerating ? <Loader2 size={13} style={{ animation: "spin 1s linear infinite" }} /> : <Sparkles size={13} />}
-                      {aiGenerating ? "Creating…" : "Create with AI"}
-                      <kbd className="text-xs opacity-60">↵</kbd>
-                    </button>
-                  </div>
-                )}
+                  {/* Text input */}
+                  <input
+                    ref={inputRef}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleChatSend(); }
+                      if (e.key === "Escape") closeModal();
+                    }}
+                    placeholder={isRecording ? "🎤 Listening..." : "Message AI assistant..."}
+                    autoComplete="off" autoCorrect="off"
+                    style={{ flex: 1, fontSize: "0.9rem", background: "transparent", border: "none", outline: "none", color: M.ink, fontFamily: "'DM Sans', sans-serif" }}
+                  />
+
+                  {/* Send button */}
+                  <button
+                    onClick={handleChatSend}
+                    disabled={!text.trim() || aiGenerating}
+                    style={{
+                      width: 36, height: 36, borderRadius: "50%", border: "none", cursor: text.trim() ? "pointer" : "default", flexShrink: 0,
+                      background: text.trim() ? M.coral : M.coralBg,
+                      color: text.trim() ? "white" : M.muted,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}
+                  >
+                    {aiGenerating ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> : <Send size={16} />}
+                  </button>
+                </div>
               </div>
             )}
           </div>

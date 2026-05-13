@@ -291,66 +291,96 @@ export function CalendarView({ tasks, onTasksChange, onTaskToggle, doneFilter = 
 
   function WeekView() {
     const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
-    // Mobile: show 3 days at a time (navigate by 3 days)
-    const mobileDays = Array.from({ length: 3 }, (_, i) => addDays(weekStart, i));
-    const navAmount = isMobile ? 3 : 7;
+    // No-date tasks (To-dos)
+    const noDateTasks = tasks.filter(t => !t.done && (!t.dueDate || t.dueDate === "null"));
+
+    // Header: week range + nav
+    const weekLabel = `${weekStart.toLocaleDateString("en-US", { month: "short" })} · Week ${Math.ceil((weekStart.getDate() + (weekStart.getDay() + 6) % 7) / 7)}`;
+
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, height: "100%", position: "relative" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <button onClick={() => setWeekStart(d => addDays(d, -navAmount))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex" }}>
-            <ChevronLeft size={16} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 0, height: "100%" }}>
+        {/* Week header */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 4px", flexShrink: 0 }}>
+          <button onClick={() => setWeekStart(d => addDays(d, -7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 4 }}>
+            <ChevronLeft size={18} />
           </button>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.58rem", letterSpacing: "0.08em", color: M.muted, textTransform: "uppercase" }}>
-            {isMobile
-              ? `${weekStart.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${addDays(weekStart, 2).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
-              : `${weekStart.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${addDays(weekStart, 6).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
-            }
-          </span>
-          <button onClick={() => setWeekStart(d => addDays(d, navAmount))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex" }}>
-            <ChevronRight size={16} />
+          <div style={{ textAlign: "center" }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 700, color: M.ink, margin: 0 }}>
+              {weekStart.toLocaleDateString("en-US", { month: "long" })}
+            </p>
+            <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.50rem", color: M.muted, letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Today</p>
+          </div>
+          <button onClick={() => setWeekStart(d => addDays(d, 7))} style={{ background: "none", border: "none", cursor: "pointer", color: M.muted, display: "flex", padding: 4 }}>
+            <ChevronRight size={18} />
           </button>
         </div>
-        <div style={{ display: "flex", gap: isMobile ? 6 : 4, flex: 1, minHeight: 0, position: "relative" }}>
-          {/* Drag-to-advance zones: only active during drag, fully invisible otherwise */}
-          <div
-            onDragEnter={() => startAdvance(-1)}
-            onDragLeave={cancelAdvance}
-            onDragOver={e => e.preventDefault()}
-            style={{
-              position: "absolute", left: 0, top: 0, bottom: 0, width: 40, zIndex: 20,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              background: hoverZone === "left"
-                ? "linear-gradient(to right, oklch(0.58 0.18 340 / 0.22), transparent)"
-                : "transparent",
-              borderLeft: hoverZone === "left" ? `2.5px dashed ${M.coral}` : "2px dashed transparent",
-              borderRadius: "6px 0 0 6px",
-              // Always intercept drag events; only show resize cursor during active drag
-              pointerEvents: "auto",
-              cursor: dragId ? "w-resize" : "default",
-              transition: "all 0.15s",
-            }}
-          >
+
+        {/* 2-column grid: To-dos + 6 days */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, flex: 1, minHeight: 0, background: M.border }}>
+          {/* To-dos column */}
+          <div style={{ background: "white", padding: "10px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.80rem", fontWeight: 700, color: M.ink, margin: 0 }}>To-dos</p>
+            {noDateTasks.length === 0 && (
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: M.muted, fontStyle: "italic" }}>No tasks</p>
+            )}
+            {noDateTasks.slice(0, 8).map(t => (
+              <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 6 }}>
+                <button
+                  onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: true } : x); onTasksChange(updated); }}
+                  style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${M.coral}`, background: "transparent", cursor: "pointer", flexShrink: 0, marginTop: 1, padding: 0 }}
+                />
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: M.ink, lineHeight: 1.3 }}>{t.text}</span>
+              </div>
+            ))}
           </div>
-          <div
-            onDragEnter={() => startAdvance(1)}
-            onDragLeave={cancelAdvance}
-            onDragOver={e => e.preventDefault()}
-            style={{
-              position: "absolute", right: 0, top: 0, bottom: 0, width: 40, zIndex: 20,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              background: hoverZone === "right"
-                ? "linear-gradient(to left, oklch(0.58 0.18 340 / 0.22), transparent)"
-                : "transparent",
-              borderRight: hoverZone === "right" ? `2.5px dashed ${M.coral}` : "2px dashed transparent",
-              borderRadius: "0 6px 6px 0",
-              // Always intercept drag events; only show resize cursor during active drag
-              pointerEvents: "auto",
-              cursor: dragId ? "e-resize" : "default",
-              transition: "all 0.15s",
-            }}
-          >
-          </div>
-          {(isMobile ? mobileDays : days).map(d => <DayColumn key={toYMD(d)} day={d} />)}
+
+          {/* Day 1 (Sun) */}
+          {days.slice(0, 1).map(d => {
+            const ymd = toYMD(d);
+            const isToday = ymd === todayYMD;
+            const dayTasks = getTasksForDay(ymd);
+            return (
+              <div key={ymd} style={{ background: isToday ? M.coralBg : "white", padding: "10px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: isToday ? 28 : "auto", height: isToday ? 28 : "auto", borderRadius: "50%", background: isToday ? M.coral : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.0rem", fontWeight: 700, color: isToday ? "white" : M.ink, margin: 0 }}>{d.getDate()}</p>
+                  </div>
+                  <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", color: isToday ? M.coral : M.muted, textTransform: "uppercase", margin: 0 }}>{WEEKDAYS_SHORT[(d.getDay() + 6) % 7]}</p>
+                </div>
+                {dayTasks.slice(0, 5).map(t => (
+                  <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 5 }}>
+                    <button onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: !x.done } : x); onTasksChange(updated); }}
+                      style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid ${M.coral}`, background: t.done ? M.coral : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 2, padding: 0 }} />
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: t.done ? M.muted : M.ink, textDecoration: t.done ? "line-through" : "none", lineHeight: 1.3 }}>{t.text}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+
+          {/* Days 2-7 (Mon-Sat) */}
+          {days.slice(1).map(d => {
+            const ymd = toYMD(d);
+            const isToday = ymd === todayYMD;
+            const dayTasks = getTasksForDay(ymd);
+            return (
+              <div key={ymd} style={{ background: isToday ? M.coralBg : "white", padding: "10px 10px", display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: isToday ? 28 : "auto", height: isToday ? 28 : "auto", borderRadius: "50%", background: isToday ? M.coral : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.0rem", fontWeight: 700, color: isToday ? "white" : M.ink, margin: 0 }}>{d.getDate()}</p>
+                  </div>
+                  <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.48rem", color: isToday ? M.coral : M.muted, textTransform: "uppercase", margin: 0 }}>{WEEKDAYS_SHORT[(d.getDay() + 6) % 7]}</p>
+                </div>
+                {dayTasks.slice(0, 5).map(t => (
+                  <div key={t.id} style={{ display: "flex", alignItems: "flex-start", gap: 5 }}>
+                    <button onClick={() => { const updated = tasks.map(x => x.id === t.id ? { ...x, done: !x.done } : x); onTasksChange(updated); }}
+                      style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid ${M.coral}`, background: t.done ? M.coral : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 2, padding: 0 }} />
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: t.done ? M.muted : M.ink, textDecoration: t.done ? "line-through" : "none", lineHeight: 1.3 }}>{t.text}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
